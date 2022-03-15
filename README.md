@@ -11,7 +11,7 @@ https://www.qt.io/download
 boost/asio 1.78.0
 https://www.boost.org/users/history/version_1_78_0.html
 
-opernssl
+opernssl 3.0
 https://www.openssl.org/source/
 
 openssl install VD
