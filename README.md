@@ -25,6 +25,9 @@ Unity // always lastest veresion.
 
 ////////
 include dir
+
 ../../Library/boost_1_78_0
+
 $(ProjectDir)
+
 $(ProjectDir)Network
