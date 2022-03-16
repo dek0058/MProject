@@ -21,3 +21,10 @@ https://www.youtube.com/watch?v=PMHEoBkxYaQ&t=335s
 client app
 
 Unity // always lastest veresion.
+
+
+////////
+include dir
+../../Library/boost_1_78_0
+$(ProjectDir)
+$(ProjectDir)Network
