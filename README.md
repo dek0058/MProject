@@ -11,12 +11,14 @@ https://www.qt.io/download
 boost/asio 1.78.0
 https://www.boost.org/users/history/version_1_78_0.html
 
-opernssl 3.0
+opernssl 1.1.1
 https://www.openssl.org/source/
 
 openssl install VD
 https://www.youtube.com/watch?v=PMHEoBkxYaQ&t=335s
 
+flatbuffers 2.0.0 release
+https://github.com/google/flatbuffers/releases/tag/v2.0.0
 
 client app
 
