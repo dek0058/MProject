@@ -11,6 +11,7 @@
 
 #include <thread>
 #include <mutex>
+#include <functional>
 
 #include <string>
 #include <vector>
@@ -18,6 +19,7 @@
 #include <map>
 #include <unordered_map>
 #include <set>
+#include <queue>
 
 // variable define
 //typedef char				char;

@@ -56,9 +56,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</OutDir>
+    <IntDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</OutDir>
+    <IntDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,14 +117,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Network\IOAcceptor.cpp" />
-    <ClCompile Include="Network\NetworkServer.cpp" />
-    <ClCompile Include="Network\ProtocolHandler.cpp" />
-    <ClCompile Include="Network\Session.cpp" />
     <QtRcc Include="MProjectServer.qrc" />
     <QtUic Include="MProjectServer.ui" />
     <QtMoc Include="MProjectServer.h" />
-    <ClCompile Include="Network\IOService.cpp" />
     <ClCompile Include="MProjectServer.cpp" />
     <ClCompile Include="main.cpp" />
     <None Include="MProjectServer.ico" />
@@ -132,13 +129,6 @@
     <ProjectReference Include="..\CommonLibrary\CommonLibrary.vcxproj">
       <Project>{4a1eaa50-7e0b-49f5-9b05-568c1408988a}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Network\IOAcceptor.h" />
-    <ClInclude Include="Network\IOService.h" />
-    <ClInclude Include="Network\NetworkServer.h" />
-    <ClInclude Include="Network\ProtocolHandler.h" />
-    <ClInclude Include="Network\Session.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

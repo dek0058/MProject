@@ -1,8 +1,9 @@
 #include "IOAcceptor.h"
-#include "IOService.h"
+#include "MProjectServerDefine.h"
 
-IOAcceptor::IOAcceptor(shared_ptr<IOService> _IO_service) 
-	: io_service(_IO_service->GetIOService()) {
+#include "NetworkServer.h"
+
+IOAcceptor::IOAcceptor(std::shared_ptr<NetworkServer> _network_server) : IOService(_network_server) {
 	acceptor.reset();
 }
 
@@ -14,9 +15,7 @@ IOAcceptor::~IOAcceptor() {
 void IOAcceptor::Start(const FAcceptInfo& _accept_info) {
 	accept_info = _accept_info;
 	asio::ip::tcp::endpoint endpoint(asio::ip::tcp::v6(), accept_info.port_number);
-	acceptor = std::make_shared<asio::ip::tcp::acceptor>(io_service, endpoint);
-
-
+	acceptor = std::make_shared<asio::ip::tcp::acceptor>(GetIOService(), endpoint);
 }
 
 void IOAcceptor::Stop() {

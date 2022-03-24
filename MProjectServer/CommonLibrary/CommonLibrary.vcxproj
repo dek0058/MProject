@@ -44,6 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -79,10 +80,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</OutDir>
+    <IntDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</OutDir>
+    <IntDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -129,6 +132,8 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(ProjectDir);../../Library/boost_1_78_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MaxFilesInUnityFile>10</MaxFilesInUnityFile>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -165,19 +170,65 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="flatbuffers\base.h" />
+    <ClInclude Include="flatbuffers\code_generators.h" />
+    <ClInclude Include="flatbuffers\flatbuffers.h" />
+    <ClInclude Include="flatbuffers\flatc.h" />
+    <ClInclude Include="flatbuffers\flexbuffers.h" />
+    <ClInclude Include="flatbuffers\grpc.h" />
+    <ClInclude Include="flatbuffers\hash.h" />
+    <ClInclude Include="flatbuffers\idl.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\base.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\code_generators.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\flatbuffers.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\flatc.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\flexbuffers.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\grpc.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\hash.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\idl.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\minireflect.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\pch\flatc_pch.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\pch\pch.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\reflection.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\reflection_generated.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\registry.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\stl_emulation.h" />
+    <ClInclude Include="flatbuffers\include\flatbuffers\util.h" />
+    <ClInclude Include="flatbuffers\minireflect.h" />
+    <ClInclude Include="flatbuffers\pch\flatc_pch.h" />
+    <ClInclude Include="flatbuffers\pch\pch.h" />
+    <ClInclude Include="flatbuffers\reflection.h" />
+    <ClInclude Include="flatbuffers\reflection_generated.h" />
+    <ClInclude Include="flatbuffers\registry.h" />
+    <ClInclude Include="flatbuffers\stl_emulation.h" />
+    <ClInclude Include="flatbuffers\util.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GlobalDefine.h" />
+    <ClInclude Include="IOAcceptor.h" />
+    <ClInclude Include="IOConnector.h" />
+    <ClInclude Include="IOService.h" />
     <ClInclude Include="MProjectServerDefine.h" />
+    <ClInclude Include="NetEvent.h" />
     <ClInclude Include="NetworkDefine.h" />
+    <ClInclude Include="NetworkServer.h" />
+    <ClInclude Include="ProtocolHandler.h" />
+    <ClInclude Include="Session.h" />
+    <ClInclude Include="SPSCQueue.h" />
     <ClInclude Include="TSingleton.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="IOAcceptor.cpp" />
+    <ClCompile Include="IOConnector.cpp" />
+    <ClCompile Include="IOService.cpp" />
     <ClCompile Include="MProjectServerDefine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="NetworkServer.cpp" />
+    <ClCompile Include="ProtocolHandler.cpp" />
+    <ClCompile Include="Session.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
