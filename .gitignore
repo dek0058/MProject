@@ -55,7 +55,7 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
+Debug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -431,7 +431,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-
-!Library/
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,c++
