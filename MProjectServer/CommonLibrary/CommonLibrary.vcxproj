@@ -207,6 +207,7 @@
     <ClInclude Include="IOAcceptor.h" />
     <ClInclude Include="IOConnector.h" />
     <ClInclude Include="IOService.h" />
+    <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="MProjectServerDefine.h" />
     <ClInclude Include="NetEvent.h" />
     <ClInclude Include="NetworkDefine.h" />
@@ -220,6 +221,7 @@
     <ClCompile Include="IOAcceptor.cpp" />
     <ClCompile Include="IOConnector.cpp" />
     <ClCompile Include="IOService.cpp" />
+    <ClCompile Include="MemoryPool.cpp" />
     <ClCompile Include="MProjectServerDefine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
