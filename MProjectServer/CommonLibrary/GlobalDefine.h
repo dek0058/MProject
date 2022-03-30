@@ -12,6 +12,7 @@
 #include <thread>
 #include <mutex>
 #include <functional>
+#include <exception>
 
 #include <string>
 #include <vector>
@@ -48,5 +49,4 @@ using hashmap = std::unordered_map<Key, T, Hash, Pred>;
 
 //template<class T>
 //using set = std::set<T>;
-
 
