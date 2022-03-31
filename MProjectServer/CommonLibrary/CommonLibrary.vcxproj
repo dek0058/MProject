@@ -170,6 +170,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Exception\BaseException.h" />
     <ClInclude Include="flatbuffers\base.h" />
     <ClInclude Include="flatbuffers\code_generators.h" />
     <ClInclude Include="flatbuffers\flatbuffers.h" />

@@ -5,14 +5,14 @@ class UnitTestResult;
 
 class UnitTest {
 public:
-	enum Type {
-		Suite,
-		Normal,
-		Long
+	enum class Type : unsigned char {
+		Suite = 0,
+		Normal = 1,
+		Long = 2
 	};
 
 public:
-	virtual ~UnitTest() = 0;
+	virtual ~UnitTest() { ; }
 	virtual void Run(UnitTestResult* _result) { ; }
 	virtual int CountTestCases() const { 
 		return 0; 

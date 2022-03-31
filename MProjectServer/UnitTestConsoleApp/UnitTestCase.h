@@ -9,7 +9,7 @@
 class UnitTestResult;
 
 class UnitTestCase : public UnitTest {
-	DELETE_REFERENCE_CREATOR(UnitTestCase)
+	//DELETE_REFERENCE_CREATOR(UnitTestCase);
 
 public:
 	UnitTestCase(std::string const& _name, UnitTest::Type _type = UnitTest::Type::Normal) : name(_name) {
@@ -36,18 +36,22 @@ public:
 		return name;
 	}
 
+	virtual void Setup() { ; }
+	virtual void Setup(const std::vector<std::string>& setup) { ; }
+	virtual void TearDown() { ; }
+
 protected:
-	virtual void RunTest();
+	virtual void RunTest() { ; }
 	UnitTestResult* DefaultResult();
 
-	void AssetImplementation(bool _condition, std::string const& _condition_expression = "", long _line_num = 0, std::string const& _file_name = "");
-	void Loop1AssetImplementation(bool _condition, std::string const& _condition_expression = "", long _line_num = 0, long _data_line_num = 0, std::string const& _file_name = "");
-	void Loop2AssetImplementation(bool _condition, std::string const& _condition_expression = "", long _line_num = 0, long _data1_line_num = 0, long _data2_line_num = 0, std::string const& _file_name = "");
+	void AssertImplementation(bool _condition, std::string const& _condition_expression = "", long _line_num = 0, std::string const& _file_name = "");
+	void Loop1AssertImplementation(bool _condition, std::string const& _condition_expression = "", long _line_num = 0, long _data_line_num = 0, std::string const& _file_name = "");
+	void Loop2AssertImplementation(bool _condition, std::string const& _condition_expression = "", long _line_num = 0, long _data1_line_num = 0, long _data2_line_num = 0, std::string const& _file_name = "");
 	
-	void AssetEquals(long _expected, long _actual, long _line_num = 0, std::string const& _file_name = "");
-	void AssetEquals(long _expected, long _actual, long delta, long _line_num = 0, std::string const& _file_name = "");
-	void AssetEquals(std::string const& _expected, std::string const& _actual, long _line_num = 0, std::string const& _file_name = "");
-	void AssetEquals(void const* _expected, void const* _actual, long _line_num = 0, std::string const& _file_name = "");
+	void AssertEquals(long _expected, long _actual, long _line_num = 0, std::string const& _file_name = "");
+	void AssertEquals(long _expected, long _actual, long delta, long _line_num = 0, std::string const& _file_name = "");
+	void AssertEquals(std::string const& _expected, std::string const& _actual, long _line_num = 0, std::string const& _file_name = "");
+	void AssertEquals(void const* _expected, void const* _actual, long _line_num = 0, std::string const& _file_name = "");
 	
 	std::string NotEqualsMessage(long _expected, long _actual);
 	std::string NotEqualsMessage(double _expected, double _actual);
@@ -64,3 +68,26 @@ private:
 	std::string name;
 	UnitTest::Type type;
 };
+
+
+#define TAsset(condition) (this->AssertImplementation((condition), (#condition), __LINE__, __FILE__))
+
+#define TAsset_True(condition) TAsset(condition)
+
+#define TAsset_False(condition) (this->AssertImplementation(!(condition), (#condition), __LINE__, __FILE__))
+
+#define TAsset_Loop1(condition, data) (this->Loop1AssertImplementation((condition), (#condition), data, __LINE__, __FILE__))
+
+#define TAsset_Loop2(condition, data1, data2) (this->Loop2AssertImplementation((condition), (#condition), data1, data2, __LINE__, __FILE__))
+
+#define TAsset_Equal_Delta(expected, actual, delta) (this->AssertEquals((expected), (actual), (delta), __LINE__, __FILE__))
+
+#define TAsset_Equal(expected, actual) (this->AssertEquals((expected), (actual), __LINE__, __FILE__))
+
+#define TAsset_Nullptr(ptr) (this->AssertNull((ptr), (#ptr), __LINE__, __FILE__))
+
+#define TAsset_Not_Nullptr(ptr) (this->AssertNotNull((ptr), (#ptr), __LINE__, __FILE__))
+
+#define TLog_Fail(msg) (this->Fail(msg, __LINE__, __FILE__))
+
+#define TLog_Warning(msg) (this->Warning(msg, __LINE__, __FILE__))

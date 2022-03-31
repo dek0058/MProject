@@ -5,3 +5,5 @@
 private: \
 	ClassName(ClassName const&) = delete; \
 	ClassName& operator = (ClassName const&) = delete;
+
+#define VAR_INIT(T) T(_##T)
