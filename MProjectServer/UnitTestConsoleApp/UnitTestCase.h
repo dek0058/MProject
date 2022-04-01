@@ -70,23 +70,23 @@ private:
 };
 
 
-#define TAsset(condition) (this->AssertImplementation((condition), (#condition), __LINE__, __FILE__))
+#define TAssert(condition) (this->AssertImplementation((condition), (#condition), __LINE__, __FILE__))
 
-#define TAsset_True(condition) TAsset(condition)
+#define TAssert_True(condition) TAssert(condition)
 
-#define TAsset_False(condition) (this->AssertImplementation(!(condition), (#condition), __LINE__, __FILE__))
+#define TAssert_False(condition) (this->AssertImplementation(!(condition), (#condition), __LINE__, __FILE__))
 
-#define TAsset_Loop1(condition, data) (this->Loop1AssertImplementation((condition), (#condition), data, __LINE__, __FILE__))
+#define TAssert_Loop1(condition, data) (this->Loop1AssertImplementation((condition), (#condition), data, __LINE__, __FILE__))
 
-#define TAsset_Loop2(condition, data1, data2) (this->Loop2AssertImplementation((condition), (#condition), data1, data2, __LINE__, __FILE__))
+#define TAssert_Loop2(condition, data1, data2) (this->Loop2AssertImplementation((condition), (#condition), data1, data2, __LINE__, __FILE__))
 
-#define TAsset_Equal_Delta(expected, actual, delta) (this->AssertEquals((expected), (actual), (delta), __LINE__, __FILE__))
+#define TAssert_Equal_Delta(expected, actual, delta) (this->AssertEquals((expected), (actual), (delta), __LINE__, __FILE__))
 
-#define TAsset_Equal(expected, actual) (this->AssertEquals((expected), (actual), __LINE__, __FILE__))
+#define TAssert_Equal(expected, actual) (this->AssertEquals((expected), (actual), __LINE__, __FILE__))
 
-#define TAsset_Nullptr(ptr) (this->AssertNull((ptr), (#ptr), __LINE__, __FILE__))
+#define TAssert_Nullptr(ptr) (this->AssertNull((ptr), (#ptr), __LINE__, __FILE__))
 
-#define TAsset_Not_Nullptr(ptr) (this->AssertNotNull((ptr), (#ptr), __LINE__, __FILE__))
+#define TAssert_Not_Nullptr(ptr) (this->AssertNotNull((ptr), (#ptr), __LINE__, __FILE__))
 
 #define TLog_Fail(msg) (this->Fail(msg, __LINE__, __FILE__))
 
