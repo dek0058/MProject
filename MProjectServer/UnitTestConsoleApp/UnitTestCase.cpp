@@ -12,7 +12,7 @@ void UnitTestCase::Run(UnitTestResult* _result) {
 	Setup();
 	try {
 		RunTest();
-	} catch (BaseException<2>& _exception) {
+	} catch (BaseException& _exception) {
 		_result->AddFailure(this, new BaseException(_exception));
 	} catch (std::exception& _exception) {
 		_result->AddError(this, new BaseException(std::format("{}: {}", typeid(_exception).name(), _exception.what())));

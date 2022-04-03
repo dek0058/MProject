@@ -5,13 +5,9 @@
 
 #include "GuardDefine.h"
 
-#define UNKNOWN_LINE_NUMBER = -1
-#define UNKNOWN_FILE_NAME = "<unknown>"
-
 constexpr long Unknown_Line_Number = -1;
 constexpr char const * Unknown_File_Name = "<unknown>";
 
-template<int ArraySize = 2>
 class BaseException : public std::exception {
 public:
 	BaseException(std::string const& _message = "", long _line_num = Unknown_Line_Number, std::string const& _file_name = Unknown_File_Name)
@@ -62,6 +58,6 @@ public:
 private:
 	std::string message;
 	long line_num;
-	std::array<long, ArraySize> data_line_number_array;
+	std::array<long, 2> data_line_number_array;
 	std::string file_name;
 };

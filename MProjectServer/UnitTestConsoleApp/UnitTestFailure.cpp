@@ -2,6 +2,5 @@
 #include "UnitTest.h"
 
 std::string UnitTestFailure::ToString() {
-	return "None";
-	//return failed_test->ToString() << ": " << thrown_exception->what();
+	return failed_test->ToString() + ": " + exception->what();
 }

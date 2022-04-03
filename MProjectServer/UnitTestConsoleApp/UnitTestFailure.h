@@ -3,6 +3,7 @@
 #include <string>
 
 #include "GuardDefine.h"
+#include "Exception/BaseException.h"
 
 class UnitTest;
 
@@ -10,21 +11,21 @@ class UnitTestFailure {
 	DELETE_REFERENCE_CREATOR(UnitTestFailure)
 
 public:
-	UnitTestFailure(UnitTest* _failed_test, std::exception* _exception)
-		: failed_test(_failed_test), thrown_exception(_exception) { ; }
+	UnitTestFailure(UnitTest* _failed_test, BaseException* _exception)
+		: VAR_INIT(failed_test), VAR_INIT(exception) { ; }
 	~UnitTestFailure() {
-		delete thrown_exception;
+		delete exception;
 	}
 
 	UnitTest* FailedTest() {
 		return failed_test;
 	}
-	std::exception* ThrownException() {
-		return thrown_exception;
+	BaseException* ThrownException() {
+		return exception;
 	}
 	std::string ToString();
 
 protected:
 	UnitTest* failed_test;
-	std::exception* thrown_exception;
+	BaseException* exception;
 };

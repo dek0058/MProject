@@ -9,7 +9,7 @@
 class UnitTestResult;
 
 class UnitTestCase : public UnitTest {
-	//DELETE_REFERENCE_CREATOR(UnitTestCase);
+	DELETE_REFERENCE_CREATOR(UnitTestCase);
 
 public:
 	UnitTestCase(std::string const& _name, UnitTest::Type _type = UnitTest::Type::Normal) : name(_name) {

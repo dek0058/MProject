@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "UnitTestFailure.h"
+#include "Exception/BaseException.h"
 
 class UnitTest;
 
@@ -30,11 +31,11 @@ public:
 	UnitTestResult() : run_tests(0), stop(false), sync_obj(new FSyncObject()) { ; }
 	virtual ~UnitTestResult() { ; }
 	
-	virtual void AddError(UnitTest* _test, std::exception* _exception) {
+	virtual void AddError(UnitTest* _test, BaseException* _exception) {
 		FExclusiveZone zone(sync_obj);
 		errors.emplace_back(new UnitTestFailure(_test, _exception));
 	}
-	virtual void AddFailure(UnitTest* _test, std::exception* _exception) {
+	virtual void AddFailure(UnitTest* _test, BaseException* _exception) {
 		FExclusiveZone zone(sync_obj);
 		failures.emplace_back(new UnitTestFailure(_test, _exception));
 	}

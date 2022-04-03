@@ -118,7 +118,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -135,7 +135,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -149,10 +149,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Suite\CoreUnitTestSuite.cpp" />
     <ClCompile Include="Test\MemoryPoolTest.cpp" />
+    <ClCompile Include="TextUnitTestResult.cpp" />
     <ClCompile Include="UnitTestCase.cpp" />
-    <ClCompile Include="UnitTestConsoleApp.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="UnitTestFailure.cpp" />
+    <ClCompile Include="UnitTestRunner.cpp" />
+    <ClCompile Include="UnitTestSuite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLibrary\CommonLibrary.vcxproj">
@@ -160,11 +164,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Suite\CoreUnitTestSuite.h" />
     <ClInclude Include="Test\MemoryPoolTest.h" />
+    <ClInclude Include="TextUnitTestResult.h" />
     <ClInclude Include="UnitTest.h" />
+    <ClInclude Include="UnitTestCaller.h" />
     <ClInclude Include="UnitTestCase.h" />
     <ClInclude Include="UnitTestFailure.h" />
     <ClInclude Include="UnitTestResult.h" />
+    <ClInclude Include="UnitTestRunner.h" />
+    <ClInclude Include="UnitTestSuite.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
