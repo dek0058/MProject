@@ -31,6 +31,23 @@ MemoryPoolTest::~MemoryPoolTest() {
 
 }
 
+template<typename T>
+struct FBlock {
+	FBlock() {
+		memory.next = this + 1;
+	}
+	explicit FBlock(FBlock* _next) {
+		memory.next = _next;
+	}
+	union {
+		char buffer[sizeof(T)];
+		FBlock* next;
+	} memory;
+private:
+	FBlock(FBlock const&) = delete;
+	FBlock& operator = (FBlock const&) = delete;
+};
+
 void MemoryPoolTest::TestMemoryPool() {
 	int blocks = 10;
 	MemoryPool<int> int_pool(blocks);

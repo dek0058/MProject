@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NetworkDefine.h"
-#include "SPSCQueue.h"
+#include "Utility/SPSCQueue.h"
 #include "ProtocolHandler.h"
 
 

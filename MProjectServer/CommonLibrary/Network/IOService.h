@@ -2,7 +2,7 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include "NetworkDefine.h"
-#include "SPSCQueue.h"
+#include "Utility/SPSCQueue.h"
 
 using namespace boost;
 

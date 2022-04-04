@@ -96,7 +96,7 @@ private:
 		}
 		buckets.emplace_back(new FBlock[blocks_per_bucket]);
 		header = buckets.back();
-		header[blocks_per_bucket].memory.next = nullptr;
+		header[blocks_per_bucket - 1].memory.next = nullptr;
 		available.store(available.load() + static_cast<int>(blocks_per_bucket));
 	}
 

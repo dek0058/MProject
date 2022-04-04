@@ -21,13 +21,13 @@
     <ClInclude Include="MProjectServerDefine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TSingleton.h">
+    <ClInclude Include="Utility\TSingleton.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GlobalDefine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkDefine.h">
+    <ClInclude Include="Network\NetworkDefine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="flatbuffers\include\flatbuffers\pch\flatc_pch.h">
@@ -126,31 +126,31 @@
     <ClInclude Include="flatbuffers\util.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IOService.h">
+    <ClInclude Include="Network\IOService.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IOAcceptor.h">
+    <ClInclude Include="Network\IOAcceptor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkServer.h">
+    <ClInclude Include="Network\NetworkServer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ProtocolHandler.h">
+    <ClInclude Include="Network\ProtocolHandler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Session.h">
+    <ClInclude Include="Network\Session.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IOConnector.h">
+    <ClInclude Include="Network\IOConnector.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SPSCQueue.h">
+    <ClInclude Include="Utility\SPSCQueue.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="NetEvent.h">
+    <ClInclude Include="Network\NetEvent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryPool.h">
+    <ClInclude Include="Utility\MemoryPool.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GuardDefine.h">
@@ -164,22 +164,22 @@
     <ClCompile Include="MProjectServerDefine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="IOService.cpp">
+    <ClCompile Include="Network\IOService.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="IOAcceptor.cpp">
+    <ClCompile Include="Network\IOAcceptor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkServer.cpp">
+    <ClCompile Include="Network\NetworkServer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ProtocolHandler.cpp">
+    <ClCompile Include="Network\ProtocolHandler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Session.cpp">
+    <ClCompile Include="Network\Session.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="IOConnector.cpp">
+    <ClCompile Include="Network\IOConnector.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
