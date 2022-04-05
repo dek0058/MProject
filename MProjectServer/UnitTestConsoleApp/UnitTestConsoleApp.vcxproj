@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Test\SPSCQueueTest.cpp" />
     <ClCompile Include="Suite\CoreUnitTestSuite.cpp" />
     <ClCompile Include="Test\MemoryPoolTest.cpp" />
     <ClCompile Include="TextUnitTestResult.cpp" />
@@ -164,6 +165,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Test\SPSCQueueTest.h" />
     <ClInclude Include="Suite\CoreUnitTestSuite.h" />
     <ClInclude Include="Test\MemoryPoolTest.h" />
     <ClInclude Include="TextUnitTestResult.h" />

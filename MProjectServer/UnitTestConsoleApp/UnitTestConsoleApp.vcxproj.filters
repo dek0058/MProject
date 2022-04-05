@@ -39,6 +39,9 @@
     <ClCompile Include="TextUnitTestResult.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Test\SPSCQueueTest.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test\MemoryPoolTest.h">
@@ -69,6 +72,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="UnitTestCaller.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\SPSCQueueTest.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

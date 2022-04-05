@@ -10,8 +10,6 @@ public:
 	void TestMemoryPool();
 	void MemoryPoolBenchmark();
 
-	virtual void Setup() override;
-	virtual void TearDown() override;
 	
 	static UnitTest* Suite();
 };

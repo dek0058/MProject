@@ -27,26 +27,7 @@ namespace {
 
 MemoryPoolTest::MemoryPoolTest(std::string const& _name) : UnitTestCase(_name) { ; }
 
-MemoryPoolTest::~MemoryPoolTest() {
-
-}
-
-template<typename T>
-struct FBlock {
-	FBlock() {
-		memory.next = this + 1;
-	}
-	explicit FBlock(FBlock* _next) {
-		memory.next = _next;
-	}
-	union {
-		char buffer[sizeof(T)];
-		FBlock* next;
-	} memory;
-private:
-	FBlock(FBlock const&) = delete;
-	FBlock& operator = (FBlock const&) = delete;
-};
+MemoryPoolTest::~MemoryPoolTest() { ; }
 
 void MemoryPoolTest::TestMemoryPool() {
 	int blocks = 10;
@@ -89,20 +70,48 @@ void MemoryPoolTest::TestMemoryPool() {
 }
 
 void MemoryPoolTest::MemoryPoolBenchmark() {
+	constexpr int reps = 1'000'000;
+	std::vector<int*> int_vector(reps, nullptr);
+	MemoryPool<int> pool(reps);
+	{
+		clock_t start = clock();
+		for (int i = 0; i < reps; ++i)
+		{
+			int_vector[i] = new (pool.Get()) int(i);
+		}
+		clock_t end = clock();
+		double time = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+		std::cout << '\n' << reps << "x\n";
+		std::cout << "get()\t\tMemoryPool=" << time << std::endl;
 
+		for (int i = 0; i < reps; ++i)
+		{
+			TAssert_True(*int_vector[i] == i);
+		}
+	}
+	{
+		clock_t start = clock();
+		for (int i = 0; i < reps; ++i)
+		{
+			pool.Release(int_vector[i]);
+		}
+		clock_t end = clock();
+		double time = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+		std::cout << "release()\tMemoryPool=" << time << std::endl;
+
+		for (int i = 0; i < reps; ++i)
+		{
+			TAssert_True(int_vector[i] && *int_vector[i] == i);
+		}
+	}
+	
 }
 
-void MemoryPoolTest::Setup()
-{
-}
-
-void MemoryPoolTest::TearDown()
-{
-}
 
 UnitTest* MemoryPoolTest::Suite()
 {
 	UnitTestSuite* suite = new UnitTestSuite("MemoryPoolTest");
 	TUnitTest_AddTest(suite, MemoryPoolTest, TestMemoryPool);
+	TUnitTest_AddTest(suite, MemoryPoolTest, MemoryPoolBenchmark);
 	return suite;
 }
