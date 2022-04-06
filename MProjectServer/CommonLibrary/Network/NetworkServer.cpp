@@ -4,6 +4,7 @@
 #include "IOAcceptor.h"
 #include "IOConnector.h"
 #include "NetEvent.h"
+#include "Session.h"
 
 
 NetworkServer::NetworkServer() : net_event_queue(NET_EVENT_CAPCITY) {
@@ -53,19 +54,19 @@ void NetworkServer::Loop() {
 
 		switch (net_event->net_event_type) {
 			case ENetEventType::Accepted: {
-
+				OnAccept(net_event->session);
 			} break;
 			case ENetEventType::Connected: {
-
+				OnConnect(net_event->session);
 			} break;
 			case ENetEventType::Disconnected: {
-
+				OnDissconnect(net_event->session);
 			} break;
 			case ENetEventType::Error: {
-
+				// error
 			} break;
 			default: {
-
+				// error
 			} break;
 		}
 	}
@@ -88,6 +89,17 @@ bool NetworkServer::Connect(ESessionType _session_type) {
 }
 
 
+void NetworkServer::OnAccept(std::shared_ptr<FSession> _session) {
+	
+}
+
+void NetworkServer::OnConnect(std::shared_ptr<FSession> _session) {
+
+}
+
+void NetworkServer::OnDissconnect(std::shared_ptr<FSession> _session) {
+
+}
 void NetworkServer::RegisterAcceptor(FAcceptInfo const& _accept_info) {
 	std::unique_ptr<IOAcceptor> IO_acceptor(new IOAcceptor(shared_from_this()));
 	IO_acceptor->Start(_accept_info);

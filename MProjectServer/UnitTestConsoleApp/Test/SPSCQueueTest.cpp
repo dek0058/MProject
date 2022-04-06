@@ -54,7 +54,8 @@ void SPSCQueueTest::SPSCQueueBenchmark() {
 		SPSCQueue<int> int_queue(Max);
 
 		for (int i = 0; i < Max - 1; ++i) {
-			int_queue.try_emplace(i * i);
+			bool success = int_queue.try_emplace(i * i);
+			TAssert_Equal(success, true);
 		}
 
 		clock_t start = clock();

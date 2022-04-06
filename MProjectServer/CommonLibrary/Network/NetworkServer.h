@@ -4,11 +4,11 @@
 #include "Utility/SPSCQueue.h"
 #include "ProtocolHandler.h"
 
-
 class IOService;
 class IOAcceptor;
 class IOConnector;
 struct FNetEvent;
+struct FSession;
 
 class NetworkServer : public std::enable_shared_from_this<NetworkServer> {
 	friend class IOAcceptor;
@@ -25,11 +25,16 @@ public:
 		return std::shared_ptr<NetworkServer>(new NetworkServer());
 	}
 
+
 	void Start(std::vector<FAcceptInfo> _accept_info_vector, std::vector<FConnectInfo> _connect_info_vector);
 	void Stop();
 	void Loop();
 	bool Connect(ESessionType _session_type);
 	
+	virtual void OnAccept(std::shared_ptr<FSession> _session);
+	virtual void OnConnect(std::shared_ptr<FSession> _session);
+	virtual void OnDissconnect(std::shared_ptr<FSession> _session);
+
 	void RegisterAcceptor(FAcceptInfo const& _accept_info);
 	void RegisterConnector(FConnectInfo const& _connect_info);
 
