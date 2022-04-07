@@ -27,14 +27,19 @@ public:
 	asio::io_service& GetIOService() { return IO_service; }
 	virtual ESessionType GetSessionType() const = 0;
 
+	void PushSession(std::shared_ptr<FSession> _session);
+	bool PopSession(std::shared_ptr<FSession>& _session);
+
 protected:
 	int GetTheradCount() const { return static_cast<int>(IO_thread_group.size()); }
 
 protected:
 
 	asio::io_service IO_service;
-	std::shared_ptr<NetworkServer> network_server;
+	asio::io_service::strand strand;
 	thread_group IO_thread_group;
+
+	std::shared_ptr<NetworkServer> network_server;
 
 	std::list<std::shared_ptr<FSession>> session_vector;
 	SPSCQueue<std::shared_ptr<FSession>> session_queue;

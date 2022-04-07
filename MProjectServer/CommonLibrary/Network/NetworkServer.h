@@ -45,4 +45,6 @@ private:
 
 	SPSCQueue<std::shared_ptr<FNetEvent>> net_event_queue;
 	std::queue<std::shared_ptr<FNetEvent>> wait_net_event_queue;
+
+	std::map<SessionKey, std::shared_ptr<FSession>> connected_session_map;
 };

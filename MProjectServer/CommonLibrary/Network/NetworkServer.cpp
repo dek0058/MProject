@@ -60,7 +60,14 @@ void NetworkServer::Loop() {
 				OnConnect(net_event->session);
 			} break;
 			case ENetEventType::Disconnected: {
-				OnDissconnect(net_event->session);
+				auto iter = connected_session_map.find(net_event->session->GetSessionKey());
+				if (iter != connected_session_map.end()) {
+					OnDissconnect(net_event->session);
+				} else {
+					// error 연결은 되었지만 데이터가 저장되어 있지 않음
+				}
+				net_event->IO_service->PushSession(net_event->session);
+			
 			} break;
 			case ENetEventType::Error: {
 				// error
@@ -87,7 +94,6 @@ bool NetworkServer::Connect(ESessionType _session_type) {
 	}
 	return false;
 }
-
 
 void NetworkServer::OnAccept(std::shared_ptr<FSession> _session) {
 	

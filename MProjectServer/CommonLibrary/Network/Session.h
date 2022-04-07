@@ -14,6 +14,10 @@ public:
 	FSession(shared_ptr<IOService> _IO_service, ESessionType _session_type);
 	~FSession();
 
+	// getter
+	SessionKey GetSessionKey() {
+		return session_key;
+	}
 
 private:
 	asio::ip::tcp::socket& GetSocket() { return sock; }
