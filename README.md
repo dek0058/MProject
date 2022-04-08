@@ -1,5 +1,6 @@
+# MProject About
 
-
+MMORPG 서버를 지향하는 프로젝트입니다.
 
 # Used Tools & API library
 
