@@ -1,6 +1,6 @@
 #pragma once
 #include <boost/asio.hpp>
-//#include <boost/circular_buffer.hpp>
+#include <boost/circular_buffer.hpp>
 
 #include "NetworkDefine.h"
 
@@ -11,7 +11,7 @@ class IOService;
 struct FSession {
 
 public:
-	FSession(shared_ptr<IOService> _IO_service, ESessionType _session_type);
+	FSession(shared_ptr<IOService> _IO_service, ESessionType _session_type, size_t _send_buffer_size, size_t _recv_buffer_size);
 	~FSession();
 
 	// getter
@@ -19,9 +19,17 @@ public:
 		return session_key;
 	}
 
-private:
-	asio::ip::tcp::socket& GetSocket() { return sock; }
+	ESessionType GetSessionType() {
+		return session_type;
+	}
 
+private:
+	void Accept(SessionKey _session_key);
+	void Connect();
+	void Disconnect();
+
+
+	asio::ip::tcp::socket& GetSocket() { return sock; }
 
 private:
 
@@ -34,4 +42,7 @@ private:
 	ESessionType session_type;
 
 	ESequenceType sequence_type;
+
+	circular_buffer<char> send_buffers;
+	circular_buffer<char> recv_buffers;
 };
