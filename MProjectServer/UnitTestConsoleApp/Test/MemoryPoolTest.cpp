@@ -112,6 +112,6 @@ UnitTest* MemoryPoolTest::Suite()
 {
 	UnitTestSuite* suite = new UnitTestSuite("MemoryPoolTest");
 	TUnitTest_AddTest(suite, MemoryPoolTest, TestMemoryPool);
-	TUnitTest_AddTest(suite, MemoryPoolTest, MemoryPoolBenchmark);
+	//TUnitTest_AddTest(suite, MemoryPoolTest, MemoryPoolBenchmark);
 	return suite;
 }

@@ -1,5 +1,5 @@
-#include "NetworkServer.h"
 #include "MProjectServerDefine.h"
+#include "NetworkServer.h"
 
 #include "IOAcceptor.h"
 #include "IOConnector.h"
@@ -116,5 +116,12 @@ void NetworkServer::RegisterConnector(FConnectInfo const& _connect_info) {
 	std::unique_ptr<IOConnector> IO_connect(new IOConnector(shared_from_this()));
 	IO_connect->Start(_connect_info);
 	IO_service_vector.emplace_back(std::move(IO_connect));
+}
+
+void NetworkServer::PushNetEvent(ENetEventType _type, std::shared_ptr<IOService> _IO_service, std::shared_ptr<FSession> _session) {
+	std::shared_ptr<FNetEvent> net_event(new FNetEvent(_type, _IO_service, _session));
+	if (true == net_event_queue.try_emplace(net_event)) {
+		wait_net_event_queue.push(net_event);
+	}
 }
 

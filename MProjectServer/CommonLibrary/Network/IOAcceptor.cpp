@@ -1,5 +1,5 @@
-#include "IOAcceptor.h"
 #include "MProjectServerDefine.h"
+#include "IOAcceptor.h"
 
 #include "NetworkServer.h"
 #include "Session.h"
@@ -15,8 +15,8 @@ IOAcceptor::~IOAcceptor() {
 
 void IOAcceptor::Start(const FAcceptInfo& _accept_info) {
 	accept_info = _accept_info;
-	asio::ip::tcp::endpoint endpoint(asio::ip::tcp::v6(), accept_info.port_number);
-	acceptor = std::make_shared<asio::ip::tcp::acceptor>(GetIOService(), endpoint);
+	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v6(), accept_info.port_number);
+	acceptor = std::make_shared<boost::asio::ip::tcp::acceptor>(GetIOService(), endpoint);
 }
 
 void IOAcceptor::Stop() {
@@ -30,18 +30,13 @@ void IOAcceptor::Accept() {
 		return;
 	}
 
-	/// [todo] accept
-/*	acceptor->async_accept(
+	acceptor->async_accept(
 		GetIOService(),
-		strand.wrap([this](std::shared_ptr<FSession>& _session, boost::system::error_code _error_code) {
-			//std::lock_guard<std::mutex> lock(acception_mutex);
-			OnAccept(_session, _error_code);
-			Accept();
-		})
+		boost::asio::bind_executor(strand, boost::bind(&IOAcceptor::OnAccept, this, session, boost::asio::placeholders::error))
 	);
-	*/
 }
 
-void IOAcceptor::OnAccept(std::shared_ptr<FSession>& _session, boost::system::error_code _error_code) {
+void IOAcceptor::OnAccept(std::shared_ptr<FSession> _session, boost::system::error_code const& _error_code) {
 	
+	Accept();
 }

@@ -97,6 +97,6 @@ void SPSCQueueTest::SPSCQueueBenchmark() {
 UnitTest* SPSCQueueTest::Suite() {
 	UnitTestSuite* suite = new UnitTestSuite("SPSCQueueTest");
 	TUnitTest_AddTest(suite, SPSCQueueTest, TestSPSCQueue);
-	TUnitTest_AddTest(suite, SPSCQueueTest, SPSCQueueBenchmark);
+	//TUnitTest_AddTest(suite, SPSCQueueTest, SPSCQueueBenchmark);
 	return suite;
 }

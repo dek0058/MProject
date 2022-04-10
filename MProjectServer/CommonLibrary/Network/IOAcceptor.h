@@ -1,7 +1,6 @@
 #pragma once
 #include "IOService.h"
 
-using namespace boost;
 
 class NetworkServer;
 struct FSession;
@@ -23,11 +22,11 @@ public:
 	}
 
 private:
-	void OnAccept(std::shared_ptr<FSession>& _session, boost::system::error_code _error_code);
+	void OnAccept(std::shared_ptr<FSession> _session, boost::system::error_code const& _error_code);
 
 private:
 
 	FAcceptInfo accept_info;
-	std::shared_ptr<asio::ip::tcp::acceptor> acceptor;
+	std::shared_ptr<boost::asio::ip::tcp::acceptor> acceptor;
 	//mutable std::mutex acception_mutex;
 };

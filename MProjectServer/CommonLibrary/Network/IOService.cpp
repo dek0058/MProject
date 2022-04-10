@@ -1,8 +1,10 @@
-#include "IOService.h"
 #include "MProjectServerDefine.h"
+#include "IOService.h"
 
 #include "NetworkServer.h"
 #include "Session.h"
+
+
 
 IOService::IOService(std::shared_ptr<NetworkServer> _network_server) 
 	: strand(IO_service), network_server(_network_server), is_stopped(false), session_queue(SESSION_CAPACITY) {
@@ -46,4 +48,8 @@ bool IOService::PopSession(std::shared_ptr<FSession>& _session) {
 	_session = *session_queue.front();
 	session_queue.pop();
 	return true;
+}
+
+void IOService::PushNetEvent(ENetEventType _type, std::shared_ptr<FSession> _session) {
+	network_server->PushNetEvent(_type, shared_from_this(), _session);
 }

@@ -38,6 +38,8 @@ public:
 	void RegisterAcceptor(FAcceptInfo const& _accept_info);
 	void RegisterConnector(FConnectInfo const& _connect_info);
 
+	void PushNetEvent(ENetEventType _type, std::shared_ptr<IOService> _IO_service, std::shared_ptr<FSession> _session);
+
 
 private:
 	std::vector<std::unique_ptr<IOService>> IO_service_vector;
