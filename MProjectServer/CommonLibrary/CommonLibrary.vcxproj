@@ -127,14 +127,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>MProjectServerDefine.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(ProjectDir);../../Library/boost_1_78_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MaxFilesInUnityFile>10</MaxFilesInUnityFile>
       <IncludeInUnityFile>true</IncludeInUnityFile>
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>
@@ -153,11 +155,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>MProjectServerDefine.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(ProjectDir);../../Library/boost_1_78_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>
@@ -204,7 +208,6 @@
     <ClInclude Include="flatbuffers\registry.h" />
     <ClInclude Include="flatbuffers\stl_emulation.h" />
     <ClInclude Include="flatbuffers\util.h" />
-    <ClInclude Include="framework.h" />
     <ClInclude Include="GlobalDefine.h" />
     <ClInclude Include="GuardDefine.h" />
     <ClInclude Include="Network\IOAcceptor.h" />
@@ -212,7 +215,6 @@
     <ClInclude Include="Network\IOService.h" />
     <ClInclude Include="Utility\CircularBuffer.h" />
     <ClInclude Include="Utility\MemoryPool.h" />
-    <ClInclude Include="MProjectServerDefine.h" />
     <ClInclude Include="Network\NetEvent.h" />
     <ClInclude Include="Network\NetworkDefine.h" />
     <ClInclude Include="Network\NetworkServer.h" />
@@ -225,12 +227,6 @@
     <ClCompile Include="Network\IOAcceptor.cpp" />
     <ClCompile Include="Network\IOConnector.cpp" />
     <ClCompile Include="Network\IOService.cpp" />
-    <ClCompile Include="MProjectServerDefine.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="Network\NetworkServer.cpp" />
     <ClCompile Include="Network\ProtocolHandler.cpp" />
     <ClCompile Include="Network\Session.cpp" />

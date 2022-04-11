@@ -2,6 +2,7 @@
 #include "GlobalDefine.h"
 
 
+constexpr uint BUFFER_BLOCKS_PER_BUCKET = 4;
 constexpr uint SESSION_CAPACITY = 16'384;
 constexpr uint NET_EVENT_CAPCITY = 256;
 

@@ -4,7 +4,7 @@
 
 #include "NetworkDefine.h"
 #include "Utility/CircularBuffer.h"
-
+#include "Utility//MemoryPool.h"
 
 class IOService;
 
@@ -67,8 +67,10 @@ private:
 
 	ESequenceType sequence_type;
 
-	std::vector<boost::asio::const_buffer> send_buffer;
-	std::vector<boost::asio::mutable_buffer> recv_buffer;
+	/// buffer
+	MemoryPool<boost::asio::mutable_buffer> buffer_pool;
+	boost::asio::const_buffer* send_buffer;
+	boost::asio::mutable_buffer* recv_buffer;
 	CircularBuffer_M send_buffers;
 	CircularBuffer_M recv_buffers;
 

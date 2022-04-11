@@ -34,11 +34,11 @@ public:
 	/// <param name="_bucket_pre_alloc">Bucket Pointer 공간 지정</param>
 	/// <param name="_max_alloc">최대 허용 풀 크기</param>
 	MemoryPool(std::size_t _blocks_per_bucket = MEMORY_POOL_PREALLOC, std::size_t _bucket_pre_alloc = 10, std::size_t _max_alloc = 0) 
-		: blocks_per_bucket(_blocks_per_bucket), max_alloc(_bucket_pre_alloc), available(0) {
+		: blocks_per_bucket(_blocks_per_bucket), max_alloc(_max_alloc), available(0) {
 		if (blocks_per_bucket < 2) {
 			throw;
 		}
-		buckets.reserve(max_alloc);
+		buckets.reserve(_bucket_pre_alloc);
 		Resize();
 	}
 
