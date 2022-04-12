@@ -7,7 +7,7 @@
 
 
 #include "Suite/CoreUnitTestSuite.h"
-
+#include "Suite/DongkeyUnitTestSuite.h"
 
 int main(int argc, char** argv) {
 
@@ -18,8 +18,8 @@ int main(int argc, char** argv) {
 	UnitTestRunner runner;
 
 
-	runner.AddTest("CoreUnitTestSuite", CoreUnitTestSuite::Suite());
-	
+	//runner.AddTest("CoreUnitTestSuite", CoreUnitTestSuite::Suite());
+	runner.AddTest("DongkeyUnitTestSuite", DongkeyUnitTestSuite::Suite());
 	
 	return runner.Run(args) ? 0 : 1;
 }

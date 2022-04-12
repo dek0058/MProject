@@ -149,7 +149,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Suite\DongkeyUnitTestSuite.cpp" />
     <ClCompile Include="Test\CircularBufferTest.cpp" />
+    <ClCompile Include="Test\FramePerSecondTest.cpp" />
     <ClCompile Include="Test\SPSCQueueTest.cpp" />
     <ClCompile Include="Suite\CoreUnitTestSuite.cpp" />
     <ClCompile Include="Test\MemoryPoolTest.cpp" />
@@ -166,7 +168,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Suite\DongkeyUnitTestSuite.h" />
     <ClInclude Include="Test\CircularBufferTest.h" />
+    <ClInclude Include="Test\FramePerSecondTest.h" />
     <ClInclude Include="Test\SPSCQueueTest.h" />
     <ClInclude Include="Suite\CoreUnitTestSuite.h" />
     <ClInclude Include="Test\MemoryPoolTest.h" />
