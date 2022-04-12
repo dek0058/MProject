@@ -9,29 +9,44 @@
 class IOService;
 
 struct FSession : public std::enable_shared_from_this<FSession> {
+	friend class NetworkServer;
 
 public:
 	FSession(std::shared_ptr<IOService> _IO_service, ESessionType _session_type, size_t _send_buffer_size, size_t _recv_buffer_size, int _max_packet_size);
 	~FSession();
 
+
 	// getter
-	SessionKey GetSessionKey() {
+	SessionKey GetSessionKey() const {
 		return session_key;
 	}
-
-	ESessionType GetSessionType() {
+	
+	ESessionType GetSessionType() const {
 		return session_type;
 	}
 
-	ESequenceType GetSequenceType() {
+	ESequenceType GetSequenceType() const {
 		return sequence_type;
 	}
 
-	bool IsWriting() {
+	std::wstring GetPublicIP() const {
+		return std::format(L"{}:{}", public_ip, public_port);
+	}
+
+	ushort GetPublicPort() const {
+		return public_port;
+	}
+
+	bool IsWriting() const {
 		return is_writing.load();
 	}
 
 	// setter
+	void SetPublicIP(std::wstring const& _ip, ushort const& _port) {
+		public_ip = _ip;
+		public_port = _port;
+	}
+	
 	void SetWriting(bool _value) {
 		is_writing.store(_value);
 	}
@@ -64,8 +79,10 @@ private:
 	/// information
 	SessionKey session_key;
 	ESessionType session_type;
-
 	ESequenceType sequence_type;
+	std::wstring public_ip;
+	ushort public_port;
+	
 
 	/// buffer
 	MemoryPool<boost::asio::mutable_buffer> buffer_pool;

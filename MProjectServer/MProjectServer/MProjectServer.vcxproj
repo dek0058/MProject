@@ -132,7 +132,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Network\HeadProtocolHandlerManager.h" />
     <ClInclude Include="Network\HeadServer.h" />
+    <ClInclude Include="Thread\MainThread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

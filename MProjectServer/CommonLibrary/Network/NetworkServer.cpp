@@ -6,8 +6,8 @@
 #include "Session.h"
 
 
-NetworkServer::NetworkServer() : net_event_queue(NET_EVENT_CAPCITY) {
-	protocol_handler_manager.reset();
+NetworkServer::NetworkServer(std::unique_ptr<ProtocolHandlerManager> _handler_manager) : net_event_queue(NET_EVENT_CAPCITY) {
+	protocol_handler_manager = std::move(_handler_manager);
 }
 
 NetworkServer::~NetworkServer() {
@@ -63,6 +63,7 @@ void NetworkServer::Loop() {
 				if (iter != connected_session_map.end()) {
 					OnDissconnect(net_event->session);
 				} else {
+					net_event->session->Disconnect();
 					// error 연결은 되었지만 데이터가 저장되어 있지 않음
 				}
 				net_event->IO_service->PushSession(net_event->session);
@@ -95,16 +96,29 @@ bool NetworkServer::Connect(ESessionType _session_type) {
 }
 
 void NetworkServer::OnAccept(std::shared_ptr<FSession> _session) {
-	
+	_session->Accept(AddSessionKey());
+	connected_session_map.emplace(_session->GetSessionKey(), _session);
+	connected_server_map.emplace(_session->GetPublicIP(), _session);
 }
 
 void NetworkServer::OnConnect(std::shared_ptr<FSession> _session) {
-
+	_session->Connect(AddSessionKey());
+	connected_session_map.emplace(_session->GetSessionKey(), _session);
+	connected_server_map.emplace(_session->GetPublicIP(), _session);
 }
 
 void NetworkServer::OnDissconnect(std::shared_ptr<FSession> _session) {
-
+	connected_session_map.erase(_session->GetSessionKey());
+	auto mini_map = connected_server_map.equal_range(_session->GetPublicIP());
+	for (auto it = mini_map.first; it != mini_map.second; ++it) {
+		if (it->second->GetSessionKey() == _session->GetSessionKey()) {
+			connected_server_map.erase(it);
+			break;
+		}
+	}
+	_session->Disconnect();
 }
+
 void NetworkServer::RegisterAcceptor(FAcceptInfo const& _accept_info) {
 	std::unique_ptr<IOAcceptor> IO_acceptor(new IOAcceptor(shared_from_this()));
 	IO_acceptor->Start(_accept_info);

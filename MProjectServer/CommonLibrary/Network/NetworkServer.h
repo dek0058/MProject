@@ -14,17 +14,11 @@ class NetworkServer : public std::enable_shared_from_this<NetworkServer> {
 	friend class IOAcceptor;
 	friend class IOConnector;
 
-	NetworkServer();
-	NetworkServer(NetworkServer const&) = delete;
-	NetworkServer(NetworkServer&&) = delete;
-	NetworkServer& operator = (NetworkServer const&) = delete;
-	NetworkServer& operator = (NetworkServer&&) = delete;
-public:
-	~NetworkServer();
-	[[nodiscard]] static std::shared_ptr<NetworkServer> Create() {
-		return std::shared_ptr<NetworkServer>(new NetworkServer());
-	}
+	using SessionMMap = std::multimap<std::wstring, std::shared_ptr<FSession>>;
 
+public:
+	NetworkServer(std::unique_ptr<ProtocolHandlerManager> _handler_manager);
+	~NetworkServer();
 
 	void Start(std::vector<FAcceptInfo> _accept_info_vector, std::vector<FConnectInfo> _connect_info_vector);
 	void Stop();
@@ -40,6 +34,14 @@ public:
 
 	void PushNetEvent(ENetEventType _type, std::shared_ptr<IOService> _IO_service, std::shared_ptr<FSession> _session);
 
+	
+	
+private:
+
+	static SessionKey AddSessionKey() {
+		static SessionKey session_key = 0;
+		return ++session_key;
+	}
 
 private:
 	std::vector<std::unique_ptr<IOService>> IO_service_vector;
@@ -49,4 +51,6 @@ private:
 	std::queue<std::shared_ptr<FNetEvent>> wait_net_event_queue;
 
 	std::map<SessionKey, std::shared_ptr<FSession>> connected_session_map;
+	SessionMMap connected_server_map;
 };
+

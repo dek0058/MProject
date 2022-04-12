@@ -4,11 +4,12 @@
 #include "Utility/TSingleton.h"
 
 class HeadServer : public NetworkServer, public TSingleton<HeadServer> {
-	//HeadServer()
-	~HeadServer();
+	//friend class TSingleton<HeadServer>;
+	
 
 public:
-
+	HeadServer();
+	~HeadServer();
 
 private:
 

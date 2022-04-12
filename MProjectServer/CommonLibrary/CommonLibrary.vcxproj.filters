@@ -156,6 +156,9 @@
     <ClInclude Include="Utility\CircularBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\MThread.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network\IOService.cpp">
@@ -174,6 +177,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Network\IOConnector.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\MThread.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

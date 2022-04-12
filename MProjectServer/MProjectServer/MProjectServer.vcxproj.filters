@@ -54,5 +54,11 @@
     <ClInclude Include="Network\HeadServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Network\HeadProtocolHandlerManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\MainThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
