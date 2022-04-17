@@ -70,7 +70,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>../../Library/boost_1_78_0;$(ProjectDir);$(ProjectDir)Network;../CommonLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Library/boost_1_78_0;$(ProjectDir);../CommonLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib</AdditionalLibraryDirectories>
@@ -84,7 +84,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>../../Library/boost_1_78_0;$(ProjectDir);$(ProjectDir)Network;../CommonLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Library/boost_1_78_0;$(ProjectDir);../CommonLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib</AdditionalLibraryDirectories>
@@ -117,7 +117,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Manager\MThreadManager.cpp" />
     <ClCompile Include="Network\HeadServer.cpp" />
+    <ClCompile Include="Thread\MainThread.cpp" />
     <QtRcc Include="MProjectServer.qrc" />
     <QtUic Include="MProjectServer.ui" />
     <QtMoc Include="MProjectServer.h" />
@@ -132,6 +134,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Manager\MThreadManager.h" />
+    <ClInclude Include="MProjectServerDefine.h" />
     <ClInclude Include="Network\HeadProtocolHandlerManager.h" />
     <ClInclude Include="Network\HeadServer.h" />
     <ClInclude Include="Thread\MainThread.h" />

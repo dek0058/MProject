@@ -51,6 +51,9 @@
     <ClCompile Include="Suite\DongkeyUnitTestSuite.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Test\DongkeyTest.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test\MemoryPoolTest.h">
@@ -93,6 +96,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Suite\DongkeyUnitTestSuite.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\DongkeyTest.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -37,15 +37,19 @@ enum class ENetEventType : byte {
 
 struct FAcceptInfo {
 	std::wstring ip;
-	ushort port_number;
+	ushort port;
 	int thread_count;
 	ESessionType session_type;
 	int session_count;
+	int send_buffer_size;
+	int recv_buffer_size;
+	int max_packet_size;
 	std::wstring forwarding_ip;
-	ushort forwarding_port_number;
+	ushort forwarding_port;
 	FAcceptInfo()
-		: ip(L""), port_number(0), thread_count(0), session_type(ESessionType::Client), session_count(0), 
-		forwarding_ip(L""), forwarding_port_number(0) {}
+		: ip(L""), port(0), thread_count(0), session_type(ESessionType::Client), session_count(0),
+		send_buffer_size(0), recv_buffer_size(0), max_packet_size(0),
+		forwarding_ip(L""), forwarding_port(0) {}
 };
 
 struct FConnectInfo {
@@ -54,6 +58,10 @@ struct FConnectInfo {
 	ushort port;
 	int thread_count;
 	ESessionType session_type;
-	FConnectInfo() : ip(L""), failover_ip(L""), port(0), thread_count(0), session_type(ESessionType::Client) {}
+	int send_buffer_size;
+	int recv_buffer_size;
+	int max_packet_size;
+	FConnectInfo() : ip(L""), failover_ip(L""), port(0), thread_count(0), session_type(ESessionType::Client), 
+		send_buffer_size(0), recv_buffer_size(0), max_packet_size(0) {}
 };
 

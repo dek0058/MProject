@@ -1,20 +1,30 @@
 #include "MThread.h"
 #include <windows.h>
 
-MThread::MThread(std::wstring _name) 
-	: state(ThreadState::None) {
-	
-}
-
-MThread::~MThread() {
-	thread->join();
-}
+MThread::MThread(std::wstring_view _name, int _fixed) 
+	: state(ThreadState::None), name(_name), fps(_fixed) { ; }
 
 void MThread::Start() {
 	if (state != ThreadState::None) {
 		return;
 	}
 	thread = std::move(std::make_unique<std::thread>(&MThread::OnAction, this));
+}
+
+void MThread::Stop() {
+	switch (state)
+	{
+		case MThread::ThreadState::Running:
+		{
+			state = ThreadState::Stopping;
+		} break;
+		case MThread::ThreadState::Stopping: {
+			DWORD result = WaitForSingleObject(thread->native_handle(), 1000);
+			if (result == WAIT_OBJECT_0) {
+				state = ThreadState::Stopped;
+			}
+		} break;
+	}
 }
 
 void MThread::SetPriority(int _priority) {
@@ -32,12 +42,12 @@ void MThread::OnAction() {
 		}
 		while (GetState() == ThreadState::Running) {
 			try {
+				fps.Update();
 				OnUpdate();
 			} catch (std::exception const _excetion) {
 				// exception;
 			}
-			
-			
+			fps.Sleep();
 		}
 	}
 	catch (std::exception const _excetion) {

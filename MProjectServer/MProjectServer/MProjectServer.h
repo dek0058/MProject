@@ -1,4 +1,5 @@
 #pragma once
+#include "GlobalDefine.h"
 
 #include <QtWidgets/QMainWindow>
 #include "ui_MProjectServer.h"
@@ -9,6 +10,13 @@ class MProjectServer : public QMainWindow
 
 public:
     MProjectServer(QWidget *parent = Q_NULLPTR);
+
+private:
+    void OnInitialize();
+
+
+private slots:
+    void OnClick(bool checked);
 
 private:
     Ui::MProjectServerClass ui;

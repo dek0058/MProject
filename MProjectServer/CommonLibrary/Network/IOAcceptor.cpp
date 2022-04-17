@@ -14,7 +14,7 @@ IOAcceptor::~IOAcceptor() {
 
 void IOAcceptor::Start(const FAcceptInfo& _accept_info) {
 	accept_info = _accept_info;
-	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v6(), accept_info.port_number);
+	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v6(), accept_info.port);
 	acceptor = std::make_shared<boost::asio::ip::tcp::acceptor>(GetIOService(), endpoint);
 }
 

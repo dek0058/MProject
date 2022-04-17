@@ -122,11 +122,12 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);../CommonLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Library/boost_1_78_0;$(ProjectDir);$(ProjectDir)Network;../CommonLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -139,18 +140,20 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);../CommonLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Library/boost_1_78_0;$(ProjectDir);$(ProjectDir)Network;../CommonLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Suite\DongkeyUnitTestSuite.cpp" />
     <ClCompile Include="Test\CircularBufferTest.cpp" />
+    <ClCompile Include="Test\DongkeyTest.cpp" />
     <ClCompile Include="Test\FramePerSecondTest.cpp" />
     <ClCompile Include="Test\SPSCQueueTest.cpp" />
     <ClCompile Include="Suite\CoreUnitTestSuite.cpp" />
@@ -170,6 +173,7 @@
   <ItemGroup>
     <ClInclude Include="Suite\DongkeyUnitTestSuite.h" />
     <ClInclude Include="Test\CircularBufferTest.h" />
+    <ClInclude Include="Test\DongkeyTest.h" />
     <ClInclude Include="Test\FramePerSecondTest.h" />
     <ClInclude Include="Test\SPSCQueueTest.h" />
     <ClInclude Include="Suite\CoreUnitTestSuite.h" />
