@@ -52,3 +52,7 @@ bool IOService::PopSession(std::shared_ptr<FSession>& _session) {
 void IOService::PushNetEvent(ENetEventType _type, std::shared_ptr<FSession> _session) {
 	network_server->PushNetEvent(_type, shared_from_this(), _session);
 }
+
+void IOService::StoreOwnerSesion(std::shared_ptr<FSession> _session) {
+	session_vector.emplace_back(std::move(_session));
+}

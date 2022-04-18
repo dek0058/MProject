@@ -45,6 +45,16 @@ void MProjectServer::OnInitialize() {
 }
 
 void MProjectServer::OnClick(bool checked) {
+    static bool test_check = false;
+    if (test_check) {
+        return;
+    }
+    test_check = true;
+
+    ui.test_list->addItem(QString("Server Start"));
     MThreadManager::GetMutableInstance().OnStart();
+
+    // 성공되면 교체 필요할듯한데?
+    ui.server_push_btn->setText(QString("Connecting..."));
 }
 

@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "GlobalDefine.h"
-
+#include "GuardDefine.h"
 
 constexpr uint BUFFER_BLOCKS_PER_BUCKET = 4;
 constexpr uint SESSION_CAPACITY = 16'384;
@@ -50,6 +50,12 @@ struct FAcceptInfo {
 		: ip(L""), port(0), thread_count(0), session_type(ESessionType::Client), session_count(0),
 		send_buffer_size(0), recv_buffer_size(0), max_packet_size(0),
 		forwarding_ip(L""), forwarding_port(0) {}
+	
+	FAcceptInfo(std::wstring_view _ip, ushort _port, int _thread_count, ESessionType _session_type, int _session_count,
+		int _send_buffer_size, int _recv_buffer_size, int _max_packet_size, std::wstring_view _forwarding_ip = L"", ushort _forwarding_port = 0)
+		: VAR_INIT(ip), VAR_INIT(port), VAR_INIT(thread_count), VAR_INIT(session_type), VAR_INIT(session_count),
+		VAR_INIT(send_buffer_size), VAR_INIT(recv_buffer_size), VAR_INIT(max_packet_size),
+		VAR_INIT(forwarding_ip), VAR_INIT(forwarding_port) {}
 };
 
 struct FConnectInfo {
@@ -63,5 +69,10 @@ struct FConnectInfo {
 	int max_packet_size;
 	FConnectInfo() : ip(L""), failover_ip(L""), port(0), thread_count(0), session_type(ESessionType::Client), 
 		send_buffer_size(0), recv_buffer_size(0), max_packet_size(0) {}
+
+	FConnectInfo(std::wstring_view _ip, ushort _port, int _thread_count, ESessionType _session_type,
+		int _send_buffer_size, int _recv_buffer_size, int _max_packet_size, std::wstring_view _failover_ip = L"")
+		: VAR_INIT(ip), VAR_INIT(failover_ip), VAR_INIT(port), VAR_INIT(thread_count), VAR_INIT(session_type),
+		VAR_INIT(send_buffer_size), VAR_INIT(recv_buffer_size), VAR_INIT(max_packet_size) {}
 };
 

@@ -10,6 +10,9 @@ class IOService;
 
 struct FSession : public std::enable_shared_from_this<FSession> {
 	friend class NetworkServer;
+	friend class IOService;
+	friend class IOAcceptor;
+	friend class IOConnector;
 
 public:
 	FSession(std::shared_ptr<IOService> _IO_service, ESessionType _session_type, size_t _send_buffer_size, size_t _recv_buffer_size, int _max_packet_size);
@@ -42,6 +45,10 @@ public:
 	}
 
 	// setter
+	void SetSequenceType(ESequenceType _type) {
+		sequence_type = _type;
+	}
+	
 	void SetPublicIP(std::wstring const& _ip, ushort const& _port) {
 		public_ip = _ip;
 		public_port = _port;

@@ -16,6 +16,23 @@ void IOAcceptor::Start(const FAcceptInfo& _accept_info) {
 	accept_info = _accept_info;
 	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v6(), accept_info.port);
 	acceptor = std::make_shared<boost::asio::ip::tcp::acceptor>(GetIOService(), endpoint);
+
+	for (int i = 0; i < _accept_info.session_count; ++i) {
+		StoreOwnerSesion(
+			std::make_shared<FSession>(
+				shared_from_this(),
+				accept_info.session_type, 
+				accept_info.send_buffer_size, 
+				accept_info.recv_buffer_size, 
+				accept_info.max_packet_size
+			)
+		);
+	}
+	
+	for (int i = 0; i < accept_info.thread_count; ++i) {
+		Accept();
+	}
+	IOService::Start(accept_info.thread_count);
 }
 
 void IOAcceptor::Stop() {
@@ -29,6 +46,9 @@ void IOAcceptor::Accept() {
 		return;
 	}
 
+	// 연결 대기
+	session->SetSequenceType(ESequenceType::Accepting);
+
 	acceptor->async_accept(
 		GetIOService(),
 		boost::asio::bind_executor(strand, boost::bind(&IOAcceptor::OnAccept, this, session, boost::asio::placeholders::error))
@@ -36,6 +56,5 @@ void IOAcceptor::Accept() {
 }
 
 void IOAcceptor::OnAccept(std::shared_ptr<FSession> _session, boost::system::error_code const& _error_code) {
-	
 	Accept();
 }

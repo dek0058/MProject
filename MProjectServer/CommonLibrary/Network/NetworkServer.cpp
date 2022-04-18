@@ -17,6 +17,7 @@ NetworkServer::~NetworkServer() {
 void NetworkServer::Start(std::vector<FAcceptInfo> _accept_info_vector, std::vector<FConnectInfo> _connect_info_vector) {
 	protocol_handler_manager->OnRegisterHandler();
 	
+	// Setting connect accpetor object session
 	for (FAcceptInfo const& accept_info : _accept_info_vector) {
 		if (true == accept_info.ip.empty()) {
 			continue;
@@ -24,6 +25,7 @@ void NetworkServer::Start(std::vector<FAcceptInfo> _accept_info_vector, std::vec
 		RegisterAcceptor(accept_info);
 	}
 
+	// Setting connector object session
 	for (FConnectInfo const& connect_info : _connect_info_vector) {
 		if (true == connect_info.ip.empty()) {
 			continue;

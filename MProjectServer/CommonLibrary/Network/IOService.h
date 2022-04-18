@@ -31,8 +31,11 @@ public:
 	void PushNetEvent(ENetEventType _type, std::shared_ptr<FSession> _session);
 
 protected:
+	
+	void StoreOwnerSesion(std::shared_ptr<FSession> _session);
+	
 	int GetTheradCount() const { return static_cast<int>(IO_thread_group.size()); }
-
+	
 protected:
 
 	boost::asio::io_service IO_service;
@@ -41,7 +44,7 @@ protected:
 
 	std::shared_ptr<NetworkServer> network_server;
 
-	std::list<std::shared_ptr<FSession>> session_vector;
+	std::vector<std::shared_ptr<FSession>> session_vector;
 	SPSCQueue<std::shared_ptr<FSession>> session_queue;
 
 	std::atomic<bool> is_stopped;

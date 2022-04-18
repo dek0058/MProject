@@ -58,6 +58,7 @@ mono_crash.*
 
 Result/
 MProjectServer/MProjectServer/x64/
+MProjectServer/TestClient/obj/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
