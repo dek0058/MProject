@@ -12,6 +12,9 @@ MMORPG 서버를 지향하는 프로젝트입니다.
 ### C++20 (lastest)
 <summary>SDK Version: v143</summary>
 
+#### spdlog (lasteset) **[Open source link](https://github.com/gabime/spdlog)**
+
+
 ### Boost API
 <img src="https://user-images.githubusercontent.com/47653276/162651411-11b80b8f-213b-4695-a53d-e6ed9e028dd4.png" width="277" height="86"/>
 
@@ -28,3 +31,4 @@ MMORPG 서버를 지향하는 프로젝트입니다.
 **[Download it now](https://www.qt.io/download-qt-installer?hsCtaTracking=99d9dd4f-5681-48d2-b096-470725510d34%7C074ddad0-fdef-4e53-8aa8-5e8a876d6ab4)**
 
 <summary>6.3.3</summary>
+
