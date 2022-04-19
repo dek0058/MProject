@@ -5,6 +5,7 @@
 constexpr uint BUFFER_BLOCKS_PER_BUCKET = 4;
 constexpr uint SESSION_CAPACITY = 16'384;
 constexpr uint NET_EVENT_CAPCITY = 256;
+constexpr uint PACKET_MEMORY_POOL_SIZE = 65'536;
 
 // server variable define
 using SessionKey = uint;

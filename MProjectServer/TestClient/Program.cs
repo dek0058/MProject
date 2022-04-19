@@ -26,9 +26,14 @@ namespace TestClient {
                         break;
                     }
                     NetworkStream stream = client.GetStream();
-                    byte[] data = System.Text.Encoding.ASCII.GetBytes(msg);
-                    stream.Write(data, 0, data.Length);
-                    //Thread.Sleep(1000);
+                    byte[] send = System.Text.Encoding.ASCII.GetBytes(msg);
+                    stream.Write(send, 0, send.Length);
+                    
+                    byte[] recv = new byte[1024];
+                    stream.ReadAsync(recv, 0, recv.Length);
+                    Thread.Sleep(10);
+                    Console.WriteLine(System.Text.Encoding.ASCII.GetString(recv));
+                    Console.WriteLine("-echo-");
                 }
             }
             catch (SocketException _exception) {

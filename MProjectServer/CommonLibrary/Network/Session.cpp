@@ -116,7 +116,7 @@ void FSession::Close() {
 
 void FSession::Receive() {
 	size_t free_size = recv_buffers.FreeSize();
-	recv_buffer = new (buffer_pool.Get()) (byte);
+	recv_buffer = reinterpret_cast<byte*>(buffer_pool.Get());
 	
 	GetSocket().async_read_some(
 		boost::asio::buffer(recv_buffer, free_size),
@@ -132,7 +132,7 @@ void FSession::Receive() {
 	);
 }
 
-void FSession::Write(char* const _data, size_t _size, std::wstring const* _name) {
+void FSession::Write(size_t _size) {
 	if (GetSequenceType() != ESequenceType::Connected) {
 		return;
 	}
@@ -142,14 +142,16 @@ void FSession::Write(char* const _data, size_t _size, std::wstring const* _name)
 		return;
 	}
 	
-	if (true == IsWriting()) {
+	if (false == IsWriting()) {
 		if (nullptr != send_buffer) {
 			buffer_pool.Release(send_buffer);
 		}
 
+		//size_t used_size = recv_buffers.UsedSize();
 		size_t used_size = send_buffers.UsedSize();
 		
-		send_buffer = new (buffer_pool.Get()) (byte);
+		send_buffer = reinterpret_cast<byte*>(buffer_pool.Get());
+		//recv_buffers.Peek(send_buffer, used_size);
 		send_buffers.Peek(send_buffer, used_size);
 
 		SetWriting(true);
@@ -180,10 +182,11 @@ void FSession::OnReceive(boost::system::error_code const& _error_code, size_t _b
 	std::string a = boost::locale::conv::utf_to_utf<char>(recv_buffer, recv_buffer + _bytes_transferred);
 	MLogger::GetMutableInstance().LogInfo(a);
 
-	recv_buffers.Put((byte*)recv_buffer, _bytes_transferred);
+	recv_buffers.Put(recv_buffer, _bytes_transferred);
 	buffer_pool.Release(recv_buffer);
 	recv_buffer = nullptr;
 	
+	//Write(_bytes_transferred);
 	Receive();
 }
 
@@ -193,9 +196,10 @@ void FSession::OnWrite(boost::system::error_code const& _error_code, size_t _byt
 		return;
 	}
 
+	//recv_buffers.Discard(_bytes_transferred);
 	send_buffers.Discard(_bytes_transferred);
 
-	if (0 == send_buffers.UsedSize()) {
+	if (0 == send_buffers.UsedSize()) { // changed send_buffer
 		SetWriting(false);
 		return;
 	}
@@ -204,8 +208,10 @@ void FSession::OnWrite(boost::system::error_code const& _error_code, size_t _byt
 		buffer_pool.Release(send_buffer);
 	}
 	
+	//size_t used_size = recv_buffers.UsedSize();
 	size_t used_size = send_buffers.UsedSize();
-	send_buffer = new (buffer_pool.Get()) (byte);
+	send_buffer = reinterpret_cast<byte*>(buffer_pool.Get());
+	//recv_buffers.Peek(send_buffer, used_size);
 	send_buffers.Peek(send_buffer, used_size);
 
 	GetSocket().async_write_some(

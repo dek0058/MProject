@@ -66,7 +66,7 @@ private:
 	void Close();
 
 	void Receive();
-	void Write(char* const _data, size_t _size, std::wstring const* _name);
+	void Write(size_t _size);
 
 	void OnReceive(boost::system::error_code const& _error_code, size_t _bytes_transferred);
 	void OnWrite(boost::system::error_code const& _error_code, size_t _bytes_transferred);
@@ -90,7 +90,7 @@ private:
 	ushort public_port;
 
 	/// buffer
-	MemoryPool<byte> buffer_pool;
+	MemoryPool<byte[PACKET_MEMORY_POOL_SIZE]> buffer_pool;
 	byte* send_buffer;
 	byte* recv_buffer;
 	CircularBuffer_M send_buffers;
