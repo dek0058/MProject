@@ -5,7 +5,7 @@
 
 
 
-IOService::IOService(std::shared_ptr<NetworkServer> _network_server) 
+IOService::IOService(NetworkServer* _network_server)
 	: strand(IO_service), network_server(_network_server), is_stopped(false), session_queue(SESSION_CAPACITY) {
 
 }
@@ -54,5 +54,5 @@ void IOService::PushNetEvent(ENetEventType _type, std::shared_ptr<FSession> _ses
 }
 
 void IOService::StoreOwnerSesion(std::shared_ptr<FSession> _session) {
-	session_vector.emplace_back(std::move(_session));
+	session_vector.emplace_back(_session);
 }

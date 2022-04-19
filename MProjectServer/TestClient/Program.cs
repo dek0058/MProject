@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace TestClient {
     internal class Program {
@@ -15,17 +16,28 @@ namespace TestClient {
             Console.WriteLine("Conneting server...");
             try
             {
-                client.Connect(ip_end_point);
-                Console.WriteLine("Connet server!");
+                client.ConnectAsync("127.0.0.1", 3333);
 
+                while(true)
+                {
+                    String msg = Console.ReadLine();
+                    if (msg == "exit")
+                    {
+                        break;
+                    }
+                    NetworkStream stream = client.GetStream();
+                    byte[] data = System.Text.Encoding.ASCII.GetBytes(msg);
+                    stream.Write(data, 0, data.Length);
+                    //Thread.Sleep(1000);
+                }
             }
             catch (SocketException _exception) {
                 Console.WriteLine(_exception.ToString());
             } finally { 
-                if(true == client.Connected) {
-                    client.Close();
-                }
+
             }
+            client.Close();
+            
         }
     }
 }

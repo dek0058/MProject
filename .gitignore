@@ -422,3 +422,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,c++
+/MProjectServer/MProjectServer/logs/
+/MProjectServer/MProjectServer/출력-빌드.txt

@@ -1,6 +1,7 @@
 #include "Session.h"
 
 #include "IOService.h"
+#include "Core/MLogger.h"
 
 FSession::FSession(std::shared_ptr<IOService> _IO_service, ESessionType _session_type, size_t _send_buffer_size, size_t _recv_buffer_size, int _max_packet_size)
 	: top_IO_service(_IO_service), sock(_IO_service->GetIOService()), strand(_IO_service->GetIOService()),
@@ -33,8 +34,10 @@ void FSession::Accept(SessionKey _session_key) {
 		recv_buffer = nullptr;
 	}
 
+	
 	boost::asio::ip::tcp::no_delay no_delay(true);
 	GetSocket().set_option(no_delay);
+	
 
 	Receive();
 }
@@ -55,8 +58,10 @@ void FSession::Connect(SessionKey _session_key) {
 		recv_buffer = nullptr;
 	}
 	
+	
 	boost::asio::ip::tcp::no_delay no_delay(true);
 	GetSocket().set_option(no_delay);
+	
 
 	Receive();
 }
@@ -111,9 +116,10 @@ void FSession::Close() {
 
 void FSession::Receive() {
 	size_t free_size = recv_buffers.FreeSize();
-	recv_buffer = new (buffer_pool.Get()) (boost::asio::mutable_buffer)(0, free_size);
+	recv_buffer = new (buffer_pool.Get()) (byte);
+	
 	GetSocket().async_read_some(
-		boost::asio::buffer(*recv_buffer, free_size),
+		boost::asio::buffer(recv_buffer, free_size),
 		boost::asio::bind_executor(
 			strand,
 			boost::bind(
@@ -140,18 +146,16 @@ void FSession::Write(char* const _data, size_t _size, std::wstring const* _name)
 		if (nullptr != send_buffer) {
 			buffer_pool.Release(send_buffer);
 		}
-		{
-			size_t used_size = send_buffers.UsedSize();
-			std::unique_ptr<uint8_t[]> message_buffer(new uint8_t[used_size]);
-			send_buffers.Peek(message_buffer.get(), used_size);
-			send_buffer = new (buffer_pool.Get()) (boost::asio::const_buffer)(message_buffer.get(), used_size);
-		}
+
+		size_t used_size = send_buffers.UsedSize();
+		
+		send_buffer = new (buffer_pool.Get()) (byte);
+		send_buffers.Peek(send_buffer, used_size);
 
 		SetWriting(true);
 		
-		boost::asio::async_write(
-			GetSocket(),
-			boost::asio::buffer(send_buffer->data(), send_buffer->size()),
+		GetSocket().async_write_some(
+			boost::asio::buffer(send_buffer, used_size),
 			boost::asio::bind_executor(
 				strand,
 				boost::bind(
@@ -165,12 +169,18 @@ void FSession::Write(char* const _data, size_t _size, std::wstring const* _name)
 	}
 }
 
+#include <boost/locale.hpp>
+
 void FSession::OnReceive(boost::system::error_code const& _error_code, size_t _bytes_transferred) {
 	if (_error_code != boost::system::errc::success) {
+		MLogger::GetMutableInstance().LogError(std::format("[{}]{} - code:{}", _error_code.category().name(), _error_code.message(), _error_code.value()));
 		return;
 	}
 	
-	recv_buffers.Put((uint8_t*)recv_buffer->data(), _bytes_transferred);
+	std::string a = boost::locale::conv::utf_to_utf<char>(recv_buffer, recv_buffer + _bytes_transferred);
+	MLogger::GetMutableInstance().LogInfo(a);
+
+	recv_buffers.Put((byte*)recv_buffer, _bytes_transferred);
 	buffer_pool.Release(recv_buffer);
 	recv_buffer = nullptr;
 	
@@ -193,16 +203,13 @@ void FSession::OnWrite(boost::system::error_code const& _error_code, size_t _byt
 	if (nullptr != send_buffer) {
 		buffer_pool.Release(send_buffer);
 	}
-	{
-		size_t used_size = send_buffers.UsedSize();
-		std::unique_ptr<uint8_t[]> message_buffer(new uint8_t[used_size]);
-		send_buffers.Peek(message_buffer.get(), used_size);
-		send_buffer = new (buffer_pool.Get()) (boost::asio::const_buffer)(message_buffer.get(), used_size);
-	}
+	
+	size_t used_size = send_buffers.UsedSize();
+	send_buffer = new (buffer_pool.Get()) (byte);
+	send_buffers.Peek(send_buffer, used_size);
 
-	boost::asio::async_write(
-		GetSocket(),
-		boost::asio::buffer(send_buffer->data(), send_buffer->size()),
+	GetSocket().async_write_some(
+		boost::asio::buffer(send_buffer, used_size),
 		boost::asio::bind_executor(
 			strand,
 			boost::bind(

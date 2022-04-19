@@ -10,14 +10,14 @@ class IOConnector;
 struct FNetEvent;
 struct FSession;
 
-class NetworkServer : public std::enable_shared_from_this<NetworkServer> {
+class NetworkServer {
 	friend class IOAcceptor;
 	friend class IOConnector;
 
 	using SessionMMap = std::multimap<std::wstring, std::shared_ptr<FSession>>;
 
 public:
-	NetworkServer(std::unique_ptr<ProtocolHandlerManager> _handler_manager);
+	NetworkServer(std::shared_ptr<ProtocolHandlerManager> _handler_manager);
 	~NetworkServer();
 
 	void Start(std::vector<FAcceptInfo> _accept_info_vector, std::vector<FConnectInfo> _connect_info_vector);
@@ -44,8 +44,8 @@ private:
 	}
 
 private:
-	std::vector<std::unique_ptr<IOService>> IO_service_vector;
-	std::unique_ptr<ProtocolHandlerManager> protocol_handler_manager;
+	std::vector<std::shared_ptr<IOService>> IO_service_vector;
+	std::shared_ptr<ProtocolHandlerManager> protocol_handler_manager;
 
 	SPSCQueue<std::shared_ptr<FNetEvent>> net_event_queue;
 	std::queue<std::shared_ptr<FNetEvent>> wait_net_event_queue;

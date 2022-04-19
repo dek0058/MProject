@@ -1,6 +1,8 @@
 #include "MThread.h"
 #include <windows.h>
 
+#include "Core/MLogger.h"
+
 MThread::MThread(std::wstring_view _name, int _fixed) 
 	: state(ThreadState::None), name(_name), fps(_fixed) { ; }
 
@@ -44,16 +46,16 @@ void MThread::OnAction() {
 			try {
 				fps.Update();
 				OnUpdate();
-			} catch (std::exception const _excetion) {
-				// exception;
+			} catch (std::exception const _exception) {
+				MLogger::GetMutableInstance().LogError(_exception.what());
 			}
 			fps.Sleep();
 		}
 	}
-	catch (std::exception const _excetion) {
-		//std::cout << _excetion.what() << std::endl;
+	catch (std::exception const _exception) {
+		MLogger::GetMutableInstance().LogError(_exception.what());
 	} catch (...) {
-		//std::cout << "Unknown exception" << std::endl;
+		MLogger::GetMutableInstance().LogError("Unknown exception");
 	}
 	
 	OnStop();

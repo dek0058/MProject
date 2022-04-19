@@ -5,7 +5,7 @@ class NetworkServer;
 
 class IOConnector : public IOService {
 public:
-	IOConnector(std::shared_ptr<NetworkServer> _network_server);
+	IOConnector(NetworkServer* _network_server);
 
 	void Start(FConnectInfo const& _connect_info);
 

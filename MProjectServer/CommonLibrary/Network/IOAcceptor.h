@@ -9,7 +9,7 @@ class IOAcceptor : public IOService {
 
 public:
 
-	IOAcceptor(std::shared_ptr<NetworkServer> _network_server);
+	IOAcceptor(NetworkServer* _network_server);
 	~IOAcceptor();
 
 	void Start(const FAcceptInfo& _accept_info);

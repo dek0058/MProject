@@ -2,7 +2,7 @@
 
 #include "NetworkServer.h"
 
-IOConnector::IOConnector(std::shared_ptr<NetworkServer> _network_server) : IOService(_network_server) {
+IOConnector::IOConnector(NetworkServer* _network_server) : IOService(_network_server) {
 
 }
 

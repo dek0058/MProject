@@ -82,19 +82,17 @@ private:
 	boost::asio::ip::tcp::socket sock;
 	boost::asio::io_service::strand strand;
 
-
 	/// information
 	SessionKey session_key;
 	ESessionType session_type;
 	ESequenceType sequence_type;
 	std::wstring public_ip;
 	ushort public_port;
-	
 
 	/// buffer
-	MemoryPool<boost::asio::mutable_buffer> buffer_pool;
-	boost::asio::const_buffer* send_buffer;
-	boost::asio::mutable_buffer* recv_buffer;
+	MemoryPool<byte> buffer_pool;
+	byte* send_buffer;
+	byte* recv_buffer;
 	CircularBuffer_M send_buffers;
 	CircularBuffer_M recv_buffers;
 

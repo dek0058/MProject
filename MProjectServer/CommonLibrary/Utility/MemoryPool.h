@@ -50,7 +50,7 @@ public:
 		Bucket bucket;
 		{
 			std::lock_guard<MutexType> lock(mutex);
-			if (header == nullptr || header == 0) {
+			if (header == nullptr) {
 				Resize();
 			}
 			bucket = header;

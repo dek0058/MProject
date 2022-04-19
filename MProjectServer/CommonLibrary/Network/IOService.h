@@ -9,7 +9,7 @@ struct FSession;
 
 class IOService : public std::enable_shared_from_this<IOService> {
 public:
-	IOService(std::shared_ptr<NetworkServer> _network_server);
+	IOService(NetworkServer* _network_server);
 	~IOService();
 
 
@@ -42,7 +42,7 @@ protected:
 	boost::asio::io_service::strand strand;
 	boost::thread_group IO_thread_group;
 
-	std::shared_ptr<NetworkServer> network_server;
+	NetworkServer* network_server;
 
 	std::vector<std::shared_ptr<FSession>> session_vector;
 	SPSCQueue<std::shared_ptr<FSession>> session_queue;

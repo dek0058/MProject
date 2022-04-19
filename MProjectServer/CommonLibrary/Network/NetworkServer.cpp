@@ -6,8 +6,7 @@
 #include "Session.h"
 
 
-NetworkServer::NetworkServer(std::unique_ptr<ProtocolHandlerManager> _handler_manager) : net_event_queue(NET_EVENT_CAPCITY) {
-	protocol_handler_manager = std::move(_handler_manager);
+NetworkServer::NetworkServer(std::shared_ptr<ProtocolHandlerManager> _handler_manager) : protocol_handler_manager(_handler_manager), net_event_queue(NET_EVENT_CAPCITY) {
 }
 
 NetworkServer::~NetworkServer() {
@@ -122,21 +121,21 @@ void NetworkServer::OnDissconnect(std::shared_ptr<FSession> _session) {
 }
 
 void NetworkServer::RegisterAcceptor(FAcceptInfo const& _accept_info) {
-	std::unique_ptr<IOAcceptor> IO_acceptor(new IOAcceptor(shared_from_this()));
+	std::shared_ptr<IOAcceptor> IO_acceptor(new IOAcceptor(this));
 	IO_acceptor->Start(_accept_info);
-	IO_service_vector.emplace_back(std::move(IO_acceptor));
+	IO_service_vector.emplace_back(IO_acceptor);
 }
 
 void NetworkServer::RegisterConnector(FConnectInfo const& _connect_info) {
-	std::unique_ptr<IOConnector> IO_connect(new IOConnector(shared_from_this()));
+	std::shared_ptr<IOConnector> IO_connect(new IOConnector(this));
 	IO_connect->Start(_connect_info);
-	IO_service_vector.emplace_back(std::move(IO_connect));
+	IO_service_vector.emplace_back(IO_connect);
 }
 
 void NetworkServer::PushNetEvent(ENetEventType _type, std::shared_ptr<IOService> _IO_service, std::shared_ptr<FSession> _session) {
 	std::shared_ptr<FNetEvent> net_event(new FNetEvent(_type, _IO_service, _session));
-	if (true == net_event_queue.try_emplace(net_event)) {
-		wait_net_event_queue.push(net_event);
+	if (false == net_event_queue.try_emplace(net_event)) {
+		// error
 	}
 }
 

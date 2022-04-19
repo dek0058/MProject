@@ -6,6 +6,8 @@
 #include <string>
 #include <map>
 
+#include <boost/asio.hpp>
+
 DongkeyTest::DongkeyTest(std::string const& _name) : UnitTestCase(_name) {
 }
 
@@ -13,14 +15,23 @@ DongkeyTest::~DongkeyTest() {
 }
 
 void DongkeyTest::TestMap() {
-	std::cout << std::endl;
-	std::map<int, std::string> string_map{ {1, "A"}, {2, "B"}, {3, "C"}, {5, "F"} };
-
-	auto test_i = string_map[4]; // create or find
 	
-	for (auto& pair : string_map) {
-		std::cout << pair.first << " : " << pair.second << std::endl;
-	}
+	boost::asio::io_service io_service;
+	boost::asio::ip::tcp::socket socket(io_service);
+	
+	boost::asio::ip::address address = boost::asio::ip::address::from_string("127.0.0.1");
+	boost::asio::ip::tcp::endpoint end_point(address, 3333);
+
+	socket.open(end_point.protocol());
+	
+	socket.async_connect(end_point, [this](boost::system::error_code const& _error_code) {
+		if (_error_code != boost::system::errc::success) {
+			return;
+		}
+
+
+
+	});
 }
 
 UnitTest* DongkeyTest::Suite() {
