@@ -6,7 +6,7 @@ public:
 	DongkeyTest(std::string const& _name);
 	~DongkeyTest();
 
-	void MemoryPoolTest();
+	void MapTest();
 
 	static UnitTest* Suite();
 };

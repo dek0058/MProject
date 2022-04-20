@@ -22,13 +22,24 @@ private:
 };
 
 class ProtocolHandlerManager {
+	using HandlerMap = std::unordered_map<udecimal, std::unique_ptr<BaseHandler>>;
+	
 public:
 	virtual void OnRegisterHandler() = 0;
 
 protected:
+	template<typename Event>
+	void RegisterHandler() {
+		if (false == handler_map.try_emplace(Event.HashCode(), std::make_unique<TProtocolHandler<Event>>())) {
+			return;
+		}
+	}
 
+	template<typename Event>
+	void UnregsiterHandler() {
+		handler_map.erase(Event.HashCode());
+	}
 
 private:
-	using HandlerMap = std::map<udecimal, std::unique_ptr<BaseHandler>>;
 	HandlerMap handler_map;
 };
