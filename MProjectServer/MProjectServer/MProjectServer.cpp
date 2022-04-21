@@ -21,6 +21,9 @@ MProjectServer::MProjectServer(QWidget *parent)
 
 void MProjectServer::OnInitialize() {
 	// Core initailize...
+    // 테스트
+    MProjectServer::List_Widget = ui.test_list;
+	
     MLogger::GetMutableInstance().Create("MProjectServer-logs", "MProjectServer", 65'536, 1000);
     MLogger::GetMutableInstance().AddDelegate([]() {
         std::string msg = MLogger::GetMutableInstance().GetMutableInstance().PopMessage();
@@ -37,8 +40,6 @@ void MProjectServer::OnInitialize() {
     //QObject::connect(server_push_btn, &QPushButton::clicked, server_push_btn, qOverload<>(&QPushButton::click));
 
     QObject::connect(ui.server_push_btn, &QPushButton::clicked, this, &MProjectServer::OnClick);
-
-    MProjectServer::List_Widget = ui.test_list;
 	
     using udp = boost::asio::ip::udp;
     boost::asio::io_service netService;

@@ -176,9 +176,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Exception\BaseException.h" />
+    <ClInclude Include="flatbuffers\allocator.h" />
+    <ClInclude Include="flatbuffers\array.h" />
     <ClInclude Include="flatbuffers\base.h" />
+    <ClInclude Include="flatbuffers\bfbs_generator.h" />
+    <ClInclude Include="flatbuffers\buffer.h" />
+    <ClInclude Include="flatbuffers\buffer_ref.h" />
     <ClInclude Include="flatbuffers\code_generators.h" />
+    <ClInclude Include="flatbuffers\default_allocator.h" />
+    <ClInclude Include="flatbuffers\detached_buffer.h" />
     <ClInclude Include="flatbuffers\flatbuffers.h" />
+    <ClInclude Include="flatbuffers\flatbuffer_builder.h" />
     <ClInclude Include="flatbuffers\flatc.h" />
     <ClInclude Include="flatbuffers\flexbuffers.h" />
     <ClInclude Include="flatbuffers\grpc.h" />
@@ -200,6 +208,7 @@
     <ClInclude Include="flatbuffers\include\flatbuffers\registry.h" />
     <ClInclude Include="flatbuffers\include\flatbuffers\stl_emulation.h" />
     <ClInclude Include="flatbuffers\include\flatbuffers\util.h" />
+    <ClInclude Include="Core\MLogger.h" />
     <ClInclude Include="flatbuffers\minireflect.h" />
     <ClInclude Include="flatbuffers\pch\flatc_pch.h" />
     <ClInclude Include="flatbuffers\pch\pch.h" />
@@ -207,8 +216,17 @@
     <ClInclude Include="flatbuffers\reflection_generated.h" />
     <ClInclude Include="flatbuffers\registry.h" />
     <ClInclude Include="flatbuffers\stl_emulation.h" />
+    <ClInclude Include="flatbuffers\string.h" />
+    <ClInclude Include="flatbuffers\struct.h" />
+    <ClInclude Include="flatbuffers\table.h" />
     <ClInclude Include="flatbuffers\util.h" />
-    <ClInclude Include="Core\MLogger.h" />
+    <ClInclude Include="flatbuffers\vector.h" />
+    <ClInclude Include="flatbuffers\vector_downward.h" />
+    <ClInclude Include="flatbuffers\verifier.h" />
+    <ClInclude Include="Network\BaseProtocol.h" />
+    <ClInclude Include="Packet\Core_generated.h" />
+    <ClInclude Include="Packet\Test_generated.h" />
+    <ClInclude Include="Packet\User_generated.h" />
     <ClInclude Include="spdlog\async.h" />
     <ClInclude Include="spdlog\async_logger-inl.h" />
     <ClInclude Include="spdlog\async_logger.h" />

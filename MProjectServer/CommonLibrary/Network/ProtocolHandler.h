@@ -3,22 +3,29 @@
 
 class BaseHandler {
 public:
-	virtual bool ReceivedPacket(SessionKey _session_key) = 0;
-	virtual std::wstring_view GetPacketName() = 0;
+	virtual bool ReceivePacket(SessionKey _session_key) { ; }
+	std::string GetPacketName() {
+		return std::string(typeid(this).name());
+	}
 };
 
-template<typename MsgType>
+template<typename Event>
 class TProtocolHandler final : public BaseHandler {
 public:
-	virtual bool ReceivedPacket(SessionKey _session_key) override {
-		return false;
+	virtual bool ReceivePacket(SessionKey _session_key) override {
+		Event data;
+		// create data
+		OnReceivePacket(data, _session_key);
+		return true;
 	}
 
-	virtual std::wstring_view GetPacketName() {
-		return std::wstring();
+	virtual std::wstring_view GetPacketName() override {
+		Event data;
+		return data.GetName();
 	}
+	
 private:
-	void OnReceivedPacket(MsgType const &_type ,SessionKey _session_key) = 0;
+	void OnReceivePacket(Event const &_type ,SessionKey _session_key) = 0;
 };
 
 class ProtocolHandlerManager {
@@ -26,6 +33,8 @@ class ProtocolHandlerManager {
 	
 public:
 	virtual void OnRegisterHandler() = 0;
+	virtual void SendPacket();
+	virtual void ReceivePacket();
 
 protected:
 	template<typename Event>
@@ -43,3 +52,4 @@ protected:
 private:
 	HandlerMap handler_map;
 };
+

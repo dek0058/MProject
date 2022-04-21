@@ -7,6 +7,7 @@ public:
 	~DongkeyTest();
 
 	void MapTest();
+	void FlatbuffersTest();
 
 	static UnitTest* Suite();
 };
