@@ -11,7 +11,9 @@ public:
 	HeadServer();
 	~HeadServer();
 
-	
+	virtual void OnAccept(std::shared_ptr<FSession> _session) override;
+	virtual void OnConnect(std::shared_ptr<FSession> _session) override;
+	virtual void OnDisconnect(std::shared_ptr<FSession> _session) override;
 
 private:
 

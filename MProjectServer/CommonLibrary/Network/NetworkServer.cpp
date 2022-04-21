@@ -4,6 +4,7 @@
 #include "IOConnector.h"
 #include "NetEvent.h"
 #include "Session.h"
+#include "BaseProtocol.h"
 
 
 NetworkServer::NetworkServer(std::shared_ptr<ProtocolHandlerManager> _handler_manager) : protocol_handler_manager(_handler_manager), net_event_queue(NET_EVENT_CAPCITY) {
@@ -62,7 +63,7 @@ void NetworkServer::Loop() {
 			case ENetEventType::Disconnected: {
 				auto iter = connected_session_map.find(net_event->session->GetSessionKey());
 				if (iter != connected_session_map.end()) {
-					OnDissconnect(net_event->session);
+					OnDisconnect(net_event->session);
 				} else {
 					net_event->session->Disconnect();
 					// error 연결은 되었지만 데이터가 저장되어 있지 않음
@@ -108,7 +109,7 @@ void NetworkServer::OnConnect(std::shared_ptr<FSession> _session) {
 	connected_server_map.emplace(_session->GetPublicIP(), _session);
 }
 
-void NetworkServer::OnDissconnect(std::shared_ptr<FSession> _session) {
+void NetworkServer::OnDisconnect(std::shared_ptr<FSession> _session) {
 	connected_session_map.erase(_session->GetSessionKey());
 	auto mini_map = connected_server_map.equal_range(_session->GetPublicIP());
 	for (auto it = mini_map.first; it != mini_map.second; ++it) {
@@ -139,3 +140,8 @@ void NetworkServer::PushNetEvent(ENetEventType _type, std::shared_ptr<IOService>
 	}
 }
 
+void NetworkServer::SendPacket(std::shared_ptr<FSession> _session, FBaseProtocol* _protocol) {
+	
+	//protocol_handler_manager->SendPacket(_session->GetSessionKey(), _protocol);
+	//_session->Write();
+}

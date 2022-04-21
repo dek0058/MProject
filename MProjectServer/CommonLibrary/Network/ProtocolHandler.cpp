@@ -2,7 +2,7 @@
 #include "BaseProtocol.h"
 
 
-void ProtocolHandlerManager::SendPacket() {
+void ProtocolHandlerManager::SendPacket(SessionKey _session_key, FBaseProtocol* _protocol) {
 
 }
 

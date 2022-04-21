@@ -9,6 +9,7 @@ class IOAcceptor;
 class IOConnector;
 struct FNetEvent;
 struct FSession;
+struct FBaseProtocol;
 
 class NetworkServer {
 	friend class IOAcceptor;
@@ -27,14 +28,14 @@ public:
 	
 	virtual void OnAccept(std::shared_ptr<FSession> _session);
 	virtual void OnConnect(std::shared_ptr<FSession> _session);
-	virtual void OnDissconnect(std::shared_ptr<FSession> _session);
+	virtual void OnDisconnect(std::shared_ptr<FSession> _session);
 
 	void RegisterAcceptor(FAcceptInfo const& _accept_info);
 	void RegisterConnector(FConnectInfo const& _connect_info);
 
 	void PushNetEvent(ENetEventType _type, std::shared_ptr<IOService> _IO_service, std::shared_ptr<FSession> _session);
 
-	
+	void SendPacket(std::shared_ptr<FSession> _session, FBaseProtocol* _protocol);
 	
 private:
 

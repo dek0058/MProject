@@ -1,6 +1,8 @@
 #pragma once
 #include "NetworkDefine.h"
 
+struct FBaseProtocol;
+
 class BaseHandler {
 public:
 	virtual bool ReceivePacket(SessionKey _session_key) { ; }
@@ -33,7 +35,7 @@ class ProtocolHandlerManager {
 	
 public:
 	virtual void OnRegisterHandler() = 0;
-	virtual void SendPacket();
+	virtual void SendPacket(SessionKey _session_key, FBaseProtocol* _protocol);
 	virtual void ReceivePacket();
 
 protected:
