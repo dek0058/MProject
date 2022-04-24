@@ -11,7 +11,7 @@ MSHA256::MSHA256() {
 }
 
 void MSHA256::Reset() {
-	SHA256_Init(&context);
+	//SHA256_Init(&context);
 	/*if (SHA256_Init(&context) == 0) {
 		throw SHA256Exception();
 	}*/
