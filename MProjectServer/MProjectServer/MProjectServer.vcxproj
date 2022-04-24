@@ -74,6 +74,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib;../../Libraryopenssl1_1_1/Debug/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>../../Library/openssl1_1_1/Debug/lib/libcrypto.lib;../../Library/openssl1_1_1/Debug/lib/libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -88,6 +89,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib;../../Libraryopenssl1_1_1/Release/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>../../Library/openssl1_1_1/Release/lib/libcrypto.lib;../../Library/openssl1_1_1/Release/lib/libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">

@@ -5,34 +5,6 @@
 #include <iomanip>
 #include <sstream>
 
-
-MSHA256::MSHA256() {
-	//Reset();
-}
-
-void MSHA256::Reset() {
-	//SHA256_Init(&context);
-	/*if (SHA256_Init(&context) == 0) {
-		throw SHA256Exception();
-	}*/
-}
-
-void MSHA256::Update(void const* _data, size_t _length) {
-	/*if (SHA256_Update(&context, _data, _length) == 0) {
-		throw SHA256Exception();
-	}*/
-}
-
-std::vector<unsigned char> MSHA256::Digest() {
-	/*std::vector<unsigned char> result(SHA256_DIGEST_LENGTH);
-	if (SHA256_Final(result.data(), &context) == 0) {
-		throw SHA256Exception();
-	}
-	return result;*/
-	return {};
-}
-
-/*
 namespace {
 	std::vector<unsigned char> SHA256MarkleTree(std::string_view _value, size_t _block_size) {
 		std::vector<std::vector<unsigned char>> hash;
@@ -69,10 +41,34 @@ namespace {
 		return hash[0];
 	}
 }
-*/
+
+MSHA256::MSHA256() {
+	Reset();
+}
+
+void MSHA256::Reset() {
+	if (SHA256_Init(&context) == 0) {
+		throw SHA256Exception();
+	}
+}
+
+void MSHA256::Update(void const* _data, size_t _length) {
+	if (SHA256_Update(&context, _data, _length) == 0) {
+		throw SHA256Exception();
+	}
+}
+
+std::vector<unsigned char> MSHA256::Digest() {
+	std::vector<unsigned char> result(SHA256_DIGEST_LENGTH);
+	if (SHA256_Final(result.data(), &context) == 0) {
+		throw SHA256Exception();
+	}
+	return result;
+	return {};
+}
 
 // static
 std::vector<unsigned char> MSHA256::GenerateHashcode(std::string_view _value) {
-	return {}; // std::move(SHA256MarkleTree(_value, 1024));
+	return std::move(SHA256MarkleTree(_value, 1024));
 
 }

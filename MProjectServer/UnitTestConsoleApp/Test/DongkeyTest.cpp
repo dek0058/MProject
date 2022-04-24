@@ -83,12 +83,30 @@ void DongkeyTest::FlatbuffersTest() {
 }
 
 #include "Utility/SHA256.h"
+#include "Network/BaseProtocol.h"
+
+struct FMovementProtocol : public FBaseProtocol {
+	float x, y, z;
+	GENERATE_PROTOCOL_CREATOR(FMovementProtocol, x(0.0F), y(0.0F), z(0.0F))
+};
+
+struct FAttackProtocol : public FBaseProtocol {
+	float dmg;
+	GENERATE_PROTOCOL_CREATOR(FAttackProtocol, dmg(0.0F))
+};
+
 void DongkeyTest::GenerateHashCodeTest() {
-	
-	auto HashCode = MSHA256::GenerateHashcode("Test");
-	for (auto h : HashCode) {
-		std::cout << std::hex << h << " ";
-	}
+	std::cout << std::endl;
+	FMovementProtocol movement_packet;
+	for (auto h : movement_packet.hash_code) {
+		std::cout << std::hex << (unsigned int)h;
+	} // length = 20
+	std::cout << std::endl;
+
+	FAttackProtocol atk_packet;
+	for (auto h : atk_packet.hash_code) {
+		std::cout << std::hex << (unsigned int)h;
+	} // length = 20
 	std::cout << std::endl;
 }
 

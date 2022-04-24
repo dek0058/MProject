@@ -2,13 +2,15 @@
 #include "NetworkDefine.h"
 #include "Utility/SHA256.h"
 
+#define GENERATE_PROTOCOL_CREATOR(class_name, ...) class_name() : __VA_ARGS__ {\
+		auto temp = MSHA256::GenerateHashcode(#class_name); \
+		std::copy(temp.begin(), temp.end(), hash_code); \
+	}
+
 struct FBaseProtocol {
-	HashCode hash_code;
+	byte hash_code[PACKET_HASH_CODE_SIZE];
 	uint lenth;
 	uint tag;
 	
-	FBaseProtocol() : lenth(0), tag(0) {
-		MSHA256::GenerateHashcode(typeid(this).name());
-		//hash_code = UniversalToolkit::GetHashCode(typeid(this).name());
-	}
+	GENERATE_PROTOCOL_CREATOR(FBaseProtocol, lenth(0), tag(0))
 };
