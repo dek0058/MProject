@@ -40,7 +40,6 @@ void DongkeyTest::MapTest() {
 
 #include "Packet/Test_generated.h"
 #include "flatbuffers/vector.h"
-
 void DongkeyTest::FlatbuffersTest() {
 	using Vector3 = MProject::Core::Vector;
 	using Transform = MProject::Core::Transform;
@@ -83,10 +82,21 @@ void DongkeyTest::FlatbuffersTest() {
 	print_test_object(test_object_buf);
 }
 
+#include "Utility/SHA256.h"
+void DongkeyTest::GenerateHashCodeTest() {
+	
+	auto HashCode = MSHA256::GenerateHashcode("Test");
+	for (auto h : HashCode) {
+		std::cout << std::hex << h << " ";
+	}
+	std::cout << std::endl;
+}
+
 UnitTest* DongkeyTest::Suite() {
 	UnitTestSuite* suite = new UnitTestSuite("DongkeyTest");
-	TUnitTest_AddTest(suite, DongkeyTest, MapTest);
-	TUnitTest_AddTest(suite, DongkeyTest, FlatbuffersTest);
+	//TUnitTest_AddTest(suite, DongkeyTest, MapTest);
+	//TUnitTest_AddTest(suite, DongkeyTest, FlatbuffersTest);
+	TUnitTest_AddTest(suite, DongkeyTest, GenerateHashCodeTest);
 	return suite;
 }
 

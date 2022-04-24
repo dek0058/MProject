@@ -11,10 +11,13 @@ constexpr char const * Unknown_File_Name = "<unknown>";
 class BaseException : public std::exception {
 public:
 	BaseException(std::string const& _message = "", long _line_num = Unknown_Line_Number, std::string const& _file_name = Unknown_File_Name)
-		: VAR_INIT(message), VAR_INIT(line_num), VAR_INIT(file_name) { ; }
+		: VAR_INIT(message), VAR_INIT(line_num), VAR_INIT(file_name) { 
+		data_line_number_array.fill(0);
+	}
 	BaseException(std::string const& _message, long _line_num, long _data_line_number, std::string const& _file_name)
 		: VAR_INIT(message), VAR_INIT(line_num), VAR_INIT(file_name) {
 		data_line_number_array[0] = _data_line_number;
+		data_line_number_array[1] = 0;
 	}
 	BaseException(std::string const& _message, long _line_num, long _data1_line_number, long _data2_line_number, std::string const& _file_name)
 		: VAR_INIT(message), VAR_INIT(line_num), VAR_INIT(file_name) {

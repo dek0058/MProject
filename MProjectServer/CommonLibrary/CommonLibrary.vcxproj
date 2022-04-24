@@ -132,7 +132,7 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);../../Library/boost_1_78_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);../../Library/boost_1_78_0;../../Library/openssl/Release/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MaxFilesInUnityFile>10</MaxFilesInUnityFile>
       <IncludeInUnityFile>true</IncludeInUnityFile>
@@ -144,7 +144,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib;../../Library/openssl/Debug/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,7 +160,7 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);../../Library/boost_1_78_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);../../Library/boost_1_78_0;../../Library/openssl/Release/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
@@ -171,11 +171,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib;../../Library/openssl/Release/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Exception\BaseException.h" />
+    <ClInclude Include="Exception\OpenSSLException.h" />
     <ClInclude Include="flatbuffers\allocator.h" />
     <ClInclude Include="flatbuffers\array.h" />
     <ClInclude Include="flatbuffers\base.h" />
@@ -340,6 +341,7 @@
     <ClInclude Include="Network\NetworkServer.h" />
     <ClInclude Include="Network\ProtocolHandler.h" />
     <ClInclude Include="Network\Session.h" />
+    <ClInclude Include="Utility\SHA256.h" />
     <ClInclude Include="Utility\SPSCQueue.h" />
     <ClInclude Include="Utility\TSingleton.h" />
     <ClInclude Include="Utility\UniversalToolkit.h" />
@@ -354,6 +356,7 @@
     <ClCompile Include="Network\NetworkServer.cpp" />
     <ClCompile Include="Network\ProtocolHandler.cpp" />
     <ClCompile Include="Network\Session.cpp" />
+    <ClCompile Include="Utility\SHA256.cpp" />
     <ClCompile Include="Utility\UniversalToolkit.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

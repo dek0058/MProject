@@ -8,6 +8,7 @@ public:
 
 	void MapTest();
 	void FlatbuffersTest();
+	void GenerateHashCodeTest();
 
 	static UnitTest* Suite();
 };

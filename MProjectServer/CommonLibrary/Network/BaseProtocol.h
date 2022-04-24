@@ -1,6 +1,6 @@
 #pragma once
 #include "NetworkDefine.h"
-#include "Utility/UniversalToolkit.h"
+#include "Utility/SHA256.h"
 
 struct FBaseProtocol {
 	HashCode hash_code;
@@ -8,6 +8,7 @@ struct FBaseProtocol {
 	uint tag;
 	
 	FBaseProtocol() : lenth(0), tag(0) {
-		hash_code = UniversalToolkit::GetHashCode(typeid(this).name());
+		MSHA256::GenerateHashcode(typeid(this).name());
+		//hash_code = UniversalToolkit::GetHashCode(typeid(this).name());
 	}
 };
