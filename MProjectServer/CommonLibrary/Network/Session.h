@@ -44,6 +44,10 @@ public:
 		return is_writing.load();
 	}
 
+	size_t ReceiveBufferSize() const {
+		return recv_buffers.UsedSize();
+	}
+
 	// setter
 	void SetSequenceType(ESequenceType _type) {
 		sequence_type = _type;
@@ -70,8 +74,9 @@ private:
 
 	void OnReceive(boost::system::error_code const& _error_code, size_t _bytes_transferred);
 	void OnWrite(boost::system::error_code const& _error_code, size_t _bytes_transferred);
-
 	void OnDisconnect();
+
+	void Execute();
 
 	boost::asio::ip::tcp::socket& GetSocket() { return sock; }
 

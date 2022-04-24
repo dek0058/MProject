@@ -86,6 +86,13 @@ void NetworkServer::Loop() {
 		}
 	}
 
+	for (auto& pair : connected_session_map) {
+		if (pair.second->ReceiveBufferSize() > 0)
+		{
+			pair.second->Execute();
+		}
+	}
+
 }
 
 bool NetworkServer::Connect(ESessionType _session_type) {
@@ -100,13 +107,17 @@ bool NetworkServer::Connect(ESessionType _session_type) {
 void NetworkServer::OnAccept(std::shared_ptr<FSession> _session) {
 	_session->Accept(AddSessionKey());
 	connected_session_map.emplace(_session->GetSessionKey(), _session);
-	connected_server_map.emplace(_session->GetPublicIP(), _session);
+	if (_session->session_type != ESessionType::Client) {
+		connected_server_map.emplace(_session->GetPublicIP(), _session);
+	}
 }
 
 void NetworkServer::OnConnect(std::shared_ptr<FSession> _session) {
 	_session->Connect(AddSessionKey());
 	connected_session_map.emplace(_session->GetSessionKey(), _session);
-	connected_server_map.emplace(_session->GetPublicIP(), _session);
+	if(_session->session_type != ESessionType::Client) {
+		connected_server_map.emplace(_session->GetPublicIP(), _session);
+	}
 }
 
 void NetworkServer::OnDisconnect(std::shared_ptr<FSession> _session) {

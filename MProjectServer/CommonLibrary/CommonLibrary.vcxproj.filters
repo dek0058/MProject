@@ -516,6 +516,9 @@
     <ClInclude Include="Network\BaseProtocol.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\UniversalToolkit.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network\IOService.cpp">
@@ -543,6 +546,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Core\MLogger.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\UniversalToolkit.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
