@@ -11,7 +11,7 @@ constexpr uint NET_EVENT_CAPCITY = 256;
 constexpr uint PACKET_MEMORY_POOL_SIZE = 65'536;
 constexpr uint PACKET_HASH_CODE_SIZE = 20;
 
-
+constexpr uint PACKET_HEADER_SIZE = sizeof(uint) + PACKET_HASH_CODE_SIZE + sizeof(uint);
 
 
 enum class ESessionType : byte {

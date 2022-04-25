@@ -16,9 +16,9 @@ public struct Transform : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Struct(_i, _bb); }
   public Transform __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public MProject.Core.Vector Position { get { return (new MProject.Core.Vector()).__assign(__p.bb_pos + 0, __p.bb); } }
-  public MProject.Core.Vector Rotation { get { return (new MProject.Core.Vector()).__assign(__p.bb_pos + 12, __p.bb); } }
-  public MProject.Core.Vector Scale { get { return (new MProject.Core.Vector()).__assign(__p.bb_pos + 24, __p.bb); } }
+  public MProject.Core.Vector3 Position { get { return (new MProject.Core.Vector3()).__assign(__p.bb_pos + 0, __p.bb); } }
+  public MProject.Core.Vector3 Rotation { get { return (new MProject.Core.Vector3()).__assign(__p.bb_pos + 12, __p.bb); } }
+  public MProject.Core.Vector3 Scale { get { return (new MProject.Core.Vector3()).__assign(__p.bb_pos + 24, __p.bb); } }
 
   public static Offset<MProject.Core.Transform> CreateTransform(FlatBufferBuilder builder, float position_X, float position_Y, float position_Z, float rotation_X, float rotation_Y, float rotation_Z, float scale_X, float scale_Y, float scale_Z) {
     builder.Prep(4, 36);

@@ -14,3 +14,15 @@ struct FBaseProtocol {
 	
 	GENERATE_PROTOCOL_CREATOR(FBaseProtocol, lenth(0), tag(0))
 };
+
+/* Example
+struct FMovementProtocol : public FBaseProtocol {
+	float x, y, z;
+	GENERATE_PROTOCOL_CREATOR(FMovementProtocol, x(0.0F), y(0.0F), z(0.0F))
+};
+
+struct FAttackProtocol : public FBaseProtocol {
+	float dmg;
+	GENERATE_PROTOCOL_CREATOR(FAttackProtocol, dmg(0.0F))
+};
+*/

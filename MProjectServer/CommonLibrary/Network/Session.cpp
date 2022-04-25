@@ -248,6 +248,10 @@ void FSession::OnDisconnect() {
 }
 
 void FSession::Execute() {
-	
+
+	std::unique_ptr<byte[]> getter(new byte[recv_buffers.UsedSize()]);
+	recv_buffers.Get(getter.get(), PACKET_HEADER_SIZE);
+
+	//recv_buffers.Get()
 	
 }

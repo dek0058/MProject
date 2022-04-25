@@ -41,7 +41,7 @@ void DongkeyTest::MapTest() {
 #include "Packet/Test_generated.h"
 #include "flatbuffers/vector.h"
 void DongkeyTest::FlatbuffersTest() {
-	using Vector3 = MProject::Core::Vector;
+	using Vector3 = MProject::Core::Vector3;
 	using Transform = MProject::Core::Transform;
 
 	auto print_test_object = [](MProject::Test::TestObject const* _test_object) {
@@ -84,30 +84,33 @@ void DongkeyTest::FlatbuffersTest() {
 
 #include "Utility/SHA256.h"
 #include "Network/BaseProtocol.h"
+#include "Packet/Movement_generated.h"
 
-struct FMovementProtocol : public FBaseProtocol {
-	float x, y, z;
-	GENERATE_PROTOCOL_CREATOR(FMovementProtocol, x(0.0F), y(0.0F), z(0.0F))
-};
-
-struct FAttackProtocol : public FBaseProtocol {
-	float dmg;
-	GENERATE_PROTOCOL_CREATOR(FAttackProtocol, dmg(0.0F))
-};
 
 void DongkeyTest::GenerateHashCodeTest() {
+	using MovementPacket = MProject::Movement::MovementPacket;
+	using Packet = MProject::Core::Packet;
+	
+	flatbuffers::FlatBufferBuilder builder(1024); // default size 1024.
+	byte hash_code[20];
+	auto temp = MSHA256::GenerateHashcode("MovementPacket");
+	std::copy(temp.begin(), temp.end(), hash_code);
+	Packet* packet = new Packet(hash_code, 0, 0);
+	auto movement_packet = MProject::Movement::CreateMovementPacket(builder, packet);
+	
 	std::cout << std::endl;
-	FMovementProtocol movement_packet;
-	for (auto h : movement_packet.hash_code) {
+	for (auto h : hash_code) {
 		std::cout << std::hex << (unsigned int)h;
 	} // length = 20
+	std::cout << std::format("\nsize:{}\n", sizeof(MProject::Movement::MovementPacket)) << std::endl;
 	std::cout << std::endl;
 
-	FAttackProtocol atk_packet;
-	for (auto h : atk_packet.hash_code) {
-		std::cout << std::hex << (unsigned int)h;
-	} // length = 20
-	std::cout << std::endl;
+	//FAttackProtocol atk_packet;
+	//for (auto h : atk_packet.hash_code) {
+	//	std::cout << std::hex << (unsigned int)h;
+	//} // length = 20
+	//std::cout << std::format("\nsize:{}\n", sizeof(FAttackProtocol)) << std::endl;
+	//std::cout << std::endl;
 }
 
 UnitTest* DongkeyTest::Suite() {

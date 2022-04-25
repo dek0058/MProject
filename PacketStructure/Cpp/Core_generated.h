@@ -9,23 +9,59 @@
 namespace MProject {
 namespace Core {
 
-struct Vector;
+struct Packet;
+
+struct Vector3;
 
 struct Transform;
 
-FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector FLATBUFFERS_FINAL_CLASS {
+FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Packet FLATBUFFERS_FINAL_CLASS {
+ private:
+  uint8_t hash_code_[20];
+  uint32_t length_;
+  uint32_t tag_;
+
+ public:
+  Packet()
+      : hash_code_(),
+        length_(0),
+        tag_(0) {
+  }
+  Packet(uint32_t _length, uint32_t _tag)
+      : hash_code_(),
+        length_(flatbuffers::EndianScalar(_length)),
+        tag_(flatbuffers::EndianScalar(_tag)) {
+  }
+  Packet(flatbuffers::span<const uint8_t, 20> _hash_code, uint32_t _length, uint32_t _tag)
+      : length_(flatbuffers::EndianScalar(_length)),
+        tag_(flatbuffers::EndianScalar(_tag)) {
+    flatbuffers::CastToArray(hash_code_).CopyFromSpan(_hash_code);
+  }
+  const flatbuffers::Array<uint8_t, 20> *hash_code() const {
+    return &flatbuffers::CastToArray(hash_code_);
+  }
+  uint32_t length() const {
+    return flatbuffers::EndianScalar(length_);
+  }
+  uint32_t tag() const {
+    return flatbuffers::EndianScalar(tag_);
+  }
+};
+FLATBUFFERS_STRUCT_END(Packet, 28);
+
+FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector3 FLATBUFFERS_FINAL_CLASS {
  private:
   float x_;
   float y_;
   float z_;
 
  public:
-  Vector()
+  Vector3()
       : x_(0),
         y_(0),
         z_(0) {
   }
-  Vector(float _x, float _y, float _z)
+  Vector3(float _x, float _y, float _z)
       : x_(flatbuffers::EndianScalar(_x)),
         y_(flatbuffers::EndianScalar(_y)),
         z_(flatbuffers::EndianScalar(_z)) {
@@ -40,13 +76,13 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector FLATBUFFERS_FINAL_CLASS {
     return flatbuffers::EndianScalar(z_);
   }
 };
-FLATBUFFERS_STRUCT_END(Vector, 12);
+FLATBUFFERS_STRUCT_END(Vector3, 12);
 
 FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Transform FLATBUFFERS_FINAL_CLASS {
  private:
-  MProject::Core::Vector position_;
-  MProject::Core::Vector rotation_;
-  MProject::Core::Vector scale_;
+  MProject::Core::Vector3 position_;
+  MProject::Core::Vector3 rotation_;
+  MProject::Core::Vector3 scale_;
 
  public:
   Transform()
@@ -54,18 +90,18 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Transform FLATBUFFERS_FINAL_CLASS {
         rotation_(),
         scale_() {
   }
-  Transform(const MProject::Core::Vector &_position, const MProject::Core::Vector &_rotation, const MProject::Core::Vector &_scale)
+  Transform(const MProject::Core::Vector3 &_position, const MProject::Core::Vector3 &_rotation, const MProject::Core::Vector3 &_scale)
       : position_(_position),
         rotation_(_rotation),
         scale_(_scale) {
   }
-  const MProject::Core::Vector &position() const {
+  const MProject::Core::Vector3 &position() const {
     return position_;
   }
-  const MProject::Core::Vector &rotation() const {
+  const MProject::Core::Vector3 &rotation() const {
     return rotation_;
   }
-  const MProject::Core::Vector &scale() const {
+  const MProject::Core::Vector3 &scale() const {
     return scale_;
   }
 };

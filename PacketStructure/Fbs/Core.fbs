@@ -2,6 +2,13 @@
 
 namespace MProject.Core;
 
+// Base implement...
+struct Packet {
+    hash_code:[ubyte:20];
+    length:uint;
+    tag:uint;
+}
+
 // Position, Rotation, Scale, etc...
 struct Vector3 {
     x:float;

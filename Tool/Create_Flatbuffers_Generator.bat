@@ -16,3 +16,4 @@ for /R "%flat_path%/Fbs" %%V IN (*.fbs) DO IF %%V GTR 0 (
     call "%flatc%" --csharp -o "%flat_path%/Net" %%V
 )
 
+pause

@@ -9,6 +9,5 @@ class UniversalToolkit {
 		
 public:
 
-	static ulong GetHashCode(std::string_view _value);
 	
 };
