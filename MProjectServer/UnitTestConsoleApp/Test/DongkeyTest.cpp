@@ -143,7 +143,8 @@ void DongkeyTest::GenerateHashCodeTest() {
 void DongkeyTest::PacketTest() {
 	
 	CircularBuffer_M circular_buffer(1024);
-	std::shared_ptr<byte> buffer(new byte[1024]);
+	std::vector<byte> buffer;
+	buffer.reserve(1024);
 	
 	FBaseProtocol base_protocol;
 	
@@ -155,16 +156,67 @@ void DongkeyTest::PacketTest() {
 
 	std::cout << "\nbuffer\n";
 	
-	//std::memcpy(buffer.get(), &base_protocol.hash_code, base_protocol.hash_code.size() * sizeof(byte));
-	std::copy(base_protocol.hash_code.begin(), base_protocol.hash_code.end(), buffer.get());
-	
+	buffer.resize(base_protocol.hash_code.size());
+	std::copy(base_protocol.hash_code.begin(), base_protocol.hash_code.end(), buffer.data());
 	for (int i = 0; i < base_protocol.hash_code.size(); ++i) {
-		std::cout << std::hex << (unsigned int)buffer.get()[i] << " ";
+		std::cout << std::hex << (unsigned int)buffer[i] << " ";
 	}
 	std::cout << std::endl;
 
+	std::cout << "\nCreate Packet\n";
 	FPacket* packet = new FPacket;
+	packet->tag = 1;
+
+	packet->length += static_cast<uint>(buffer.size() * sizeof(byte));
+	std::copy(base_protocol.hash_code.begin(), base_protocol.hash_code.end(), packet->hash_code);
 	
+	//packet->data.resize(100);
+
+	size_t cur_size = 0;
+	std::memcpy(packet->data.data() + cur_size, &packet->tag, PACKET_TAG_SIZE);
+	cur_size += PACKET_TAG_SIZE;
+	//byte tag_buffer[int_size] = {0};
+	//std::memcpy(&tag_buffer, &packet->tag, sizeof(uint));
+	
+	std::memcpy(packet->data.data() + cur_size, &packet->length, PACKET_LEGNTH_SIZE);
+	cur_size += PACKET_LEGNTH_SIZE;
+	//byte length_buffer[int_size] = {0};
+	//std::memcpy(&length_buffer, &packet->length, sizeof(uint));
+	
+	//packet->data.insert(0, packet->hash_code);
+	std::memcpy(packet->data.data() + cur_size, &packet->hash_code, PACKET_HASH_CODE_SIZE);
+	cur_size += PACKET_HASH_CODE_SIZE;
+		
+	std::cout << std::format("size[{}] tag[{}] length[{}]\n", cur_size, packet->tag, packet->length);
+	for (int i = 0; i < base_protocol.hash_code.size(); ++i) {
+		std::cout << std::hex << (unsigned int)packet->hash_code[i] << " ";
+	}
+	std::cout << std::endl;
+
+	circular_buffer.Put(packet->data.data(), cur_size);
+
+	//packet->data.emplace_back(packet->hash_code);
+
+	
+
+	std::cout << "\nSend Packet\n";
+	std::vector<byte> recv_buffer(1024);
+
+	circular_buffer.Get(recv_buffer.data(), PACKET_HEADER_SIZE);
+	
+	uint tag = 0;
+	uint length = 0;
+	byte hash_code[PACKET_HASH_CODE_SIZE] = { 0 };
+
+	std::memcpy(&tag, recv_buffer.data(), PACKET_TAG_SIZE);
+	std::memcpy(&length, recv_buffer.data() + PACKET_TAG_SIZE, PACKET_LEGNTH_SIZE);
+	std::memcpy(&hash_code, recv_buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, PACKET_HASH_CODE_SIZE);
+	
+	std::cout << std::format("tag[{}] length[{}]\n", tag, length);
+	for (int i = 0; i < base_protocol.hash_code.size(); ++i) {
+		std::cout << std::hex << (unsigned int)hash_code[i] << " ";
+	}
+	std::cout << std::endl;
 
 	delete packet;
 }

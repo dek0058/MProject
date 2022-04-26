@@ -21,13 +21,14 @@ using namespace MProject::Core;
 using namespace MProject::Test;
 
 struct FPacket {
-	byte hash_code[PACKET_HASH_CODE_SIZE];
-	uint lenth;
 	uint tag;
-	byte* data;
+	uint length;
+	byte hash_code[PACKET_HASH_CODE_SIZE];
+	std::vector<byte> data;
 
-	FPacket() : lenth(0), tag(0), data(nullptr) {
+	FPacket() : tag(0), length(0) {
 		std::memset(hash_code, 0, PACKET_HASH_CODE_SIZE);
+		data.resize(PACKET_MAX_SIZE);
 	}
 };
 

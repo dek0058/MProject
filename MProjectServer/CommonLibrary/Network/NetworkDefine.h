@@ -10,11 +10,13 @@ constexpr uint SESSION_CAPACITY = 16'384;
 constexpr uint NET_EVENT_CAPCITY = 256;
 constexpr uint PACKET_MEMORY_POOL_SIZE = 65'536;
 
+constexpr size_t PACKET_MAX_SIZE = 1'024;
 constexpr size_t PACKET_BUFFER_BUILDER_SIZE = 1'024;
-constexpr uint PACKET_HASH_CODE_SIZE = 20;
 
-
-constexpr uint PACKET_HEADER_SIZE = sizeof(uint) + PACKET_HASH_CODE_SIZE + sizeof(uint);
+constexpr uint PACKET_TAG_SIZE = sizeof(uint);
+constexpr uint PACKET_LEGNTH_SIZE = sizeof(uint);
+constexpr uint PACKET_HASH_CODE_SIZE = sizeof(byte) * 32;
+constexpr uint PACKET_HEADER_SIZE = PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE + PACKET_HASH_CODE_SIZE;
 
 
 enum class ESessionType : byte {
