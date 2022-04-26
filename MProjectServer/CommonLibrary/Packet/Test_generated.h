@@ -11,57 +11,47 @@
 namespace MProject {
 namespace Test {
 
-struct TestObject;
-struct TestObjectBuilder;
+struct BasePacket;
+struct BasePacketBuilder;
 
-struct TestObject FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef TestObjectBuilder Builder;
+struct BasePacket FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef BasePacketBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_ID = 4,
-    VT_TRANSFORM = 6
+    VT_HEADER = 4
   };
-  int32_t id() const {
-    return GetField<int32_t>(VT_ID, 0);
-  }
-  const MProject::Core::Transform *transform() const {
-    return GetStruct<const MProject::Core::Transform *>(VT_TRANSFORM);
+  const MProject::Core::Header *header() const {
+    return GetStruct<const MProject::Core::Header *>(VT_HEADER);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_ID, 4) &&
-           VerifyField<MProject::Core::Transform>(verifier, VT_TRANSFORM, 4) &&
+           VerifyField<MProject::Core::Header>(verifier, VT_HEADER, 4) &&
            verifier.EndTable();
   }
 };
 
-struct TestObjectBuilder {
-  typedef TestObject Table;
+struct BasePacketBuilder {
+  typedef BasePacket Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_id(int32_t id) {
-    fbb_.AddElement<int32_t>(TestObject::VT_ID, id, 0);
+  void add_header(const MProject::Core::Header *header) {
+    fbb_.AddStruct(BasePacket::VT_HEADER, header);
   }
-  void add_transform(const MProject::Core::Transform *transform) {
-    fbb_.AddStruct(TestObject::VT_TRANSFORM, transform);
-  }
-  explicit TestObjectBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+  explicit BasePacketBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  flatbuffers::Offset<TestObject> Finish() {
+  flatbuffers::Offset<BasePacket> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<TestObject>(end);
+    auto o = flatbuffers::Offset<BasePacket>(end);
     return o;
   }
 };
 
-inline flatbuffers::Offset<TestObject> CreateTestObject(
+inline flatbuffers::Offset<BasePacket> CreateBasePacket(
     flatbuffers::FlatBufferBuilder &_fbb,
-    int32_t id = 0,
-    const MProject::Core::Transform *transform = nullptr) {
-  TestObjectBuilder builder_(_fbb);
-  builder_.add_transform(transform);
-  builder_.add_id(id);
+    const MProject::Core::Header *header = nullptr) {
+  BasePacketBuilder builder_(_fbb);
+  builder_.add_header(header);
   return builder_.Finish();
 }
 

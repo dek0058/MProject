@@ -9,6 +9,7 @@ public:
 	void MapTest();
 	void FlatbuffersTest();
 	void GenerateHashCodeTest();
+	void PacketTest();
 
 	static UnitTest* Suite();
 };

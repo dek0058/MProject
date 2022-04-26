@@ -56,3 +56,8 @@ void IOService::PushNetEvent(ENetEventType _type, std::shared_ptr<FSession> _ses
 void IOService::StoreOwnerSesion(std::shared_ptr<FSession> _session) {
 	session_vector.emplace_back(_session);
 }
+
+
+void IOService::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<byte[]> _data) {
+	network_server->ExecuteMessage(_session, std::move(_data));
+}

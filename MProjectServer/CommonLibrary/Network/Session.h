@@ -76,7 +76,7 @@ private:
 	void OnWrite(boost::system::error_code const& _error_code, size_t _bytes_transferred);
 	void OnDisconnect();
 
-	void Execute();
+	void Flush();
 
 	boost::asio::ip::tcp::socket& GetSocket() { return sock; }
 

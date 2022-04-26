@@ -16,7 +16,6 @@ public:
 	virtual void Start(uint _thread_count);
 	virtual void Stop();
 
-
 	/// empty virtual func
 	virtual bool Connect() { return false; }
 	virtual void Loop() { ; }
@@ -29,6 +28,7 @@ public:
 	bool PopSession(std::shared_ptr<FSession>& _session);
 
 	void PushNetEvent(ENetEventType _type, std::shared_ptr<FSession> _session);
+	void ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<byte[]> _data);
 
 protected:
 	

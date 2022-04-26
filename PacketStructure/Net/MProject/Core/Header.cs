@@ -9,25 +9,25 @@ using global::System;
 using global::System.Collections.Generic;
 using global::FlatBuffers;
 
-public struct Packet : IFlatbufferObject
+public struct Header : IFlatbufferObject
 {
   private Struct __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
   public void __init(int _i, ByteBuffer _bb) { __p = new Struct(_i, _bb); }
-  public Packet __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+  public Header __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public byte HashCode(int j) { return __p.bb.Get(__p.bb_pos + 0 + j * 1); }
   public uint Length { get { return __p.bb.GetUint(__p.bb_pos + 20); } }
   public uint Tag { get { return __p.bb.GetUint(__p.bb_pos + 24); } }
 
-  public static Offset<MProject.Core.Packet> CreatePacket(FlatBufferBuilder builder, byte[] HashCode, uint Length, uint Tag) {
+  public static Offset<MProject.Core.Header> CreateHeader(FlatBufferBuilder builder, byte[] HashCode, uint Length, uint Tag) {
     builder.Prep(4, 28);
     builder.PutUint(Tag);
     builder.PutUint(Length);
     for (int _idx0 = 20; _idx0 > 0; _idx0--) {
       builder.PutByte(HashCode[_idx0-1]);
     }
-    return new Offset<MProject.Core.Packet>(builder.Offset);
+    return new Offset<MProject.Core.Header>(builder.Offset);
   }
 }
 

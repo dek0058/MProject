@@ -171,7 +171,7 @@ void FSession::Write(size_t _size) {
 	}
 }
 
-#include <boost/locale.hpp>
+//#include <boost/locale.hpp>
 
 void FSession::OnReceive(boost::system::error_code const& _error_code, size_t _bytes_transferred) {
 	if (_error_code != boost::system::errc::success) {
@@ -179,8 +179,8 @@ void FSession::OnReceive(boost::system::error_code const& _error_code, size_t _b
 		return;
 	}
 	
-	std::string a = boost::locale::conv::utf_to_utf<char>(recv_buffer, recv_buffer + _bytes_transferred);
-	MLogger::GetMutableInstance().LogInfo(a);
+	//std::string a = boost::locale::conv::utf_to_utf<char>(recv_buffer, recv_buffer + _bytes_transferred);
+	//MLogger::GetMutableInstance().LogInfo(a);
 
 	recv_buffers.Put(recv_buffer, _bytes_transferred);
 	buffer_pool.Release(recv_buffer);
@@ -247,11 +247,15 @@ void FSession::OnDisconnect() {
 	}
 }
 
-void FSession::Execute() {
+#include "Utility/UniversalToolkit.h"
+
+void FSession::Flush() {
 
 	std::unique_ptr<byte[]> getter(new byte[recv_buffers.UsedSize()]);
 	recv_buffers.Get(getter.get(), PACKET_HEADER_SIZE);
 
-	//recv_buffers.Get()
 	
+
+	//recv_buffers.Get()
+	top_IO_service->ExecuteMessage(shared_from_this(), std::move(getter));
 }

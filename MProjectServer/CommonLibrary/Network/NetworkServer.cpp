@@ -89,7 +89,7 @@ void NetworkServer::Loop() {
 	for (auto& pair : connected_session_map) {
 		if (pair.second->ReceiveBufferSize() > 0)
 		{
-			pair.second->Execute();
+			pair.second->Flush();
 		}
 	}
 
@@ -155,4 +155,8 @@ void NetworkServer::SendPacket(std::shared_ptr<FSession> _session, FBaseProtocol
 	
 	//protocol_handler_manager->SendPacket(_session->GetSessionKey(), _protocol);
 	//_session->Write();
+}
+
+void NetworkServer::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<byte[]> _data) {
+	protocol_handler_manager->ReceivePacket(_session, std::move(_data));
 }

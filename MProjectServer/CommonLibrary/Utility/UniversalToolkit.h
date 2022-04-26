@@ -2,6 +2,8 @@
 #include "GuardDefine.h"
 #include "Globaldefine.h"
 
+struct FPacket;
+
 class UniversalToolkit {
 	UniversalToolkit() = delete;
 	UniversalToolkit(UniversalToolkit const&) = delete;
@@ -9,5 +11,6 @@ class UniversalToolkit {
 		
 public:
 
-	
+	//static FPacket* SerializePacket();
+	//static FPacket* DeserializePacket(byte* _data);
 };

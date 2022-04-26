@@ -17,14 +17,10 @@ struct MovementPacketBuilder;
 struct MovementPacket FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef MovementPacketBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_PACKET = 4,
-    VT_X = 6,
-    VT_Y = 8,
-    VT_Z = 10
+    VT_X = 4,
+    VT_Y = 6,
+    VT_Z = 8
   };
-  const MProject::Core::Packet *packet() const {
-    return GetStruct<const MProject::Core::Packet *>(VT_PACKET);
-  }
   int32_t x() const {
     return GetField<int32_t>(VT_X, 0);
   }
@@ -36,7 +32,6 @@ struct MovementPacket FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<MProject::Core::Packet>(verifier, VT_PACKET, 4) &&
            VerifyField<int32_t>(verifier, VT_X, 4) &&
            VerifyField<int32_t>(verifier, VT_Y, 4) &&
            VerifyField<int32_t>(verifier, VT_Z, 4) &&
@@ -48,9 +43,6 @@ struct MovementPacketBuilder {
   typedef MovementPacket Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_packet(const MProject::Core::Packet *packet) {
-    fbb_.AddStruct(MovementPacket::VT_PACKET, packet);
-  }
   void add_x(int32_t x) {
     fbb_.AddElement<int32_t>(MovementPacket::VT_X, x, 0);
   }
@@ -73,7 +65,6 @@ struct MovementPacketBuilder {
 
 inline flatbuffers::Offset<MovementPacket> CreateMovementPacket(
     flatbuffers::FlatBufferBuilder &_fbb,
-    const MProject::Core::Packet *packet = nullptr,
     int32_t x = 0,
     int32_t y = 0,
     int32_t z = 0) {
@@ -81,7 +72,6 @@ inline flatbuffers::Offset<MovementPacket> CreateMovementPacket(
   builder_.add_z(z);
   builder_.add_y(y);
   builder_.add_x(x);
-  builder_.add_packet(packet);
   return builder_.Finish();
 }
 

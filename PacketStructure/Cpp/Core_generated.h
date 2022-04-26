@@ -9,30 +9,30 @@
 namespace MProject {
 namespace Core {
 
-struct Packet;
+struct Header;
 
 struct Vector3;
 
 struct Transform;
 
-FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Packet FLATBUFFERS_FINAL_CLASS {
+FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Header FLATBUFFERS_FINAL_CLASS {
  private:
   uint8_t hash_code_[20];
   uint32_t length_;
   uint32_t tag_;
 
  public:
-  Packet()
+  Header()
       : hash_code_(),
         length_(0),
         tag_(0) {
   }
-  Packet(uint32_t _length, uint32_t _tag)
+  Header(uint32_t _length, uint32_t _tag)
       : hash_code_(),
         length_(flatbuffers::EndianScalar(_length)),
         tag_(flatbuffers::EndianScalar(_tag)) {
   }
-  Packet(flatbuffers::span<const uint8_t, 20> _hash_code, uint32_t _length, uint32_t _tag)
+  Header(flatbuffers::span<const uint8_t, 20> _hash_code, uint32_t _length, uint32_t _tag)
       : length_(flatbuffers::EndianScalar(_length)),
         tag_(flatbuffers::EndianScalar(_tag)) {
     flatbuffers::CastToArray(hash_code_).CopyFromSpan(_hash_code);
@@ -47,7 +47,7 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Packet FLATBUFFERS_FINAL_CLASS {
     return flatbuffers::EndianScalar(tag_);
   }
 };
-FLATBUFFERS_STRUCT_END(Packet, 28);
+FLATBUFFERS_STRUCT_END(Header, 28);
 
 FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector3 FLATBUFFERS_FINAL_CLASS {
  private:

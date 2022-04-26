@@ -3,7 +3,7 @@
 namespace MProject.Core;
 
 // Base implement...
-struct Packet {
+struct Header {
     hash_code:[ubyte:20];
     length:uint;
     tag:uint;

@@ -19,16 +19,25 @@ public struct MovementPacket : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public MovementPacket __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public MProject.Core.Packet? Packet { get { int o = __p.__offset(4); return o != 0 ? (MProject.Core.Packet?)(new MProject.Core.Packet()).__assign(o + __p.bb_pos, __p.bb) : null; } }
-  public int X { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int Y { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int Z { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int X { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int Y { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int Z { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
-  public static void StartMovementPacket(FlatBufferBuilder builder) { builder.StartTable(4); }
-  public static void AddPacket(FlatBufferBuilder builder, Offset<MProject.Core.Packet> packetOffset) { builder.AddStruct(0, packetOffset.Value, 0); }
-  public static void AddX(FlatBufferBuilder builder, int x) { builder.AddInt(1, x, 0); }
-  public static void AddY(FlatBufferBuilder builder, int y) { builder.AddInt(2, y, 0); }
-  public static void AddZ(FlatBufferBuilder builder, int z) { builder.AddInt(3, z, 0); }
+  public static Offset<MProject.Movement.MovementPacket> CreateMovementPacket(FlatBufferBuilder builder,
+      int x = 0,
+      int y = 0,
+      int z = 0) {
+    builder.StartTable(3);
+    MovementPacket.AddZ(builder, z);
+    MovementPacket.AddY(builder, y);
+    MovementPacket.AddX(builder, x);
+    return MovementPacket.EndMovementPacket(builder);
+  }
+
+  public static void StartMovementPacket(FlatBufferBuilder builder) { builder.StartTable(3); }
+  public static void AddX(FlatBufferBuilder builder, int x) { builder.AddInt(0, x, 0); }
+  public static void AddY(FlatBufferBuilder builder, int y) { builder.AddInt(1, y, 0); }
+  public static void AddZ(FlatBufferBuilder builder, int z) { builder.AddInt(2, z, 0); }
   public static Offset<MProject.Movement.MovementPacket> EndMovementPacket(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<MProject.Movement.MovementPacket>(o);

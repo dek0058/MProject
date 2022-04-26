@@ -36,7 +36,8 @@ public:
 	void PushNetEvent(ENetEventType _type, std::shared_ptr<IOService> _IO_service, std::shared_ptr<FSession> _session);
 
 	void SendPacket(std::shared_ptr<FSession> _session, FBaseProtocol* _protocol);
-	
+	void ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<byte[]> _data);
+
 private:
 
 	static SessionKey AddSessionKey() {

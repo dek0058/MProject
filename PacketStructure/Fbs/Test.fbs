@@ -2,7 +2,6 @@ include "Core.fbs";
 
 namespace MProject.Test; 
 
-table TestObject {
-    id:int32;
-    transform:MProject.Core.Transform;
+table BasePacket {
+    header:MProject.Core.Header;
 }

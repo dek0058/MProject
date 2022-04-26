@@ -2,6 +2,7 @@
 #include "NetworkDefine.h"
 
 struct FBaseProtocol;
+struct FSession;
 
 class BaseHandler {
 public:
@@ -31,12 +32,12 @@ private:
 };
 
 class ProtocolHandlerManager {
-	using HandlerMap = std::unordered_map<udecimal, std::unique_ptr<BaseHandler>>;
+	using HandlerMap = std::unordered_map<std::vector<byte>, std::unique_ptr<BaseHandler>>;
 	
 public:
 	virtual void OnRegisterHandler() = 0;
 	virtual void SendPacket(SessionKey _session_key, FBaseProtocol* _protocol);
-	virtual void ReceivePacket();
+	virtual void ReceivePacket(std::shared_ptr<FSession> _session, std::unique_ptr<byte[]> _data);
 
 protected:
 	template<typename Event>
