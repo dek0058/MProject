@@ -9,45 +9,9 @@
 namespace MProject {
 namespace Core {
 
-struct Header;
-
 struct Vector3;
 
 struct Transform;
-
-FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Header FLATBUFFERS_FINAL_CLASS {
- private:
-  uint8_t hash_code_[20];
-  uint32_t length_;
-  uint32_t tag_;
-
- public:
-  Header()
-      : hash_code_(),
-        length_(0),
-        tag_(0) {
-  }
-  Header(uint32_t _length, uint32_t _tag)
-      : hash_code_(),
-        length_(flatbuffers::EndianScalar(_length)),
-        tag_(flatbuffers::EndianScalar(_tag)) {
-  }
-  Header(flatbuffers::span<const uint8_t, 20> _hash_code, uint32_t _length, uint32_t _tag)
-      : length_(flatbuffers::EndianScalar(_length)),
-        tag_(flatbuffers::EndianScalar(_tag)) {
-    flatbuffers::CastToArray(hash_code_).CopyFromSpan(_hash_code);
-  }
-  const flatbuffers::Array<uint8_t, 20> *hash_code() const {
-    return &flatbuffers::CastToArray(hash_code_);
-  }
-  uint32_t length() const {
-    return flatbuffers::EndianScalar(length_);
-  }
-  uint32_t tag() const {
-    return flatbuffers::EndianScalar(tag_);
-  }
-};
-FLATBUFFERS_STRUCT_END(Header, 28);
 
 FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector3 FLATBUFFERS_FINAL_CLASS {
  private:

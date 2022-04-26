@@ -1,7 +1,0 @@
-include "Core.fbs";
-
-namespace MProject.Test; 
-
-table BasePacket {
-    header:MProject.Core.Header;
-}

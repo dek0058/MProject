@@ -417,12 +417,6 @@
     <ClInclude Include="Packet\Core_generated.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Packet\Test_generated.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Packet\User_generated.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="flatbuffers\pch\flatc_pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -525,7 +519,7 @@
     <ClInclude Include="Exception\OpenSSLException.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Packet\Movement_generated.h">
+    <ClInclude Include="Packet\NTestPacket_generated.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

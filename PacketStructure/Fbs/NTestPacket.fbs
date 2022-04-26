@@ -1,0 +1,10 @@
+
+namespace MProject.Packet;
+
+table NTestPacket {
+    x:int;
+    y:int;
+    z:int;
+}
+
+root_type NTestPacket;

@@ -1,7 +1,7 @@
 #pragma once
 #include "NetworkDefine.h"
 
-struct FBaseProtocol;
+struct FPacket;
 struct FSession;
 
 class BaseHandler {
@@ -36,7 +36,7 @@ class ProtocolHandlerManager {
 	
 public:
 	virtual void OnRegisterHandler() = 0;
-	virtual void SendPacket(SessionKey _session_key, FBaseProtocol* _protocol);
+	virtual void SendPacket(SessionKey _session_key, FPacket* _protocol);
 	virtual void ReceivePacket(std::shared_ptr<FSession> _session, std::unique_ptr<byte[]> _data);
 
 protected:

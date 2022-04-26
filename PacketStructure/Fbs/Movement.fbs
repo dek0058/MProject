@@ -1,9 +1,0 @@
-include "Core.fbs";
-
-namespace MProject.Movement;
-
-table MovementPacket {
-    x:int;
-    y:int;
-    z:int;
-}

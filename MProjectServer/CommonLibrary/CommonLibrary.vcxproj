@@ -226,9 +226,7 @@
     <ClInclude Include="flatbuffers\verifier.h" />
     <ClInclude Include="Network\BaseProtocol.h" />
     <ClInclude Include="Packet\Core_generated.h" />
-    <ClInclude Include="Packet\Movement_generated.h" />
-    <ClInclude Include="Packet\Test_generated.h" />
-    <ClInclude Include="Packet\User_generated.h" />
+    <ClInclude Include="Packet\NTestPacket_generated.h" />
     <ClInclude Include="spdlog\async.h" />
     <ClInclude Include="spdlog\async_logger-inl.h" />
     <ClInclude Include="spdlog\async_logger.h" />
