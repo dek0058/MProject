@@ -2,6 +2,7 @@
 
 #include "IOService.h"
 #include "Core/MLogger.h"
+#include "BaseProtocol.h"
 
 FSession::FSession(std::shared_ptr<IOService> _IO_service, ESessionType _session_type, size_t _send_buffer_size, size_t _recv_buffer_size, int _max_packet_size)
 	: top_IO_service(_IO_service), sock(_IO_service->GetIOService()), strand(_IO_service->GetIOService()),
@@ -250,12 +251,23 @@ void FSession::OnDisconnect() {
 #include "Utility/UniversalToolkit.h"
 
 void FSession::Flush() {
+	if (recv_buffers.UsedSize() < PACKET_HEADER_SIZE) {
+		return;
+	}
 
-	std::unique_ptr<byte[]> getter(new byte[recv_buffers.UsedSize()]);
-	recv_buffers.Get(getter.get(), PACKET_HEADER_SIZE);
-
+	std::unique_ptr<FPacket> packet = std::make_unique<FPacket>();
+	std::vector<byte> buffer(PACKET_HEADER_SIZE);
+	recv_buffers.Get(buffer.data(), PACKET_HEADER_SIZE);
 	
+	std::memcpy(&packet->tag, buffer.data(), PACKET_TAG_SIZE);
+	std::memcpy(&packet->length, buffer.data() + PACKET_TAG_SIZE, PACKET_LEGNTH_SIZE);
+	std::memcpy(&packet->hash_code, buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, PACKET_HASH_CODE_SIZE);
 
-	//recv_buffers.Get()
-	top_IO_service->ExecuteMessage(shared_from_this(), std::move(getter));
+	if (recv_buffers.UsedSize() < packet->length) {
+		throw std::runtime_error("[FSession::Flush] packet length error");
+	}
+	
+	packet->data.resize(packet->length);
+	recv_buffers.Get(packet->data.data(), packet->length);
+	top_IO_service->ExecuteMessage(shared_from_this(), std::move(packet));
 }

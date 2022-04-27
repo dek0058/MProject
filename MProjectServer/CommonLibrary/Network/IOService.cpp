@@ -2,7 +2,7 @@
 
 #include "NetworkServer.h"
 #include "Session.h"
-
+#include "BaseProtocol.h"
 
 
 IOService::IOService(NetworkServer* _network_server)
@@ -58,6 +58,6 @@ void IOService::StoreOwnerSesion(std::shared_ptr<FSession> _session) {
 }
 
 
-void IOService::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<byte[]> _data) {
-	network_server->ExecuteMessage(_session, std::move(_data));
+void IOService::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {
+	network_server->ExecuteMessage(_session, std::move(_packet));
 }

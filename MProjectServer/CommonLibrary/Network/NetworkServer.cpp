@@ -157,6 +157,6 @@ void NetworkServer::SendPacket(std::shared_ptr<FSession> _session, FBaseProtocol
 	//_session->Write();
 }
 
-void NetworkServer::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<byte[]> _data) {
+void NetworkServer::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {
 	protocol_handler_manager->ReceivePacket(_session, std::move(_data));
 }

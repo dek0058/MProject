@@ -46,66 +46,32 @@ void DongkeyTest::MapTest() {
 void DongkeyTest::PacketTest() {
 	
 	CircularBuffer_M circular_buffer(1024);
-	std::vector<byte> buffer;
-	buffer.reserve(1024);
-	
-
-	std::cout << "\nbase protocol\n";
-	for (int i = 0; i < BaseProtocol::GetHashCode().size(); ++i) {
-		std::cout << std::hex << (unsigned int)BaseProtocol::GetHashCode()[i] << " ";
-	}
 	std::cout << std::endl;
+	std::cout << "Send Packet\n";
+	std::unique_ptr<FPacket> packet = TestProtocol::CreatePacket(1, 2, 3);
 
-	std::cout << "\nbuffer\n";
-	
-	buffer.resize(BaseProtocol::GetHashCode().size());
-	std::copy(BaseProtocol::GetHashCode().begin(), BaseProtocol::GetHashCode().end(), buffer.data());
-	for (int i = 0; i < BaseProtocol::GetHashCode().size(); ++i) {
-		std::cout << std::hex << (unsigned int)buffer[i] << " ";
-	}
-	std::cout << std::endl;
+	std::vector<byte> buffer(PACKET_HEADER_SIZE + packet->data.size());
+	std::memcpy(buffer.data(), &packet->tag, PACKET_TAG_SIZE);
+	std::memcpy(buffer.data() + PACKET_TAG_SIZE, &packet->length, PACKET_LEGNTH_SIZE);
+	std::memcpy(buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, &packet->hash_code, PACKET_HASH_CODE_SIZE);
+	std::memcpy(buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE + PACKET_HASH_CODE_SIZE, packet->data.data(), packet->length);
+	circular_buffer.Put(buffer.data(), buffer.size());
+	std::cout << std::format("Circular buffer size:{}\n", circular_buffer.UsedSize());
 
-	std::cout << "\nCreate Packet\n";
-	FPacket* packet = new FPacket;
-	packet->tag = 1;
-
-	packet->length += static_cast<uint>(buffer.size() * sizeof(byte));
-	std::copy(buffer.begin(), buffer.end(), packet->hash_code);
-	
-	//packet->data.resize(100);
-
-	size_t cur_size = 0;
-	std::memcpy(packet->data.data() + cur_size, &packet->tag, PACKET_TAG_SIZE);
-	cur_size += PACKET_TAG_SIZE;
-	//byte tag_buffer[int_size] = {0};
-	//std::memcpy(&tag_buffer, &packet->tag, sizeof(uint));
-	
-	std::memcpy(packet->data.data() + cur_size, &packet->length, PACKET_LEGNTH_SIZE);
-	cur_size += PACKET_LEGNTH_SIZE;
-	//byte length_buffer[int_size] = {0};
-	//std::memcpy(&length_buffer, &packet->length, sizeof(uint));
-	
-	//packet->data.insert(0, packet->hash_code);
-	std::memcpy(packet->data.data() + cur_size, &packet->hash_code, PACKET_HASH_CODE_SIZE);
-	cur_size += PACKET_HASH_CODE_SIZE;
-		
-	std::cout << std::format("size[{}] tag[{}] length[{}]\n", cur_size, packet->tag, packet->length);
+	std::cout << std::format("tag[{}] length[{}]\n", packet->tag, packet->length);
 	for (auto& item : packet->hash_code) {
 		std::cout << std::hex << (unsigned int)item << " ";
 	}
+	auto send_test_protocol = BaseProtocol::GetData<MProject::Packet::NTestPacket>(packet->data.data());
 	std::cout << std::endl;
+	std::cout << std::format("x:{}, y:{}, z:{}", send_test_protocol->x(), send_test_protocol->y(), send_test_protocol->z()) << std::endl;
 
-	circular_buffer.Put(packet->data.data(), cur_size);
-
-	//packet->data.emplace_back(packet->hash_code);
-
-	
-
-	std::cout << "\nSend Packet\n";
-	std::vector<byte> recv_buffer(1024);
-
+	std::cout << std::endl;
+	std::cout << "Receive Packet\n";
+	std::vector<byte> recv_buffer(PACKET_HEADER_SIZE);
 	circular_buffer.Get(recv_buffer.data(), PACKET_HEADER_SIZE);
-	
+	std::cout << std::format("Circular buffer size:{}\n", circular_buffer.UsedSize());
+
 	uint tag = 0;
 	uint length = 0;
 	byte hash_code[PACKET_HASH_CODE_SIZE] = { 0 };
@@ -113,14 +79,20 @@ void DongkeyTest::PacketTest() {
 	std::memcpy(&tag, recv_buffer.data(), PACKET_TAG_SIZE);
 	std::memcpy(&length, recv_buffer.data() + PACKET_TAG_SIZE, PACKET_LEGNTH_SIZE);
 	std::memcpy(&hash_code, recv_buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, PACKET_HASH_CODE_SIZE);
-	
+
+	std::vector<byte> packet_data(length);
+	circular_buffer.Get(packet_data.data(), length);
+	std::cout << std::format("Circular buffer size:{}\n", circular_buffer.UsedSize());
+	//std::memcpy(packet_data.data(), recv_buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE + PACKET_HASH_CODE_SIZE, length);
+	auto recv_test_protocol = BaseProtocol::GetData<MProject::Packet::NTestPacket>(packet_data.data());
+
 	std::cout << std::format("tag[{}] length[{}]\n", tag, length);
 	for (auto& item : hash_code) {
 		std::cout << std::hex << (unsigned int)item << " ";
 	}
 	std::cout << std::endl;
-
-	delete packet;
+	std::cout << std::format("x:{}, y:{}, z:{}", recv_test_protocol->x(), recv_test_protocol->y(), recv_test_protocol->z()) << std::endl;
+	std::cout << std::endl;
 }
 
 UnitTest* DongkeyTest::Suite() {

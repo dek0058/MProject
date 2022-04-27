@@ -2,8 +2,6 @@
 #include "GuardDefine.h"
 #include "Globaldefine.h"
 
-struct FPacket;
-
 class UniversalToolkit {
 	UniversalToolkit() = delete;
 	UniversalToolkit(UniversalToolkit const&) = delete;
@@ -11,6 +9,15 @@ class UniversalToolkit {
 		
 public:
 
-	//static FPacket* SerializePacket();
-	//static FPacket* DeserializePacket(byte* _data);
+	static std::string Digest2Hex(std::vector<byte> const& _data) {
+		static byte digits[] = "0123456789abcdef";
+		std::string result;
+		result.reserve(_data.size() * 2);
+		for (auto b : _data) {
+			result.push_back(digits[b >> 4]);
+			result.push_back(digits[b & 0xF]);
+		}
+		return result;
+	}
+
 };

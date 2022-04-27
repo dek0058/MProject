@@ -2,6 +2,7 @@
 #include <windows.h>
 
 #include "Core/MLogger.h"
+#include "Exception/BaseException.h"
 
 MThread::MThread(std::wstring_view _name, int _fixed) 
 	: state(ThreadState::None), name(_name), fps(_fixed) { ; }
@@ -52,7 +53,9 @@ void MThread::OnAction() {
 			fps.Sleep();
 		}
 	}
-	catch (std::exception const _exception) {
+	catch (BaseException const _exception) {
+		MLogger::GetMutableInstance().LogError(_exception.what());
+	} catch (std::exception const _exception) {
 		MLogger::GetMutableInstance().LogError(_exception.what());
 	} catch (...) {
 		MLogger::GetMutableInstance().LogError("Unknown exception");

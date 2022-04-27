@@ -6,6 +6,7 @@
 
 class NetworkServer;
 struct FSession;
+struct FPacket;
 
 class IOService : public std::enable_shared_from_this<IOService> {
 public:
@@ -28,7 +29,7 @@ public:
 	bool PopSession(std::shared_ptr<FSession>& _session);
 
 	void PushNetEvent(ENetEventType _type, std::shared_ptr<FSession> _session);
-	void ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<byte[]> _data);
+	void ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet);
 
 protected:
 	
