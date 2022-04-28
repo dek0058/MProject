@@ -6,8 +6,11 @@
 #include <string>
 #include <map>
 #include <functional>
+#include <thread>
 
-#include "MemoryPoolTest.h"
+#include "Utility/MSHA256.h"
+#include "Network/BaseProtocol.h"
+#include "Utility/CircularBuffer.h"
 
 DongkeyTest::DongkeyTest(std::string const& _name) : UnitTestCase(_name) {
 }
@@ -15,33 +18,103 @@ DongkeyTest::DongkeyTest(std::string const& _name) : UnitTestCase(_name) {
 DongkeyTest::~DongkeyTest() {
 }
 
+#include "Utility/MRandom.h"
+
 void DongkeyTest::MapTest() {
 	
-	std::map<int, int> test_map{
-		{0, 0}, {1, 0}, {2, 0}, {4, 0}, {5, 0} // not 3
-	};
+	//X<splitmix64, "Pyrophoricity"> z;        // OK, string-literal is a constructor argument to A
 
-	std::cout << "\n삭제 테스트" << std::endl;
-	try {
-		
-		auto iter = test_map.erase(3);
-		std::cout << iter << std::endl;
-
-		auto iter2 = test_map.erase(2);
-		std::cout << iter2 << std::endl;
-
-		auto iter3 = test_map.erase(4);
-		std::cout << iter3 << std::endl;
-		
-	} catch(std::exception _exception) {
-		std::cout << _exception.what() << std::endl;
+	/*for (int i = 0; i < 100; ++i) {
+		auto a = MRandom<splitmix64>::GetRandom<unsigned long long>() % 5;
+		std::cout << a << std::endl;
 	}
+
+	for (int i = 0; i < 100; ++i) {
+		auto a = MRandom<splitmix32>::GetRandom<unsigned long>() % 5;
+		std::cout << a << std::endl;
+	}*/
+
+}
+
+void DongkeyTest::MapBenchmark() {
+	
+	std::map<int, int> int_map;
+	std::map<std::string, int> str_map;
+	
+	std::cout << "Create Data!" << std::endl;
+	
+	std::thread create_int_thread([&int_map]() {
+		clock_t start = clock();
+		for(uint i = 0;	i < 1'000'000; ++i) {
+			int_map.emplace(i, i);
+		}
+		clock_t end = clock();
+		double time = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+		std::cout << "Create Complete int_map:" << time << std::endl;
+	});
+
+	std::thread create_str_thread([&str_map]() {
+		clock_t start = clock();
+		for(uint i = 0;	i < 1'000'000; ++i) {
+			str_map.emplace(UniversalToolkit::Digest2Hex(MSHA256::GenerateHashcode(std::to_string(i))), i);
+		}
+		clock_t end = clock();
+		double time = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+		std::cout << "Create Complete str_map:" << time << std::endl;
+	});
+	
+	create_int_thread.join();
+	create_str_thread.join();
+
+	std::vector<uint> int_keys;
+	int_keys.reserve(1'000'000);
+	
+	std::vector<std::string> str_keys;
+	str_keys.reserve(1'000'000);
+
+	for(uint i = 0; i < 1'000'000; ++i) {
+		auto rand = MRandom<splitmix32>::GetRandom<unsigned long>() % 1'000'000;
+		int_keys.emplace_back(rand);
+		str_keys.emplace_back(UniversalToolkit::Digest2Hex(MSHA256::GenerateHashcode(std::to_string(rand))));
+	}
+
+	std::cout << "Search Data!" << std::endl;
+	std::thread search_int_thread([&int_map, int_keys]() {
+		clock_t start = clock();
+		for (int a = 0; a < 1'000'000; ++a)
+		{
+			for (uint i = 0; i < int_keys.size(); ++i) {
+				auto r = int_map.find(int_keys[i]);
+			}
+		}
+		
+		clock_t end = clock();
+		double time = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+		std::cout << "Search Complete int_map:" << time << std::endl;
+	});
+
+	std::thread search_str_thread([&str_map, str_keys]()
+	{
+		clock_t start = clock();
+		for (int a = 0; a < 1'000'000; ++a)
+		{
+			for (uint i = 0; i < str_keys.size(); ++i) {
+				auto r =str_map.find(str_keys[i]);
+			}
+		}
+		clock_t end = clock();
+		double time = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+		std::cout << "Search Complete str_map:" << time << std::endl;
+	});
+
+	search_int_thread.join();
+	search_str_thread.join();
+
+	std::cout << "Benchmark Complete!" << std::endl;
 }
 
 
-#include "Utility/SHA256.h"
-#include "Network/BaseProtocol.h"
-#include "Utility/CircularBuffer.h"
+
 
 void DongkeyTest::PacketTest() {
 	
@@ -98,6 +171,7 @@ void DongkeyTest::PacketTest() {
 UnitTest* DongkeyTest::Suite() {
 	UnitTestSuite* suite = new UnitTestSuite("DongkeyTest");
 	//TUnitTest_AddTest(suite, DongkeyTest, MapTest);
+	//TUnitTest_AddTest(suite, DongkeyTest, MapBenchmark);
 	TUnitTest_AddTest(suite, DongkeyTest, PacketTest);
 	return suite;
 }

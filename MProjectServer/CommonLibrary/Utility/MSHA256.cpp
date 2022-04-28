@@ -1,4 +1,4 @@
-#include "SHA256.h"
+#include "MSHA256.h"
 #include "Exception/OpenSSLException.h"
 
 #include <cstdlib>

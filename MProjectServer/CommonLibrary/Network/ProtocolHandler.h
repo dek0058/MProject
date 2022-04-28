@@ -7,7 +7,7 @@ struct FSession;
 
 class BaseHandler {
 public:
-	virtual bool ReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) = 0;
+	virtual void ReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) = 0;
 	virtual std::string GetPacketName() = 0;
 };
 
@@ -16,18 +16,17 @@ class TProtocolHandler final : public BaseHandler {
 	TProtocolHandler() : protocol(new Protocol)  { ; }
 
 public:
-	virtual bool ReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) override {
-		// create data
-		OnReceivePacket(data, _session_key);
-		return true;
+	virtual void ReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) override {
+		OnReceivePacket(_session_key, std::move(_packet));
 	}
 
 	virtual std::string GetPacketName() override {
-		return Protocol::GetHashCodeString();
+		return std::string();
+		//return Protocol::GetHashCodeString();
 	}
 
 private:
-	void OnReceivePacket(Event const &_type ,SessionKey _session_key) = 0;
+	virtual void OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) = 0;
 
 protected:
 	std::unique_ptr<Protocol> protocol;
@@ -38,20 +37,20 @@ class ProtocolHandlerManager {
 	
 public:
 	virtual void OnRegisterHandler() = 0;
-	virtual void SendPacket(SessionKey _session_key, FPacket* _protocol);
+	virtual void SendPacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet);
 	virtual void ReceivePacket(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet);
 
 protected:
-	template<typename Event>
+	template<typename Protocol = BaseProtocol>
 	void RegisterHandler() {
-		if (false == handler_map.try_emplace(Event::GetHashCodeString(), std::make_unique<TProtocolHandler<Event>>())) {
+		if (false == handler_map.try_emplace(Protocol::GetHashCodeString(), std::make_unique<TProtocolHandler<Protocol>>())) {
 			return;
 		}
 	}
 
-	template<typename Event>
+	template<typename Protocol = BaseProtocol>
 	void UnregsiterHandler() {
-		handler_map.erase(Event::GetHashCodeString());
+		handler_map.erase(Protocol::GetHashCodeString());
 	}
 
 private:

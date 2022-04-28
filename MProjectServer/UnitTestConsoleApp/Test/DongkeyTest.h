@@ -7,6 +7,8 @@ public:
 	~DongkeyTest();
 
 	void MapTest();
+	void MapBenchmark();
+
 	void PacketTest();
 
 	static UnitTest* Suite();

@@ -3,7 +3,7 @@
 #include "Session.h"
 #include "Utility/UniversalToolkit.h"
 
-void ProtocolHandlerManager::SendPacket(SessionKey _session_key, FPacket* _protocol) {
+void ProtocolHandlerManager::SendPacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) {
 
 }
 

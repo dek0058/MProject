@@ -513,13 +513,16 @@
     <ClInclude Include="Utility\UniversalToolkit.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\SHA256.h">
+    <ClInclude Include="Utility\MSHA256.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Exception\OpenSSLException.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Packet\NTestPacket_generated.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\MRandom.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -554,7 +557,7 @@
     <ClCompile Include="Utility\UniversalToolkit.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\SHA256.cpp">
+    <ClCompile Include="Utility\MSHA256.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

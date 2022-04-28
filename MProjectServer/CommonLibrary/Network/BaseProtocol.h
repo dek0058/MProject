@@ -1,6 +1,6 @@
 #pragma once
 #include "NetworkDefine.h"
-#include "Utility/SHA256.h"
+#include "Utility/MSHA256.h"
 #include "Utility/UniversalToolkit.h"
 #include "flatbuffers/buffer.h"
 
@@ -50,6 +50,7 @@ struct FPacket {
 class BaseProtocol {
 	GENERATE_PROTOCOL_IMPLEMENT(BaseProtocol)
 
+public:
 	template<typename T>
 	static T const* GetData(byte* _data) {
 		return flatbuffers::template GetRoot<T>(_data);
@@ -69,12 +70,13 @@ class TestProtocol : public BaseProtocol {
 
 public:
 	static std::unique_ptr<FPacket> CreatePacket(int _x, int _y, int _z) {
-		START_PACKET(TestProtocol, 1, MProject::Packet::NTestPacketBuilder);
+		/*START_PACKET(TestProtocol, 1, MProject::Packet::NTestPacketBuilder);
 		
 		packet_builder.add_x(_x);
 		packet_builder.add_y(_y);
 		packet_builder.add_z(_z);
 		
-		END_PACKET();
+		END_PACKET();*/
+		return std::unique_ptr<FPacket>();
 	}
 };

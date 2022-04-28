@@ -329,6 +329,7 @@
     <ClInclude Include="Utility\FramesPerSecond.h" />
     <ClInclude Include="GlobalDefine.h" />
     <ClInclude Include="GuardDefine.h" />
+    <ClInclude Include="Utility\MRandom.h" />
     <ClInclude Include="Utility\MThread.h" />
     <ClInclude Include="Network\IOAcceptor.h" />
     <ClInclude Include="Network\IOConnector.h" />
@@ -340,7 +341,7 @@
     <ClInclude Include="Network\NetworkServer.h" />
     <ClInclude Include="Network\ProtocolHandler.h" />
     <ClInclude Include="Network\Session.h" />
-    <ClInclude Include="Utility\SHA256.h" />
+    <ClInclude Include="Utility\MSHA256.h" />
     <ClInclude Include="Utility\SPSCQueue.h" />
     <ClInclude Include="Utility\TSingleton.h" />
     <ClInclude Include="Utility\UniversalToolkit.h" />
@@ -355,7 +356,7 @@
     <ClCompile Include="Network\NetworkServer.cpp" />
     <ClCompile Include="Network\ProtocolHandler.cpp" />
     <ClCompile Include="Network\Session.cpp" />
-    <ClCompile Include="Utility\SHA256.cpp" />
+    <ClCompile Include="Utility\MSHA256.cpp" />
     <ClCompile Include="Utility\UniversalToolkit.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

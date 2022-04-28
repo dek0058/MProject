@@ -151,12 +151,12 @@ void NetworkServer::PushNetEvent(ENetEventType _type, std::shared_ptr<IOService>
 	}
 }
 
-void NetworkServer::SendPacket(std::shared_ptr<FSession> _session, FBaseProtocol* _protocol) {
+void NetworkServer::SendPacket(std::shared_ptr<FSession> _session, std::unique_ptr<BaseProtocol> _protocol) {
 	
 	//protocol_handler_manager->SendPacket(_session->GetSessionKey(), _protocol);
 	//_session->Write();
 }
 
 void NetworkServer::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {
-	protocol_handler_manager->ReceivePacket(_session, std::move(_data));
+	protocol_handler_manager->ReceivePacket(_session, std::move(_packet));
 }
