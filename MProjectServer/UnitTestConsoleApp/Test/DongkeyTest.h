@@ -10,6 +10,7 @@ public:
 	void MapBenchmark();
 
 	void PacketTest();
+	void RegexTest();
 
 	static UnitTest* Suite();
 };

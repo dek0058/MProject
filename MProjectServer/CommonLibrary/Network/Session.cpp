@@ -133,12 +133,12 @@ void FSession::Receive() {
 	);
 }
 
-void FSession::Write(size_t _size) {
+void FSession::Write(std::unique_ptr<FPacket> _packet) {
 	if (GetSequenceType() != ESequenceType::Connected) {
 		return;
 	}
 
-	if (_size > max_packet_size) {
+	if (_packet->length + PACKET_HEADER_SIZE > max_packet_size) {
 		top_IO_service->PushNetEvent(ENetEventType::Error, shared_from_this());
 		return;
 	}

@@ -168,11 +168,61 @@ void DongkeyTest::PacketTest() {
 	std::cout << std::endl;
 }
 
+#include <regex>
+void DongkeyTest::RegexTest() {
+	{
+		std::regex regex("\\d{4}/(?:0?[1-9]|1[0-2])/(?:0?[1-9]|[1-2][0-9]|3[0-1])");
+		while (true) {
+			std::cout << "Enter a date(year/month/day) (q=quit): ";
+			std::string str;
+			if (!std::getline(std::cin, str) || str == "q") {
+				break;
+			}
+			if (std::regex_match(str, regex)) {
+				std::cout << "matched\n";
+			}
+			else {
+				std::cout << "not matched\n";
+			}
+		}
+	}
+	{
+		std::regex regex("[\\w]+");
+		while (true) {
+			std::cout << "Enter a string to split (q=quit): ";
+			std::string str;
+			if (!std::getline(std::cin, str) || str == "q") {
+				break;
+			}
+
+			const std::sregex_iterator end;
+			for (std::sregex_iterator itr(std::cbegin(str), std::cend(str), regex); itr != end; ++itr) {
+				std::cout << "\"" << (*itr)[0] << "\"" << std::endl;
+			}
+		}
+	}
+	{
+		std::regex regex("[l|L][o|O][v|V][e|E]");
+		std::string const format("$1¢½");
+		while (true) {
+			std::cout << "Enter a string to replace (q=quit): ";
+			std::string str;
+			if (!std::getline(std::cin, str) || str == "q") {
+				break;
+			}
+			std::cout << std::regex_replace(str, regex, format) << std::endl;
+		}
+	}
+	
+	
+}
+
 UnitTest* DongkeyTest::Suite() {
 	UnitTestSuite* suite = new UnitTestSuite("DongkeyTest");
 	//TUnitTest_AddTest(suite, DongkeyTest, MapTest);
 	//TUnitTest_AddTest(suite, DongkeyTest, MapBenchmark);
-	TUnitTest_AddTest(suite, DongkeyTest, PacketTest);
+	//TUnitTest_AddTest(suite, DongkeyTest, PacketTest);
+	//TUnitTest_AddTest(suite, DongkeyTest, RegexTest);
 	return suite;
 }
 

@@ -7,6 +7,7 @@
 #include "Utility//MemoryPool.h"
 
 class IOService;
+struct FPacket;
 
 struct FSession : public std::enable_shared_from_this<FSession> {
 	friend class NetworkServer;
@@ -70,7 +71,7 @@ private:
 	void Close();
 
 	void Receive();
-	void Write(size_t _size);
+	void Write(std::unique_ptr<FPacket> _packet);
 
 	void OnReceive(boost::system::error_code const& _error_code, size_t _bytes_transferred);
 	void OnWrite(boost::system::error_code const& _error_code, size_t _bytes_transferred);
