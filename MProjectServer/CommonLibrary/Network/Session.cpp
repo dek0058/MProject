@@ -3,12 +3,14 @@
 #include "IOService.h"
 #include "Core/MLogger.h"
 #include "BaseProtocol.h"
+#include "NetworkToolkit.h"
+#include "Utility/UniversalToolkit.h"
 
 FSession::FSession(std::shared_ptr<IOService> _IO_service, ESessionType _session_type, size_t _send_buffer_size, size_t _recv_buffer_size, int _max_packet_size)
 	: top_IO_service(_IO_service), sock(_IO_service->GetIOService()), strand(_IO_service->GetIOService()),
 		session_key(0), session_type(_session_type), sequence_type(ESequenceType::Disconnected),
 		public_ip(), public_port(),
-		buffer_pool(BUFFER_BLOCKS_PER_BUCKET, BUFFER_BLOCKS_PER_BUCKET), send_buffer(nullptr), recv_buffer(nullptr), send_buffers(_send_buffer_size), recv_buffers(_recv_buffer_size),
+		buffer_pool(PACKET_MAX_SIZE, PACKET_PRE_ALLOC_SIZE), send_packet(&buffer_pool), recv_packet(&buffer_pool), recv_buffers(_recv_buffer_size),
 		max_packet_size(_max_packet_size), is_writing(false) {
 
 }
@@ -16,24 +18,16 @@ FSession::FSession(std::shared_ptr<IOService> _IO_service, ESessionType _session
 FSession::~FSession() {
 	boost::system::error_code error_code;
 	sock.close(error_code);
-	//! send_buffer, recv_buffer는 메모리풀에 의해 자동으로 메모리 해체됨
+	//! 버퍼 데이터는 메모리풀에 의해 자동으로 메모리 해제됨
 }
 
 void FSession::Accept(SessionKey _session_key) {
 	session_key = _session_key;
 	sequence_type = ESequenceType::Connected;
-	send_buffers.Discard(send_buffers.UsedSize());
+	send_packet.Relase();
+	recv_packet.Relase();
+	send_packets.clear();
 	recv_buffers.Discard(recv_buffers.UsedSize());
-	
-	if (nullptr != send_buffer) {
-		buffer_pool.Release(send_buffer);
-		send_buffer = nullptr;
-	}
-
-	if (nullptr != recv_buffer) {
-		buffer_pool.Release(recv_buffer);
-		recv_buffer = nullptr;
-	}
 
 	
 	boost::asio::ip::tcp::no_delay no_delay(true);
@@ -46,18 +40,10 @@ void FSession::Accept(SessionKey _session_key) {
 void FSession::Connect(SessionKey _session_key) {
 	session_key = _session_key;
 	sequence_type = ESequenceType::Connected;
-	send_buffers.Discard(send_buffers.UsedSize());
+	send_packet.Relase();
+	recv_packet.Relase();
+	send_packets.clear();
 	recv_buffers.Discard(recv_buffers.UsedSize());
-
-	if (nullptr != send_buffer) {
-		buffer_pool.Release(send_buffer);
-		send_buffer = nullptr;
-	}
-
-	if (nullptr != recv_buffer) {
-		buffer_pool.Release(recv_buffer);
-		recv_buffer = nullptr;
-	}
 	
 	
 	boost::asio::ip::tcp::no_delay no_delay(true);
@@ -69,19 +55,10 @@ void FSession::Connect(SessionKey _session_key) {
 
 void FSession::Disconnect() {
 	sequence_type = ESequenceType::Disconnected;
-	send_buffers.Discard(send_buffers.UsedSize());
+	send_packet.Relase();
+	recv_packet.Relase();
+	send_packets.clear();
 	recv_buffers.Discard(recv_buffers.UsedSize());
-
-	if (nullptr != send_buffer) {
-		buffer_pool.Release(send_buffer);
-		send_buffer = nullptr;
-	}
-
-	if (nullptr != recv_buffer) {
-		buffer_pool.Release(recv_buffer);
-		recv_buffer = nullptr;
-	}
-
 }
 
 void FSession::Shutdown() {
@@ -117,10 +94,10 @@ void FSession::Close() {
 
 void FSession::Receive() {
 	size_t free_size = recv_buffers.FreeSize();
-	recv_buffer = reinterpret_cast<byte*>(buffer_pool.Get());
+	recv_packet.Allocate();
 	
 	GetSocket().async_read_some(
-		boost::asio::buffer(recv_buffer, free_size),
+		boost::asio::buffer(recv_packet.data, free_size),
 		boost::asio::bind_executor(
 			strand,
 			boost::bind(
@@ -138,33 +115,29 @@ void FSession::Write(std::unique_ptr<FPacket> _packet) {
 		return;
 	}
 
-	if (_packet->length + PACKET_HEADER_SIZE > max_packet_size) {
+	if (static_cast<int>(_packet->length + PACKET_HEADER_SIZE) > max_packet_size) {
 		top_IO_service->PushNetEvent(ENetEventType::Error, shared_from_this());
 		return;
 	}
 	
-	if (false == IsWriting()) {
-		if (nullptr != send_buffer) {
-			buffer_pool.Release(send_buffer);
-		}
-
-		//size_t used_size = recv_buffers.UsedSize();
-		size_t used_size = send_buffers.UsedSize();
-		
-		send_buffer = reinterpret_cast<byte*>(buffer_pool.Get());
-		//recv_buffers.Peek(send_buffer, used_size);
-		send_buffers.Peek(send_buffer, used_size);
-
+	if (true == IsWriting()) {
+		//! 이미 쓰기 작업을 하고 있다면 버퍼에 푸시만 해준다.
+		send_packets.emplace_after(send_packets.before_begin(), std::move(_packet));
+		return;
+	} else {
 		SetWriting(true);
-		
+		auto buffer = NetworkToolkit::GetPacketData(std::move(_packet));
+		send_packet.Allocate(buffer.size());
+		memcpy(send_packet.data, buffer.data(), buffer.size());
+
 		GetSocket().async_write_some(
-			boost::asio::buffer(send_buffer, used_size),
+			boost::asio::buffer(send_packet.data, send_packet.length),
 			boost::asio::bind_executor(
 				strand,
 				boost::bind(
-					&FSession::OnWrite, 
+					&FSession::OnWrite,
 					shared_from_this(),
-					boost::asio::placeholders::error, 
+					boost::asio::placeholders::error,
 					boost::asio::placeholders::bytes_transferred
 				)
 			)
@@ -172,51 +145,52 @@ void FSession::Write(std::unique_ptr<FPacket> _packet) {
 	}
 }
 
-//#include <boost/locale.hpp>
-
 void FSession::OnReceive(boost::system::error_code const& _error_code, size_t _bytes_transferred) {
 	if (_error_code != boost::system::errc::success) {
 		MLogger::GetMutableInstance().LogError(std::format("[{}]{} - code:{}", _error_code.category().name(), _error_code.message(), _error_code.value()));
 		return;
 	}
-	
-	//std::string a = boost::locale::conv::utf_to_utf<char>(recv_buffer, recv_buffer + _bytes_transferred);
-	//MLogger::GetMutableInstance().LogInfo(a);
-
-	recv_buffers.Put(recv_buffer, _bytes_transferred);
-	buffer_pool.Release(recv_buffer);
-	recv_buffer = nullptr;
-	
-	//Write(_bytes_transferred);
+	recv_buffers.Put(recv_packet.data, _bytes_transferred);
 	Receive();
 }
 
 void FSession::OnWrite(boost::system::error_code const& _error_code, size_t _bytes_transferred) {
 	if (_error_code != boost::system::errc::success) {
 		SetWriting(false);
+		MLogger::GetMutableInstance().LogError(std::format("[{}]{} - code:{}", _error_code.category().name(), _error_code.message(), _error_code.value()));
 		return;
 	}
 
-	//recv_buffers.Discard(_bytes_transferred);
-	send_buffers.Discard(_bytes_transferred);
+	if (false == send_packet.Complete(_bytes_transferred)) {
+		// 만약 다 보내지 못했을 경우 나머지를 다시 보내준다.
+		GetSocket().async_write_some(
+			boost::asio::buffer(send_packet.data + send_packet.transferred, send_packet.length),
+			boost::asio::bind_executor(
+				strand,
+				boost::bind(
+					&FSession::OnWrite,
+					shared_from_this(),
+					boost::asio::placeholders::error,
+					boost::asio::placeholders::bytes_transferred
+				)
+			)
+		);
+		return;
+	}
 
-	if (0 == send_buffers.UsedSize()) { // changed send_buffer
+	if (true == send_packets.empty()) {
 		SetWriting(false);
 		return;
 	}
+	auto packet = std::move(send_packets.front());
+	send_packets.pop_front();
 
-	if (nullptr != send_buffer) {
-		buffer_pool.Release(send_buffer);
-	}
-	
-	//size_t used_size = recv_buffers.UsedSize();
-	size_t used_size = send_buffers.UsedSize();
-	send_buffer = reinterpret_cast<byte*>(buffer_pool.Get());
-	//recv_buffers.Peek(send_buffer, used_size);
-	send_buffers.Peek(send_buffer, used_size);
+	auto buffer = NetworkToolkit::GetPacketData(std::move(packet));
+	send_packet.Allocate(buffer.size());
+	memcpy(send_packet.data, buffer.data(), buffer.size());
 
 	GetSocket().async_write_some(
-		boost::asio::buffer(send_buffer, used_size),
+		boost::asio::buffer(send_packet.data, send_packet.length),
 		boost::asio::bind_executor(
 			strand,
 			boost::bind(
@@ -248,10 +222,8 @@ void FSession::OnDisconnect() {
 	}
 }
 
-#include "Utility/UniversalToolkit.h"
-
 void FSession::Flush() {
-	if (recv_buffers.UsedSize() < PACKET_HEADER_SIZE) {
+	if (static_cast<uint>(recv_buffers.UsedSize()) < PACKET_HEADER_SIZE) {
 		return;
 	}
 

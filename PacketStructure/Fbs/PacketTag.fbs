@@ -1,0 +1,7 @@
+
+namespace MProject.Packet;
+
+enum Tag:uint {
+    Create = 0,
+    Test = 1
+}

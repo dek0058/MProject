@@ -153,7 +153,6 @@ void NetworkServer::PushNetEvent(ENetEventType _type, std::shared_ptr<IOService>
 
 void NetworkServer::SendPacket(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {
 	_session->Write(std::move(_packet));
-	//protocol_handler_manager->SendPacket(_session->GetSessionKey(), _protocol);
 }
 
 void NetworkServer::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {

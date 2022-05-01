@@ -10,4 +10,8 @@
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Packet\" />
+  </ItemGroup>
+
 </Project>

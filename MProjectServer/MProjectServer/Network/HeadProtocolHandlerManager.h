@@ -7,6 +7,6 @@ public:
 	HeadProtocolHandlerManager() { ; }
 	~HeadProtocolHandlerManager() { ; }
 
-	void OnRegisterHandler() override { ; }
+	void OnRegisterHandler() override;
 
 };

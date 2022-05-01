@@ -115,11 +115,12 @@ void DongkeyTest::MapBenchmark() {
 
 
 
-
+#include "Protocol/TestProtocol.h"
 void DongkeyTest::PacketTest() {
-	
 	CircularBuffer_M circular_buffer(1024);
 	std::cout << std::endl;
+	std::cout << UniversalToolkit::Digest2Hex(MSHA256::GenerateHashcode("TestProtocol")) << std::endl;
+	
 	std::cout << "Send Packet\n";
 	std::unique_ptr<FPacket> packet = TestProtocol::CreatePacket(1, 2, 3);
 
@@ -135,6 +136,8 @@ void DongkeyTest::PacketTest() {
 	for (auto& item : packet->hash_code) {
 		std::cout << std::hex << (unsigned int)item << " ";
 	}
+	std::cout << std::endl;
+
 	auto send_test_protocol = BaseProtocol::GetData<MProject::Packet::NTestPacket>(packet->data.data());
 	std::cout << std::endl;
 	std::cout << std::format("x:{}, y:{}, z:{}", send_test_protocol->x(), send_test_protocol->y(), send_test_protocol->z()) << std::endl;
@@ -221,7 +224,7 @@ UnitTest* DongkeyTest::Suite() {
 	UnitTestSuite* suite = new UnitTestSuite("DongkeyTest");
 	//TUnitTest_AddTest(suite, DongkeyTest, MapTest);
 	//TUnitTest_AddTest(suite, DongkeyTest, MapBenchmark);
-	//TUnitTest_AddTest(suite, DongkeyTest, PacketTest);
+	TUnitTest_AddTest(suite, DongkeyTest, PacketTest);
 	//TUnitTest_AddTest(suite, DongkeyTest, RegexTest);
 	return suite;
 }

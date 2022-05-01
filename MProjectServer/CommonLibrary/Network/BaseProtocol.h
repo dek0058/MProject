@@ -25,7 +25,7 @@ public: \
 #define START_PACKET(class_name, packet_tag, builder_class) \
 	std::unique_ptr<FPacket> packet = std::make_unique<FPacket>(); \
 	packet->tag = packet_tag; \
-	std::copy(class_name::GetHashCode().begin(), class_name::GetHashCode().end(), packet->hash_code); \
+	std::copy(class_name::GetHashCode().begin(), class_name::GetHashCode().end(), packet->hash_code.data()); \
 	flatbuffers::FlatBufferBuilder builder(PACKET_MAX_SIZE); \
 	builder_class packet_builder(builder)
 
@@ -62,21 +62,3 @@ public:
 	}
 };
 
-
-// test
-#include "Packet/NTestPacket_generated.h"
-class TestProtocol : public BaseProtocol {
-	GENERATE_PROTOCOL_IMPLEMENT(TestProtocol)
-
-public:
-	static std::unique_ptr<FPacket> CreatePacket(int _x, int _y, int _z) {
-		/*START_PACKET(TestProtocol, 1, MProject::Packet::NTestPacketBuilder);
-		
-		packet_builder.add_x(_x);
-		packet_builder.add_y(_y);
-		packet_builder.add_z(_z);
-		
-		END_PACKET();*/
-		return std::unique_ptr<FPacket>();
-	}
-};

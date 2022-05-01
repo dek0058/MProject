@@ -8,11 +8,10 @@ struct FSession;
 class BaseHandler {
 public:
 	virtual void ReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) = 0;
-	virtual std::string GetPacketName() = 0;
 };
 
 template<typename Protocol = BaseProtocol>
-class TProtocolHandler final : public BaseHandler {
+class TProtocolHandler : public BaseHandler {
 	TProtocolHandler() : protocol(new Protocol)  { ; }
 
 public:
@@ -20,12 +19,7 @@ public:
 		OnReceivePacket(_session_key, std::move(_packet));
 	}
 
-	virtual std::string GetPacketName() override {
-		return std::string();
-		//return Protocol::GetHashCodeString();
-	}
-
-private:
+protected:
 	virtual void OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) = 0;
 
 protected:
@@ -37,15 +31,12 @@ class ProtocolHandlerManager {
 	
 public:
 	virtual void OnRegisterHandler() = 0;
-	virtual void SendPacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet);
 	virtual void ReceivePacket(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet);
 
 protected:
-	template<typename Protocol = BaseProtocol>
+	template<typename Protocol = BaseProtocol, typename Handler = TProtocolHandler<Protocol>>
 	void RegisterHandler() {
-		if (false == handler_map.try_emplace(Protocol::GetHashCodeString(), std::make_unique<TProtocolHandler<Protocol>>())) {
-			return;
-		}
+		handler_map.emplace(Protocol::GetHashCodeString(), std::unique_ptr<Handler>());
 	}
 
 	template<typename Protocol = BaseProtocol>

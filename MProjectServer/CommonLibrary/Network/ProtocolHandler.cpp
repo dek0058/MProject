@@ -3,9 +3,6 @@
 #include "Session.h"
 #include "Utility/UniversalToolkit.h"
 
-void ProtocolHandlerManager::SendPacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) {
-
-}
 
 void ProtocolHandlerManager::ReceivePacket(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {
 	SessionKey session_key = _session->GetSessionKey();

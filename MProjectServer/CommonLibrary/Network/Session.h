@@ -14,6 +14,41 @@ struct FSession : public std::enable_shared_from_this<FSession> {
 	friend class IOService;
 	friend class IOAcceptor;
 	friend class IOConnector;
+private:
+	
+	template<typename T>
+	struct FPacketData {
+		size_t length;
+		size_t transferred;
+		byte* data;
+		MemoryPool<T>* memory_pool;
+		
+		FPacketData(MemoryPool<T>* _memory_pool) 
+			: memory_pool(_memory_pool), length(0), transferred(0), data(nullptr) { ; }
+
+		void Relase() {
+			if (nullptr != data) {
+				memory_pool->Release(data);
+			}
+		}
+
+		void Allocate() {
+			Relase();
+			data = reinterpret_cast<byte*>(memory_pool->Get());
+		}
+
+		void Allocate(size_t _size) {
+			Relase();
+			length = _size;
+			transferred = 0;
+			data = reinterpret_cast<byte*>(memory_pool->Get());
+		}
+
+		bool Complete(size_t _bytes_transferred) {
+			transferred += _bytes_transferred;
+			return length == transferred;
+		}
+	};
 
 public:
 	FSession(std::shared_ptr<IOService> _IO_service, ESessionType _session_type, size_t _send_buffer_size, size_t _recv_buffer_size, int _max_packet_size);
@@ -96,10 +131,11 @@ private:
 	ushort public_port;
 
 	/// buffer
-	MemoryPool<byte[PACKET_MEMORY_POOL_SIZE]> buffer_pool;
-	byte* send_buffer;
-	byte* recv_buffer;
-	CircularBuffer_M send_buffers;
+	MemoryPool<byte[PACKET_MAX_SIZE]> buffer_pool;
+	FPacketData<byte[PACKET_MAX_SIZE]> send_packet;
+	FPacketData<byte[PACKET_MAX_SIZE]> recv_packet;
+	
+	std::forward_list<std::unique_ptr<FPacket>> send_packets;
 	CircularBuffer_M recv_buffers;
 
 	int max_packet_size;

@@ -4,10 +4,23 @@ using System.Net.Sockets;
 using System.Threading;
 
 namespace TestClient {
+    using Utility;
+
     internal class Program {
         static void Main(string[] args) {
 
-            IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
+            //Protocol.TestProtocol testProtocol;
+
+
+            Console.WriteLine(UniversalToolkit.Digest2Hex(MSHA256.GenerateHashcode("TestProtocol")));
+
+        }
+    }
+}
+
+
+/*
+IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
             Console.WriteLine(address.ToString());
             IPEndPoint ip_end_point = new IPEndPoint(address, 3333);
 
@@ -41,8 +54,5 @@ namespace TestClient {
             } finally { 
 
             }
-            client.Close();
-            
-        }
-    }
-}
+            client.Close(); 
+*/
