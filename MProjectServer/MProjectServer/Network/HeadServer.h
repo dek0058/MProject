@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Network/NetworkServer.h"
 #include "Utility/TSingleton.h"

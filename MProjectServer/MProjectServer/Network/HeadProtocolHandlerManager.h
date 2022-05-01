@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Network/ProtocolHandler.h"
 
@@ -7,6 +7,6 @@ public:
 	HeadProtocolHandlerManager() { ; }
 	~HeadProtocolHandlerManager() { ; }
 
-	void OnRegisterHandler() override { ; }
+	void OnRegisterHandler() override;
 
 };

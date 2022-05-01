@@ -227,6 +227,7 @@
     <ClInclude Include="Network\BaseProtocol.h" />
     <ClInclude Include="Packet\Core_generated.h" />
     <ClInclude Include="Packet\NTestPacket_generated.h" />
+    <ClInclude Include="Packet\PacketTag_generated.h" />
     <ClInclude Include="spdlog\async.h" />
     <ClInclude Include="spdlog\async_logger-inl.h" />
     <ClInclude Include="spdlog\async_logger.h" />
@@ -342,12 +343,14 @@
     <ClInclude Include="Network\ProtocolHandler.h" />
     <ClInclude Include="Network\Session.h" />
     <ClInclude Include="Utility\MSHA256.h" />
+    <ClInclude Include="Network\NetworkToolkit.h" />
     <ClInclude Include="Utility\SPSCQueue.h" />
     <ClInclude Include="Utility\TSingleton.h" />
     <ClInclude Include="Utility\UniversalToolkit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\MLogger.cpp" />
+    <ClCompile Include="Network\NetworkToolkit.cpp" />
     <ClCompile Include="Utility\FramesPerSecond.cpp" />
     <ClCompile Include="Utility\MThread.cpp" />
     <ClCompile Include="Network\IOAcceptor.cpp" />

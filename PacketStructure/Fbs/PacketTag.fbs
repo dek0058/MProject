@@ -1,0 +1,18 @@
+
+namespace MProject.Packet;
+
+enum Tag:uint {
+    Create = 0,
+    Test = 1
+}
+
+struct FProtocol {
+    tag:uint;
+    hash_code:[ubyte:32];
+}
+
+table NProtocolMessage {
+    protocol:[FProtocol];
+}
+
+root_type NProtocolMessage;

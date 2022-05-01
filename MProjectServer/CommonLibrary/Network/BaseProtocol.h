@@ -1,31 +1,37 @@
-#pragma once
+﻿#pragma once
 #include "NetworkDefine.h"
 #include "Utility/MSHA256.h"
 #include "Utility/UniversalToolkit.h"
 #include "flatbuffers/buffer.h"
+#include "Packet/PacketTag_generated.h"
 
 #pragma region GENERATE_PROTOCOL_IMPLEMENT
-#define GENERATE_PROTOCOL_IMPLEMENT(class_name) \
+#define GENERATE_PROTOCOL_IMPLEMENT(class_name, packet_tag) \
 public: \
-	static std::string const& ToString() { \
+	virtual std::string const& ToString() override { \
 		static std::string str = #class_name; \
 		return str; \
 	} \
-	static std::vector<byte> const& GetHashCode() { \
-		static std::vector<byte> hash_code = MSHA256::GenerateHashcode(class_name::ToString()); \
+	virtual std::vector<byte> const& GetHashCode() override { \
+		static std::vector<byte> hash_code = MSHA256::GenerateHashcode(ToString()); \
 		return hash_code; \
 	} \
-	static std::string const& GetHashCodeString() { \
-		static std::string hash_code_string = UniversalToolkit::Digest2Hex(class_name::GetHashCode()); \
+	virtual std::string const& GetHashCodeString() override { \
+		static std::string hash_code_string = UniversalToolkit::Digest2Hex(GetHashCode()); \
 		return hash_code_string; \
+	} \
+	virtual uint GetPacketTag() override { \
+		static MProject::Packet::Tag tag = packet_tag; \
+		return static_cast<uint>(tag); \
 	}
 #pragma endregion
 
 #pragma region CREATE_PACKET
-#define START_PACKET(class_name, packet_tag, builder_class) \
+#define START_PACKET(class_name, builder_class) \
+	class_name my_class; \
 	std::unique_ptr<FPacket> packet = std::make_unique<FPacket>(); \
-	packet->tag = packet_tag; \
-	std::copy(class_name::GetHashCode().begin(), class_name::GetHashCode().end(), packet->hash_code); \
+	packet->tag = my_class.GetPacketTag(); \
+	std::copy(my_class.GetHashCode().begin(), my_class.GetHashCode().end(), packet->hash_code.data()); \
 	flatbuffers::FlatBufferBuilder builder(PACKET_MAX_SIZE); \
 	builder_class packet_builder(builder)
 
@@ -48,8 +54,6 @@ struct FPacket {
 };
 
 class BaseProtocol {
-	GENERATE_PROTOCOL_IMPLEMENT(BaseProtocol)
-
 public:
 	template<typename T>
 	static T const* GetData(byte* _data) {
@@ -60,23 +64,38 @@ public:
 	void ReceivePacket(FPacket* _packet) { 
 		auto packet = BaseProtocol::GetData<T>(_packet->data.data());
 	}
-};
-
-
-// test
-#include "Packet/NTestPacket_generated.h"
-class TestProtocol : public BaseProtocol {
-	GENERATE_PROTOCOL_IMPLEMENT(TestProtocol)
 
 public:
-	static std::unique_ptr<FPacket> CreatePacket(int _x, int _y, int _z) {
-		/*START_PACKET(TestProtocol, 1, MProject::Packet::NTestPacketBuilder);
-		
-		packet_builder.add_x(_x);
-		packet_builder.add_y(_y);
-		packet_builder.add_z(_z);
-		
-		END_PACKET();*/
-		return std::unique_ptr<FPacket>();
+	virtual std::string const& ToString() = 0;
+	virtual std::vector<byte> const& GetHashCode() = 0;
+	virtual std::string const& GetHashCodeString() = 0;
+	virtual uint GetPacketTag() = 0;
+};
+
+class ProtocolMessage : public BaseProtocol {
+public:
+	GENERATE_PROTOCOL_IMPLEMENT(ProtocolMessage, MProject::Packet::Tag::Tag_Create)
+
+	static std::unique_ptr<FPacket> CreatePacket(std::vector<std::tuple<uint, std::vector<byte>>> _protocol_array) {
+		START_PACKET(ProtocolMessage, MProject::Packet::NProtocolMessageBuilder);
+
+		std::vector<MProject::Packet::FProtocol> protocol_array;
+		protocol_array.reserve(_protocol_array.size());
+		for (auto [tag, hash_code] : _protocol_array) {
+			protocol_array.emplace_back(
+				MProject::Packet::FProtocol(
+					tag, 
+					flatbuffers::span<const byte, PACKET_HASH_CODE_SIZE>(hash_code.begin(), hash_code.begin() + PACKET_HASH_CODE_SIZE)
+				)
+			);
+		}
+
+		auto ttt = builder.CreateVectorOfStructs(protocol_array.data(), protocol_array.size());
+
+		//packet_builder.add_protocol();
+		END_PACKET();
 	}
+	
+public:
+	
 };

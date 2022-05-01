@@ -107,28 +107,15 @@ bool NetworkServer::Connect(ESessionType _session_type) {
 void NetworkServer::OnAccept(std::shared_ptr<FSession> _session) {
 	_session->Accept(AddSessionKey());
 	connected_session_map.emplace(_session->GetSessionKey(), _session);
-	if (_session->session_type != ESessionType::Client) {
-		connected_server_map.emplace(_session->GetPublicIP(), _session);
-	}
 }
 
 void NetworkServer::OnConnect(std::shared_ptr<FSession> _session) {
 	_session->Connect(AddSessionKey());
 	connected_session_map.emplace(_session->GetSessionKey(), _session);
-	if(_session->session_type != ESessionType::Client) {
-		connected_server_map.emplace(_session->GetPublicIP(), _session);
-	}
 }
 
 void NetworkServer::OnDisconnect(std::shared_ptr<FSession> _session) {
 	connected_session_map.erase(_session->GetSessionKey());
-	auto mini_map = connected_server_map.equal_range(_session->GetPublicIP());
-	for (auto it = mini_map.first; it != mini_map.second; ++it) {
-		if (it->second->GetSessionKey() == _session->GetSessionKey()) {
-			connected_server_map.erase(it);
-			break;
-		}
-	}
 	_session->Disconnect();
 }
 
@@ -153,7 +140,6 @@ void NetworkServer::PushNetEvent(ENetEventType _type, std::shared_ptr<IOService>
 
 void NetworkServer::SendPacket(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {
 	_session->Write(std::move(_packet));
-	//protocol_handler_manager->SendPacket(_session->GetSessionKey(), _protocol);
 }
 
 void NetworkServer::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {

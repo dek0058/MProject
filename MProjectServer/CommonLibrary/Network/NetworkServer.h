@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "NetworkDefine.h"
 #include "Utility/SPSCQueue.h"
@@ -38,6 +38,11 @@ public:
 	void SendPacket(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet);
 	void ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet);
 
+protected:
+	std::shared_ptr<ProtocolHandlerManager> GetHandlerManager() {
+		return protocol_handler_manager;
+	}
+
 private:
 
 	static SessionKey AddSessionKey() {
@@ -53,6 +58,5 @@ private:
 	std::queue<std::shared_ptr<FNetEvent>> wait_net_event_queue;
 
 	std::map<SessionKey, std::shared_ptr<FSession>> connected_session_map;
-	SessionMMap connected_server_map;
 };
 

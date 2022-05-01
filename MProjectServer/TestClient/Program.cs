@@ -4,10 +4,46 @@ using System.Net.Sockets;
 using System.Threading;
 
 namespace TestClient {
+    using Utility;
+
     internal class Program {
         static void Main(string[] args) {
 
+
             IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
+            GameSocket socket = new GameSocket(address, 3333, GlobalDefine.PACKET_MAX_SIZE);
+            try {
+                ConsoleKeyInfo cki;
+                socket.Accept();
+                while (true) {
+
+                    cki = Console.ReadKey(true);
+
+                    if(cki.Key == ConsoleKey.LeftArrow) {
+                        break;
+                    }
+
+                    Thread.Sleep(10);
+                }
+            
+            } catch (SocketException _exception) {
+                Console.WriteLine(_exception.ToString());
+            } finally {
+                socket.Disconnect();
+            }
+
+            //Protocol.TestProtocol testProtocol;
+
+
+            //Console.WriteLine(UniversalToolkit.Digest2Hex(MSHA256.GenerateHashcode("TestProtocol")));
+
+        }
+    }
+}
+
+
+/*
+IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
             Console.WriteLine(address.ToString());
             IPEndPoint ip_end_point = new IPEndPoint(address, 3333);
 
@@ -41,8 +77,5 @@ namespace TestClient {
             } finally { 
 
             }
-            client.Close();
-            
-        }
-    }
-}
+            client.Close(); 
+*/

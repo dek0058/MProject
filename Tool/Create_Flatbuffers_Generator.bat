@@ -18,7 +18,12 @@ for /R "%flat_path%Fbs" %%V IN (*.fbs) DO IF %%V GTR 0 (
 
 
 set MProjectPath=../MProjectServer/CommonLibrary/Packet
-echo Copy Start.. to "%MProjectPath%"
+echo Cpp Copy Start.. to "%MProjectPath%"
 xcopy "%flat_path%Cpp" "%MProjectPath%" /m /y /d /e /s
-echo Copy Complete..
+echo Cpp Copy Complete..
+
+set MProjectPath=../MProjectServer/TestClient/Packet
+echo CSharp Copy Start.. to "%MProjectPath%"
+xcopy "%flat_path%Net/MProject" "%MProjectPath%" /m /y /d /e /s
+echo CSharp Copy Complete..
 pause

@@ -1,4 +1,4 @@
-#include "HeadServer.h"
+﻿#include "HeadServer.h"
 #include "HeadProtocolHandlerManager.h"
 
 
@@ -11,7 +11,13 @@ HeadServer::~HeadServer() {
 
 void HeadServer::OnAccept(std::shared_ptr<FSession> _session) {
 	NetworkServer::OnAccept(_session);
+
+	// 우선 패킷 정보 부터 보내자..
+	std::vector<uint> tags;
+	tags.emplace_back(MProject::Packet::Tag::Tag_Test);
 	
+	SendPacket(_session, GetHandlerManager()->CreateProtocolMessage(tags));
+
 }
 
 void HeadServer::OnConnect(std::shared_ptr<FSession> _session) {

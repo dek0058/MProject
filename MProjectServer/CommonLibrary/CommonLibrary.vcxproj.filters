@@ -525,6 +525,12 @@
     <ClInclude Include="Utility\MRandom.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Network\NetworkToolkit.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\PacketTag_generated.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network\IOService.cpp">
@@ -558,6 +564,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Utility\MSHA256.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\NetworkToolkit.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -8,24 +8,33 @@ struct FSession;
 class BaseHandler {
 public:
 	virtual void ReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) = 0;
-	virtual std::string GetPacketName() = 0;
+	virtual std::vector<byte> GetHashCode() const = 0;
+	virtual std::string GetHashCodeString() const = 0;
+	virtual uint GetPacketTag() const = 0;
 };
 
 template<typename Protocol = BaseProtocol>
-class TProtocolHandler final : public BaseHandler {
-	TProtocolHandler() : protocol(new Protocol)  { ; }
-
+class TProtocolHandler : public BaseHandler {
 public:
+	TProtocolHandler() : protocol(new Protocol) { ; }
+
 	virtual void ReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) override {
 		OnReceivePacket(_session_key, std::move(_packet));
 	}
 
-	virtual std::string GetPacketName() override {
-		return std::string();
-		//return Protocol::GetHashCodeString();
+	std::vector<byte> GetHashCode() const override {
+		return protocol->GetHashCode();
 	}
 
-private:
+	std::string GetHashCodeString() const override {
+		return protocol->GetHashCodeString();
+	}
+
+	virtual uint GetPacketTag() const override {
+		return protocol->GetPacketTag();
+	}
+
+protected:
 	virtual void OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) = 0;
 
 protected:
@@ -33,27 +42,41 @@ protected:
 };
 
 class ProtocolHandlerManager {
-	using HandlerMap = std::map<std::string, std::unique_ptr<BaseHandler>>;
+	template<typename T>
+	using HandlerMap = std::map<T, std::shared_ptr<BaseHandler>>;
 	
 public:
 	virtual void OnRegisterHandler() = 0;
-	virtual void SendPacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet);
 	virtual void ReceivePacket(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet);
+	
+	std::unique_ptr<FPacket> CreateProtocolMessage(std::vector<uint> _tags);
 
 protected:
-	template<typename Protocol = BaseProtocol>
-	void RegisterHandler() {
-		if (false == handler_map.try_emplace(Protocol::GetHashCodeString(), std::make_unique<TProtocolHandler<Protocol>>())) {
-			return;
-		}
+	void RegisterHandler(std::shared_ptr<BaseHandler> _protocol) {
+		handler_map.emplace(_protocol->GetHashCodeString(), _protocol);
+		handler_tag_map.emplace(_protocol->GetPacketTag(), _protocol);
 	}
 
-	template<typename Protocol = BaseProtocol>
-	void UnregsiterHandler() {
-		handler_map.erase(Protocol::GetHashCodeString());
+	void UnregsiterHandler(std::string _hash_code) {
+		if (false == handler_map.contains(_hash_code)) {
+			return; // error
+		}
+		auto handler = handler_map[_hash_code];
+		handler_map.erase(_hash_code);
+		handler_tag_map.erase(handler->GetPacketTag());
+	}
+
+	void UnregisterHandler(uint _tag) {
+		if (false == handler_tag_map.contains(_tag)) {
+			return; // error
+		}
+		auto handler = handler_tag_map[_tag];
+		handler_map.erase(handler->GetHashCodeString());
+		handler_tag_map.erase(_tag);
 	}
 
 private:
-	HandlerMap handler_map;
+	HandlerMap<std::string> handler_map;
+	HandlerMap<uint> handler_tag_map;
 };
 

@@ -1,4 +1,4 @@
-#include "DongkeyTest.h"
+ï»¿#include "DongkeyTest.h"
 #include "UnitTestSuite.h"
 #include "UnitTestCaller.h"
 
@@ -115,26 +115,30 @@ void DongkeyTest::MapBenchmark() {
 
 
 
-
+#include "Protocol/TestProtocol.h"
 void DongkeyTest::PacketTest() {
-	
 	CircularBuffer_M circular_buffer(1024);
 	std::cout << std::endl;
+	std::cout << UniversalToolkit::Digest2Hex(MSHA256::GenerateHashcode("TestProtocol")) << std::endl;
+	
 	std::cout << "Send Packet\n";
 	std::unique_ptr<FPacket> packet = TestProtocol::CreatePacket(1, 2, 3);
 
 	std::vector<byte> buffer(PACKET_HEADER_SIZE + packet->data.size());
 	std::memcpy(buffer.data(), &packet->tag, PACKET_TAG_SIZE);
 	std::memcpy(buffer.data() + PACKET_TAG_SIZE, &packet->length, PACKET_LEGNTH_SIZE);
-	std::memcpy(buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, &packet->hash_code, PACKET_HASH_CODE_SIZE);
+	std::memcpy(buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, packet->hash_code.data(), PACKET_HASH_CODE_SIZE);
 	std::memcpy(buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE + PACKET_HASH_CODE_SIZE, packet->data.data(), packet->length);
 	circular_buffer.Put(buffer.data(), buffer.size());
 	std::cout << std::format("Circular buffer size:{}\n", circular_buffer.UsedSize());
 
 	std::cout << std::format("tag[{}] length[{}]\n", packet->tag, packet->length);
+	std::cout << std::format("hashcode:{}, hashcode size:{}\n", packet->hash_code.size(), PACKET_HASH_CODE_SIZE);
 	for (auto& item : packet->hash_code) {
 		std::cout << std::hex << (unsigned int)item << " ";
 	}
+	std::cout << std::endl;
+
 	auto send_test_protocol = BaseProtocol::GetData<MProject::Packet::NTestPacket>(packet->data.data());
 	std::cout << std::endl;
 	std::cout << std::format("x:{}, y:{}, z:{}", send_test_protocol->x(), send_test_protocol->y(), send_test_protocol->z()) << std::endl;
@@ -148,6 +152,7 @@ void DongkeyTest::PacketTest() {
 	uint tag = 0;
 	uint length = 0;
 	byte hash_code[PACKET_HASH_CODE_SIZE] = { 0 };
+	//std::vector<byte> hash_code(PACKET_HASH_CODE_SIZE);
 
 	std::memcpy(&tag, recv_buffer.data(), PACKET_TAG_SIZE);
 	std::memcpy(&length, recv_buffer.data() + PACKET_TAG_SIZE, PACKET_LEGNTH_SIZE);
@@ -203,7 +208,7 @@ void DongkeyTest::RegexTest() {
 	}
 	{
 		std::regex regex("[l|L][o|O][v|V][e|E]");
-		std::string const format("$1¢½");
+		std::string const format("$1â™¡");
 		while (true) {
 			std::cout << "Enter a string to replace (q=quit): ";
 			std::string str;
@@ -221,7 +226,7 @@ UnitTest* DongkeyTest::Suite() {
 	UnitTestSuite* suite = new UnitTestSuite("DongkeyTest");
 	//TUnitTest_AddTest(suite, DongkeyTest, MapTest);
 	//TUnitTest_AddTest(suite, DongkeyTest, MapBenchmark);
-	//TUnitTest_AddTest(suite, DongkeyTest, PacketTest);
+	TUnitTest_AddTest(suite, DongkeyTest, PacketTest);
 	//TUnitTest_AddTest(suite, DongkeyTest, RegexTest);
 	return suite;
 }

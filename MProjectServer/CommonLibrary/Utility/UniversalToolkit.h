@@ -3,9 +3,7 @@
 #include "Globaldefine.h"
 
 class UniversalToolkit {
-	UniversalToolkit() = delete;
-	UniversalToolkit(UniversalToolkit const&) = delete;
-	UniversalToolkit& operator = (UniversalToolkit const&) = delete;
+	DELETE_REFERENCE_CREATOR(UniversalToolkit)
 		
 public:
 
