@@ -22,6 +22,7 @@ namespace TestClient {
                     if(cki.Key == ConsoleKey.LeftArrow) {
                         break;
                     }
+                    
 
                     Thread.Sleep(10);
                 }
