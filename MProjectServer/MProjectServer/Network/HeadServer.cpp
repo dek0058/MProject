@@ -1,6 +1,8 @@
 ﻿#include "HeadServer.h"
 #include "HeadProtocolHandlerManager.h"
 
+#include "Network/Session.h"
+
 
 HeadServer::HeadServer() : NetworkServer(std::make_shared<HeadProtocolHandlerManager>()) {
 }
@@ -16,7 +18,7 @@ void HeadServer::OnAccept(std::shared_ptr<FSession> _session) {
 	std::vector<uint> tags;
 	tags.emplace_back(MProject::Packet::Tag::Tag_Test);
 	
-	SendPacket(_session, GetHandlerManager()->CreateProtocolMessage(tags));
+	SendPacket(_session->GetSessionKey(), GetHandlerManager()->CreateProtocolMessage(tags));
 
 }
 

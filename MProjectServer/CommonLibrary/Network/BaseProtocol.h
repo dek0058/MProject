@@ -27,15 +27,14 @@ public: \
 #pragma endregion
 
 #pragma region CREATE_PACKET
-#define START_PACKET(class_name, builder_class) \
+#define START_PACKET(class_name) \
 	class_name my_class; \
 	std::unique_ptr<FPacket> packet = std::make_unique<FPacket>(); \
 	packet->tag = my_class.GetPacketTag(); \
 	std::copy(my_class.GetHashCode().begin(), my_class.GetHashCode().end(), packet->hash_code.data()); \
-	flatbuffers::FlatBufferBuilder builder(PACKET_MAX_SIZE); \
-	builder_class packet_builder(builder)
+	flatbuffers::FlatBufferBuilder builder(PACKET_MAX_SIZE);
 
-#define END_PACKET() \
+#define END_PACKET(packet_builder) \
 	auto packet_data = packet_builder.Finish(); \
 	builder.Finish(packet_data); \
 	packet->data = std::vector<byte>(builder.GetBufferPointer(), builder.GetBufferPointer() + builder.GetSize()); \
@@ -60,11 +59,6 @@ public:
 		return flatbuffers::template GetRoot<T>(_data);
 	}
 
-	template<typename T>
-	void ReceivePacket(FPacket* _packet) { 
-		auto packet = BaseProtocol::GetData<T>(_packet->data.data());
-	}
-
 public:
 	virtual std::string const& ToString() = 0;
 	virtual std::vector<byte> const& GetHashCode() = 0;
@@ -77,23 +71,20 @@ public:
 	GENERATE_PROTOCOL_IMPLEMENT(ProtocolMessage, MProject::Packet::Tag::Tag_Create)
 
 	static std::unique_ptr<FPacket> CreatePacket(std::vector<std::tuple<uint, std::vector<byte>>> _protocol_array) {
-		START_PACKET(ProtocolMessage, MProject::Packet::NProtocolMessageBuilder);
+		START_PACKET(ProtocolMessage);
 
-		std::vector<MProject::Packet::FProtocol> protocol_array;
-		protocol_array.reserve(_protocol_array.size());
+		std::vector<flatbuffers::Offset<MProject::Packet::FProtocol>> protocol_array;
 		for (auto [tag, hash_code] : _protocol_array) {
-			protocol_array.emplace_back(
-				MProject::Packet::FProtocol(
-					tag, 
-					flatbuffers::span<const byte, PACKET_HASH_CODE_SIZE>(hash_code.begin(), hash_code.begin() + PACKET_HASH_CODE_SIZE)
-				)
-			);
+			auto hash_code_data = builder.CreateVector(hash_code);
+			auto protocol = MProject::Packet::CreateFProtocol(builder, tag, hash_code_data);
+			protocol_array.push_back(protocol);
 		}
+		auto protocol_data = builder.CreateVector(protocol_array);
+		
+		MProject::Packet::NProtocolMessageBuilder packet_builder(builder);
+		packet_builder.add_protocol(protocol_data);
 
-		auto ttt = builder.CreateVectorOfStructs(protocol_array.data(), protocol_array.size());
-
-		//packet_builder.add_protocol();
-		END_PACKET();
+		END_PACKET(packet_builder);
 	}
 	
 public:

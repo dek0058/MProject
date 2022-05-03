@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <cstddef>
 #include <mutex>
@@ -30,9 +30,9 @@ public:
 	using Bucket = FBlock*;
 	using Buckets = std::vector<Bucket>;
 
-	/// <param name="_blocks_per_bucket">°¢ ¹öÅ¶¿¡ Æ÷ÇÔµÈ ºí·Ï ¼ö¸¦ ÁöÁ¤</param>
-	/// <param name="_bucket_pre_alloc">Bucket Pointer °ø°£ ÁöÁ¤</param>
-	/// <param name="_max_alloc">ÃÖ´ë Çã¿ë Ç® Å©±â</param>
+	/// <param name="_blocks_per_bucket">ê° ë²„í‚·ì— í¬í•¨ëœ ë¸”ë¡ ìˆ˜ë¥¼ ì§€ì •</param>
+	/// <param name="_bucket_pre_alloc">Bucket Pointer ê³µê°„ ì§€ì •</param>
+	/// <param name="_max_alloc">ìµœëŒ€ í—ˆìš© í’€ í¬ê¸°</param>
 	MemoryPool(std::size_t _blocks_per_bucket = MEMORY_POOL_PREALLOC, std::size_t _bucket_pre_alloc = 10, std::size_t _max_alloc = 0) 
 		: blocks_per_bucket(_blocks_per_bucket), max_alloc(_max_alloc), available(0) {
 		if (blocks_per_bucket < 2) {

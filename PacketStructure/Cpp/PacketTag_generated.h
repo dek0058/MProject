@@ -10,6 +10,7 @@ namespace MProject {
 namespace Packet {
 
 struct FProtocol;
+struct FProtocolBuilder;
 
 struct NProtocolMessage;
 struct NProtocolMessageBuilder;
@@ -44,45 +45,82 @@ inline const char *EnumNameTag(Tag e) {
   return EnumNamesTag()[index];
 }
 
-FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) FProtocol FLATBUFFERS_FINAL_CLASS {
- private:
-  uint32_t tag_;
-  uint8_t hash_code_[32];
-
- public:
-  FProtocol()
-      : tag_(0),
-        hash_code_() {
-  }
-  FProtocol(uint32_t _tag)
-      : tag_(flatbuffers::EndianScalar(_tag)),
-        hash_code_() {
-  }
-  FProtocol(uint32_t _tag, flatbuffers::span<const uint8_t, 32> _hash_code)
-      : tag_(flatbuffers::EndianScalar(_tag)) {
-    flatbuffers::CastToArray(hash_code_).CopyFromSpan(_hash_code);
-  }
+struct FProtocol FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FProtocolBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_TAG = 4,
+    VT_HASH_CODE = 6
+  };
   uint32_t tag() const {
-    return flatbuffers::EndianScalar(tag_);
+    return GetField<uint32_t>(VT_TAG, 0);
   }
-  const flatbuffers::Array<uint8_t, 32> *hash_code() const {
-    return &flatbuffers::CastToArray(hash_code_);
+  const flatbuffers::Vector<uint8_t> *hash_code() const {
+    return GetPointer<const flatbuffers::Vector<uint8_t> *>(VT_HASH_CODE);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_TAG, 4) &&
+           VerifyOffset(verifier, VT_HASH_CODE) &&
+           verifier.VerifyVector(hash_code()) &&
+           verifier.EndTable();
   }
 };
-FLATBUFFERS_STRUCT_END(FProtocol, 36);
+
+struct FProtocolBuilder {
+  typedef FProtocol Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_tag(uint32_t tag) {
+    fbb_.AddElement<uint32_t>(FProtocol::VT_TAG, tag, 0);
+  }
+  void add_hash_code(flatbuffers::Offset<flatbuffers::Vector<uint8_t>> hash_code) {
+    fbb_.AddOffset(FProtocol::VT_HASH_CODE, hash_code);
+  }
+  explicit FProtocolBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<FProtocol> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<FProtocol>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<FProtocol> CreateFProtocol(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t tag = 0,
+    flatbuffers::Offset<flatbuffers::Vector<uint8_t>> hash_code = 0) {
+  FProtocolBuilder builder_(_fbb);
+  builder_.add_hash_code(hash_code);
+  builder_.add_tag(tag);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<FProtocol> CreateFProtocolDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t tag = 0,
+    const std::vector<uint8_t> *hash_code = nullptr) {
+  auto hash_code__ = hash_code ? _fbb.CreateVector<uint8_t>(*hash_code) : 0;
+  return MProject::Packet::CreateFProtocol(
+      _fbb,
+      tag,
+      hash_code__);
+}
 
 struct NProtocolMessage FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef NProtocolMessageBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_PROTOCOL = 4
   };
-  const flatbuffers::Vector<const MProject::Packet::FProtocol *> *protocol() const {
-    return GetPointer<const flatbuffers::Vector<const MProject::Packet::FProtocol *> *>(VT_PROTOCOL);
+  const flatbuffers::Vector<flatbuffers::Offset<MProject::Packet::FProtocol>> *protocol() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<MProject::Packet::FProtocol>> *>(VT_PROTOCOL);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_PROTOCOL) &&
            verifier.VerifyVector(protocol()) &&
+           verifier.VerifyVectorOfTables(protocol()) &&
            verifier.EndTable();
   }
 };
@@ -91,7 +129,7 @@ struct NProtocolMessageBuilder {
   typedef NProtocolMessage Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_protocol(flatbuffers::Offset<flatbuffers::Vector<const MProject::Packet::FProtocol *>> protocol) {
+  void add_protocol(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<MProject::Packet::FProtocol>>> protocol) {
     fbb_.AddOffset(NProtocolMessage::VT_PROTOCOL, protocol);
   }
   explicit NProtocolMessageBuilder(flatbuffers::FlatBufferBuilder &_fbb)
@@ -107,7 +145,7 @@ struct NProtocolMessageBuilder {
 
 inline flatbuffers::Offset<NProtocolMessage> CreateNProtocolMessage(
     flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<flatbuffers::Vector<const MProject::Packet::FProtocol *>> protocol = 0) {
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<MProject::Packet::FProtocol>>> protocol = 0) {
   NProtocolMessageBuilder builder_(_fbb);
   builder_.add_protocol(protocol);
   return builder_.Finish();
@@ -115,8 +153,8 @@ inline flatbuffers::Offset<NProtocolMessage> CreateNProtocolMessage(
 
 inline flatbuffers::Offset<NProtocolMessage> CreateNProtocolMessageDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
-    const std::vector<MProject::Packet::FProtocol> *protocol = nullptr) {
-  auto protocol__ = protocol ? _fbb.CreateVectorOfStructs<MProject::Packet::FProtocol>(*protocol) : 0;
+    const std::vector<flatbuffers::Offset<MProject::Packet::FProtocol>> *protocol = nullptr) {
+  auto protocol__ = protocol ? _fbb.CreateVector<flatbuffers::Offset<MProject::Packet::FProtocol>>(*protocol) : 0;
   return MProject::Packet::CreateNProtocolMessage(
       _fbb,
       protocol__);

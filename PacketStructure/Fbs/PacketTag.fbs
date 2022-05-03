@@ -6,9 +6,9 @@ enum Tag:uint {
     Test = 1
 }
 
-struct FProtocol {
+table FProtocol {
     tag:uint;
-    hash_code:[ubyte:32];
+    hash_code:[ubyte];
 }
 
 table NProtocolMessage {

@@ -5,24 +5,35 @@ using System.Threading;
 
 namespace TestClient {
     using Utility;
+    using Protocol;
+    using Network;
 
     internal class Program {
+        static public GameSocket socket;
+
         static void Main(string[] args) {
 
 
             IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
-            GameSocket socket = new GameSocket(address, 3333, GlobalDefine.PACKET_MAX_SIZE);
+            socket = new GameSocket(address, 3333, GlobalDefine.PACKET_MAX_SIZE);
             try {
                 ConsoleKeyInfo cki;
                 socket.Accept();
-                while (true) {
+                bool loop = true;
+                while (loop) {
 
                     cki = Console.ReadKey(true);
 
-                    if(cki.Key == ConsoleKey.LeftArrow) {
+                    
+                    switch(cki.Key) {
+                        case ConsoleKey.LeftArrow: {
+                            loop = false;
+                        } break;
+                        case ConsoleKey.RightArrow: {
+                            socket.SendPacket(TestProtocol.CreatePacket(10, 5, 3));
+                        }
                         break;
                     }
-                    
 
                     Thread.Sleep(10);
                 }

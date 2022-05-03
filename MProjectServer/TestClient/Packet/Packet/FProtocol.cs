@@ -11,21 +11,42 @@ using global::FlatBuffers;
 
 public struct FProtocol : IFlatbufferObject
 {
-  private Struct __p;
+  private Table __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
-  public void __init(int _i, ByteBuffer _bb) { __p = new Struct(_i, _bb); }
+  public static void ValidateVersion() { FlatBufferConstants.FLATBUFFERS_2_0_0(); }
+  public static FProtocol GetRootAsFProtocol(ByteBuffer _bb) { return GetRootAsFProtocol(_bb, new FProtocol()); }
+  public static FProtocol GetRootAsFProtocol(ByteBuffer _bb, FProtocol obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public FProtocol __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public uint Tag { get { return __p.bb.GetUint(__p.bb_pos + 0); } }
-  public byte HashCode(int j) { return __p.bb.Get(__p.bb_pos + 4 + j * 1); }
+  public uint Tag { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUint(o + __p.bb_pos) : (uint)0; } }
+  public byte HashCode(int j) { int o = __p.__offset(6); return o != 0 ? __p.bb.Get(__p.__vector(o) + j * 1) : (byte)0; }
+  public int HashCodeLength { get { int o = __p.__offset(6); return o != 0 ? __p.__vector_len(o) : 0; } }
+#if ENABLE_SPAN_T
+  public Span<byte> GetHashCodeBytes() { return __p.__vector_as_span<byte>(6, 1); }
+#else
+  public ArraySegment<byte>? GetHashCodeBytes() { return __p.__vector_as_arraysegment(6); }
+#endif
+  public byte[] GetHashCodeArray() { return __p.__vector_as_array<byte>(6); }
 
-  public static Offset<MProject.Packet.FProtocol> CreateFProtocol(FlatBufferBuilder builder, uint Tag, byte[] HashCode) {
-    builder.Prep(4, 36);
-    for (int _idx0 = 32; _idx0 > 0; _idx0--) {
-      builder.PutByte(HashCode[_idx0-1]);
-    }
-    builder.PutUint(Tag);
-    return new Offset<MProject.Packet.FProtocol>(builder.Offset);
+  public static Offset<MProject.Packet.FProtocol> CreateFProtocol(FlatBufferBuilder builder,
+      uint tag = 0,
+      VectorOffset hash_codeOffset = default(VectorOffset)) {
+    builder.StartTable(2);
+    FProtocol.AddHashCode(builder, hash_codeOffset);
+    FProtocol.AddTag(builder, tag);
+    return FProtocol.EndFProtocol(builder);
+  }
+
+  public static void StartFProtocol(FlatBufferBuilder builder) { builder.StartTable(2); }
+  public static void AddTag(FlatBufferBuilder builder, uint tag) { builder.AddUint(0, tag, 0); }
+  public static void AddHashCode(FlatBufferBuilder builder, VectorOffset hashCodeOffset) { builder.AddOffset(1, hashCodeOffset.Value, 0); }
+  public static VectorOffset CreateHashCodeVector(FlatBufferBuilder builder, byte[] data) { builder.StartVector(1, data.Length, 1); for (int i = data.Length - 1; i >= 0; i--) builder.AddByte(data[i]); return builder.EndVector(); }
+  public static VectorOffset CreateHashCodeVectorBlock(FlatBufferBuilder builder, byte[] data) { builder.StartVector(1, data.Length, 1); builder.Add(data); return builder.EndVector(); }
+  public static void StartHashCodeVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(1, numElems, 1); }
+  public static Offset<MProject.Packet.FProtocol> EndFProtocol(FlatBufferBuilder builder) {
+    int o = builder.EndTable();
+    return new Offset<MProject.Packet.FProtocol>(o);
   }
 }
 

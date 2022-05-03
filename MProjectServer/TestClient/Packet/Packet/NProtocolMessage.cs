@@ -19,7 +19,7 @@ public struct NProtocolMessage : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public NProtocolMessage __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public MProject.Packet.FProtocol? Protocol(int j) { int o = __p.__offset(4); return o != 0 ? (MProject.Packet.FProtocol?)(new MProject.Packet.FProtocol()).__assign(__p.__vector(o) + j * 36, __p.bb) : null; }
+  public MProject.Packet.FProtocol? Protocol(int j) { int o = __p.__offset(4); return o != 0 ? (MProject.Packet.FProtocol?)(new MProject.Packet.FProtocol()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
   public int ProtocolLength { get { int o = __p.__offset(4); return o != 0 ? __p.__vector_len(o) : 0; } }
 
   public static Offset<MProject.Packet.NProtocolMessage> CreateNProtocolMessage(FlatBufferBuilder builder,
@@ -31,7 +31,9 @@ public struct NProtocolMessage : IFlatbufferObject
 
   public static void StartNProtocolMessage(FlatBufferBuilder builder) { builder.StartTable(1); }
   public static void AddProtocol(FlatBufferBuilder builder, VectorOffset protocolOffset) { builder.AddOffset(0, protocolOffset.Value, 0); }
-  public static void StartProtocolVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(36, numElems, 4); }
+  public static VectorOffset CreateProtocolVector(FlatBufferBuilder builder, Offset<MProject.Packet.FProtocol>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateProtocolVectorBlock(FlatBufferBuilder builder, Offset<MProject.Packet.FProtocol>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static void StartProtocolVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static Offset<MProject.Packet.NProtocolMessage> EndNProtocolMessage(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<MProject.Packet.NProtocolMessage>(o);

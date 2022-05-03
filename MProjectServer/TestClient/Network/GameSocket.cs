@@ -7,12 +7,21 @@ using System.Net;
 namespace TestClient
 {
     using Network;
+    using Protocol;
+    using Utility;
 
     public class GameSocket : SocketAsyncEventArgs {
         
         private Socket socket;
         private IPEndPoint ip_end_point;
         private int max_packet_size;
+        
+
+        // [TODO] 이거 나중에 다른 클래스로 빼야함
+        private HandlerManager handler_manager = new HandlerManager();
+        public HandlerManager HandlerManager {
+            get { return handler_manager; }
+        }
 
         public GameSocket(IPAddress _ip_address, int _port, int _max_packet_size) {
 
@@ -25,6 +34,10 @@ namespace TestClient
             //! IOCP
             Completed += OnConnected;
             //socket.ReceiveAsync(this);
+
+            // Test
+            handler_manager.RegisterHandler((UInt32)MProject.Packet.Tag.Create, new ProtocolMessageHandler());
+            handler_manager.RegisterHandler((UInt32)MProject.Packet.Tag.Test, new TestProtocolHandler());
 
         }
 
@@ -39,12 +52,17 @@ namespace TestClient
             socket.Close();
         }
 
-        void SendPacket(FPacket _packet) {
-            
-            
+        public void SendPacket(FPacket _packet) {
+            byte[] tag = BitConverter.GetBytes(_packet.tag);
+            byte[] legnth = BitConverter.GetBytes(_packet.length);
+            List<byte> data = new List<byte>();
+            data.AddRange(tag);
+            data.AddRange(legnth);
+            data.AddRange(_packet.hash_code);
+            data.AddRange(_packet.data);
 
-            //socket.Send(, , SocketFlags.None);
-            
+            byte[] buffer = data.ToArray();
+            socket.Send(buffer, SocketFlags.None);
         }
 
 
@@ -67,32 +85,17 @@ namespace TestClient
                 return;
             }
 
+            //_args.bu\
+
             var buffer = new Span<byte>(_args.Buffer);
-            
 
             UInt32 tag = BitConverter.ToUInt32(buffer.Slice(0, GlobalDefine.PACKET_TAG_SIZE));
             UInt32 size = BitConverter.ToUInt32(buffer.Slice(GlobalDefine.PACKET_TAG_SIZE, GlobalDefine.PACKET_LEGNTH_SIZE));
             byte[] hash_code = buffer.Slice(8, GlobalDefine.PACKET_HASH_CODE_SIZE).ToArray();
-            var byte_buffer = new FlatBuffers.ByteBuffer(buffer.Slice(GlobalDefine.PACKET_HEADER_SIZE, Convert.ToInt32(size)).ToArray());
-            var ProtocolMessage = MProject.Packet.NProtocolMessage.GetRootAsNProtocolMessage(byte_buffer);
-
-            Console.WriteLine("tag:{0}, size:{1}", tag, size);
-            for (Int32 i = 0; i < ProtocolMessage.ProtocolLength; i++) {
-                var Protocol = ProtocolMessage.Protocol(i);
-                Console.WriteLine("Protocol: {0}", Protocol.Value.Tag);
-                StringBuilder sb = new StringBuilder();
-                for (Int32 j = 0; j < 32; ++j) {
-                    sb.Append(Protocol.Value.HashCode(j).ToString("x2"));
-                }
-                Console.WriteLine("HashCode: {0}", sb.ToString());
-            }
-
-            //ProtocolMessage.Protocol()
-
-
-            //BitConverter.ToUInt32()
-
-
+            byte[] data = buffer.Slice(GlobalDefine.PACKET_HEADER_SIZE, Convert.ToInt32(size)).ToArray();
+            FPacket packet = new FPacket(tag, size, hash_code, data);
+            handler_manager.ReceivePacket(packet);
+            socket.ReceiveAsync(this);
         }
     }
 }

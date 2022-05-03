@@ -1,4 +1,4 @@
-#include "NetworkServer.h"
+ï»¿#include "NetworkServer.h"
 
 #include "IOAcceptor.h"
 #include "IOConnector.h"
@@ -66,7 +66,7 @@ void NetworkServer::Loop() {
 					OnDisconnect(net_event->session);
 				} else {
 					net_event->session->Disconnect();
-					// error ¿¬°áÀº µÇ¾úÁö¸¸ µ¥ÀÌÅÍ°¡ ÀúÀåµÇ¾î ÀÖÁö ¾ÊÀ½
+					// error ì—°ê²°ì€ ë˜ì—ˆì§€ë§Œ ë°ì´í„°ê°€ ì €ìž¥ë˜ì–´ ìžˆì§€ ì•ŠìŒ
 				}
 				net_event->IO_service->PushSession(net_event->session);
 			
@@ -138,8 +138,11 @@ void NetworkServer::PushNetEvent(ENetEventType _type, std::shared_ptr<IOService>
 	}
 }
 
-void NetworkServer::SendPacket(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {
-	_session->Write(std::move(_packet));
+void NetworkServer::SendPacket(SessionKey _session, std::unique_ptr<FPacket> _packet) {
+	if (false == connected_session_map.contains(_session)) {
+		return;
+	}
+	connected_session_map[_session]->Write(std::move(_packet));
 }
 
 void NetworkServer::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {

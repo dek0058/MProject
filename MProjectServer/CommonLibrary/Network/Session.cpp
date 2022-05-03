@@ -1,4 +1,4 @@
-#include "Session.h"
+ï»¿#include "Session.h"
 
 #include "IOService.h"
 #include "Core/MLogger.h"
@@ -18,7 +18,7 @@ FSession::FSession(std::shared_ptr<IOService> _IO_service, ESessionType _session
 FSession::~FSession() {
 	boost::system::error_code error_code;
 	sock.close(error_code);
-	//! ¹öÆÛ µ¥ÀÌÅÍ´Â ¸Ş¸ğ¸®Ç®¿¡ ÀÇÇØ ÀÚµ¿À¸·Î ¸Ş¸ğ¸® ÇØÁ¦µÊ
+	//! ë²„í¼ ë°ì´í„°ëŠ” ë©”ëª¨ë¦¬í’€ì— ì˜í•´ ìë™ìœ¼ë¡œ ë©”ëª¨ë¦¬ í•´ì œë¨
 }
 
 void FSession::Accept(SessionKey _session_key) {
@@ -121,11 +121,12 @@ void FSession::Write(std::unique_ptr<FPacket> _packet) {
 	}
 	
 	if (true == IsWriting()) {
-		//! ÀÌ¹Ì ¾²±â ÀÛ¾÷À» ÇÏ°í ÀÖ´Ù¸é ¹öÆÛ¿¡ Çª½Ã¸¸ ÇØÁØ´Ù.
+		//! ì´ë¯¸ ì“°ê¸° ì‘ì—…ì„ í•˜ê³  ìˆë‹¤ë©´ ë²„í¼ì— í‘¸ì‹œë§Œ í•´ì¤€ë‹¤.
 		send_packets.emplace_after(send_packets.before_begin(), std::move(_packet));
 		return;
 	} else {
 		SetWriting(true);
+		MLogger::GetMutableInstance().LogError(std::format("[{}]", UniversalToolkit::Digest2Hex(_packet->hash_code)));
 		auto buffer = NetworkToolkit::GetPacketData(std::move(_packet));
 		send_packet.Allocate(buffer.size());
 		memcpy(send_packet.data, buffer.data(), buffer.size());
@@ -162,7 +163,7 @@ void FSession::OnWrite(boost::system::error_code const& _error_code, size_t _byt
 	}
 
 	if (false == send_packet.Complete(_bytes_transferred)) {
-		// ¸¸¾à ´Ù º¸³»Áö ¸øÇßÀ» °æ¿ì ³ª¸ÓÁö¸¦ ´Ù½Ã º¸³»ÁØ´Ù.
+		// ë§Œì•½ ë‹¤ ë³´ë‚´ì§€ ëª»í–ˆì„ ê²½ìš° ë‚˜ë¨¸ì§€ë¥¼ ë‹¤ì‹œ ë³´ë‚´ì¤€ë‹¤.
 		GetSocket().async_write_some(
 			boost::asio::buffer(send_packet.data + send_packet.transferred, send_packet.length),
 			boost::asio::bind_executor(
@@ -233,7 +234,7 @@ void FSession::Flush() {
 	
 	std::memcpy(&packet->tag, buffer.data(), PACKET_TAG_SIZE);
 	std::memcpy(&packet->length, buffer.data() + PACKET_TAG_SIZE, PACKET_LEGNTH_SIZE);
-	std::memcpy(&packet->hash_code, buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, PACKET_HASH_CODE_SIZE);
+	std::memcpy(packet->hash_code.data(), buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, PACKET_HASH_CODE_SIZE);
 
 	if (recv_buffers.UsedSize() < packet->length) {
 		throw std::runtime_error("[FSession::Flush] packet length error");
