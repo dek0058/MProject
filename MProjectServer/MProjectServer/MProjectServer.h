@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "GlobalDefine.h"
 
 #include <QtWidgets/QMainWindow>
@@ -17,6 +17,10 @@ public:
 private:
     void OnInitialize();
 
+    // Initailize
+    void Initailize_Manager();
+    void Initailize_UI();
+    void Initailize_Bind();
 
 private slots:
     void OnClick(bool checked);

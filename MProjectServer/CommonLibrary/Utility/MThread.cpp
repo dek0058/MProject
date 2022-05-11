@@ -1,4 +1,4 @@
-#include "MThread.h"
+ï»¿#include "MThread.h"
 #include <windows.h>
 
 #include "Core/MLogger.h"
@@ -8,7 +8,7 @@ MThread::MThread(std::wstring_view _name, int _fixed)
 	: state(ThreadState::None), name(_name), fps(_fixed) { ; }
 
 void MThread::Start() {
-	if (state != ThreadState::None) {
+	if (state != ThreadState::None && state != ThreadState::Stopped) {
 		return;
 	}
 	thread = std::move(std::make_unique<std::thread>(&MThread::OnAction, this));
@@ -31,7 +31,7 @@ void MThread::Stop() {
 }
 
 void MThread::SetPriority(int _priority) {
-	if (state == ThreadState::None) {
+	if (state == ThreadState::None || state == ThreadState::Stopped) {
 		return;
 	}
 	SetThreadPriority(thread->native_handle(), _priority);
@@ -41,7 +41,7 @@ void MThread::OnAction() {
 	try {
 		OnStart();
 		if(GetState() != ThreadState::Running) {
-			throw; // ¿¹¿ÜÃ³¸® ÇÊ¿ä
+			throw; // ì˜ˆì™¸ì²˜ë¦¬ í•„ìš”
 		}
 		while (GetState() == ThreadState::Running) {
 			try {

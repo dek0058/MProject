@@ -20,27 +20,21 @@ MProjectServer::MProjectServer(QWidget *parent)
 }
 
 void MProjectServer::OnInitialize() {
-	// Core initailize...
-    // 테스트
-    MProjectServer::List_Widget = ui.test_list;
-	
-    MLogger::GetMutableInstance().Create("MProjectServer-logs", "MProjectServer", 65'536, 1000);
-    MLogger::GetMutableInstance().AddDelegate([]() {
-        std::string msg = MLogger::GetMutableInstance().GetMutableInstance().PopMessage();
-        if (true == msg.empty()) {
-            return;
-        }
-        MProjectServer::List_Widget->addItem(QString::fromLocal8Bit(msg.c_str()));
-    });
+    Initailize_Manager();
+    Initailize_UI();
+    Initailize_Bind();
+}
 
-    // Manager Initailize...
+void MProjectServer::Initailize_Manager()
+{
+    MLogger::GetMutableInstance().Create("MProjectServer-logs", "MProjectServer", 65'536, 1000);
+
     MThreadManager::GetConstInstance();
 
+}
 
-    //QObject::connect(server_push_btn, &QPushButton::clicked, server_push_btn, qOverload<>(&QPushButton::click));
-
-    QObject::connect(ui.server_push_btn, &QPushButton::clicked, this, &MProjectServer::OnClick);
-	
+void MProjectServer::Initailize_UI()
+{
     using udp = boost::asio::ip::udp;
     boost::asio::io_service netService;
     udp::resolver   resolver(netService);
@@ -54,21 +48,33 @@ void MProjectServer::OnInitialize() {
 
     QString qstring(std::format("Public IP={}", addr.to_string()).c_str());
     ui.private_ip_title_label->setText(qstring);
-
 }
 
+void MProjectServer::Initailize_Bind()
+{
+    // 테스트용
+    MProjectServer::List_Widget = ui.test_list;
+    MLogger::GetMutableInstance().AddDelegate([]() {
+        std::string msg = MLogger::GetMutableInstance().GetMutableInstance().PopMessage();
+        if (true == msg.empty()) {
+            return;
+        }
+        MProjectServer::List_Widget->addItem(QString::fromLocal8Bit(msg.c_str()));
+    });
+
+
+    QObject::connect(ui.server_push_btn, &QPushButton::clicked, this, &MProjectServer::OnClick);
+}
+
+
 void MProjectServer::OnClick(bool checked) {
-    static bool test_check = false;
-    if (test_check) {
-        return;
+    if (true == MThreadManager::GetConstInstance().Stopped()) {
+		MThreadManager::GetMutableInstance().OnStart();
+    } else {
+        MThreadManager::GetMutableInstance().AllStop();
     }
-    test_check = true;
 
-    ui.test_list->addItem(QString("Server Start"));
-    MThreadManager::GetMutableInstance().OnStart();
-
-    // 성공되면 교체 필요할듯한데?
-    ui.server_push_btn->setText(QString("Connecting..."));
+    ui.server_push_btn->setText(MThreadManager::GetConstInstance().Stopped() ? QString("Start...") : QString("Connecting..."));
 }
 
 
