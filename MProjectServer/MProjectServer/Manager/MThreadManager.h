@@ -21,6 +21,6 @@ public:
 
 
 private:
-	std::map<ThreadType, std::shared_ptr<MThread>> threads;
+	std::map<ThreadType, std::tuple<std::shared_ptr<MThread>, bool>> threads;
 };
 

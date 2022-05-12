@@ -25,6 +25,8 @@ void MProjectServer::OnInitialize() {
     Initailize_Bind();
 }
 
+//! Initailize
+
 void MProjectServer::Initailize_Manager()
 {
     MLogger::GetMutableInstance().Create("MProjectServer-logs", "MProjectServer", 65'536, 1000);
@@ -32,6 +34,8 @@ void MProjectServer::Initailize_Manager()
     MThreadManager::GetConstInstance();
 
 }
+
+
 
 void MProjectServer::Initailize_UI()
 {
