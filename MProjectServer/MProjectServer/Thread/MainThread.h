@@ -1,13 +1,19 @@
 ﻿#pragma once
 #include "Utility/MThread.h"
+#include "MProjectServerDefine.h"
 
 // inherit thread class...
-class MainThread final : public MThread {
+class MainThread final : public MThread, IThread {
 	
 public:
 	MainThread();
 	~MainThread();
 
+	//! Getter
+	ThreadType GetThreadType() const {
+		return ThreadType::Main;
+	}
+	
 protected:
 
 	virtual void OnStart() override;
