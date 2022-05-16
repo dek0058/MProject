@@ -18,29 +18,35 @@ struct NProtocolMessageBuilder;
 enum Tag : uint32_t {
   Tag_Create = 0,
   Tag_Test = 1,
+  Tag_UserLogin = 2,
+  Tag_IssueUserKey = 3,
   Tag_MIN = Tag_Create,
-  Tag_MAX = Tag_Test
+  Tag_MAX = Tag_IssueUserKey
 };
 
-inline const Tag (&EnumValuesTag())[2] {
+inline const Tag (&EnumValuesTag())[4] {
   static const Tag values[] = {
     Tag_Create,
-    Tag_Test
+    Tag_Test,
+    Tag_UserLogin,
+    Tag_IssueUserKey
   };
   return values;
 }
 
 inline const char * const *EnumNamesTag() {
-  static const char * const names[3] = {
+  static const char * const names[5] = {
     "Create",
     "Test",
+    "UserLogin",
+    "IssueUserKey",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameTag(Tag e) {
-  if (flatbuffers::IsOutRange(e, Tag_Create, Tag_Test)) return "";
+  if (flatbuffers::IsOutRange(e, Tag_Create, Tag_IssueUserKey)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesTag()[index];
 }

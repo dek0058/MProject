@@ -11,7 +11,6 @@ class MProjectServer : public QMainWindow
 public:
     MProjectServer(QWidget *parent = Q_NULLPTR);
 
-    static void AddTestLog(std::string const& str);
     static QListWidget* List_Widget;
 
 private:

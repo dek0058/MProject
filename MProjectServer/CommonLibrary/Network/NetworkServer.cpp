@@ -148,3 +148,11 @@ void NetworkServer::SendPacket(SessionKey _session, std::unique_ptr<FPacket> _pa
 void NetworkServer::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {
 	protocol_handler_manager->ReceivePacket(_session, std::move(_packet));
 }
+
+std::shared_ptr<FSession> NetworkServer::GetSession(SessionKey _session_key) {
+	if (false == connected_session_map.contains(_session_key)) {
+		return nullptr;
+	} else {
+		return connected_session_map[_session_key];
+	}
+}

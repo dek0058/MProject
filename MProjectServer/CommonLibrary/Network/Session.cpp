@@ -126,7 +126,6 @@ void FSession::Write(std::unique_ptr<FPacket> _packet) {
 		return;
 	} else {
 		SetWriting(true);
-		MLogger::GetMutableInstance().LogError(std::format("[{}]", UniversalToolkit::Digest2Hex(_packet->hash_code)));
 		auto buffer = NetworkToolkit::GetPacketData(std::move(_packet));
 		send_packet.Allocate(buffer.size());
 		memcpy(send_packet.data, buffer.data(), buffer.size());

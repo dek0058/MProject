@@ -9,6 +9,8 @@ public enum Tag : uint
 {
   Create = 0,
   Test = 1,
+  UserLogin = 2,
+  IssueUserKey = 3,
 };
 
 

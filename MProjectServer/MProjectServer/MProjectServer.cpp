@@ -52,6 +52,8 @@ void MProjectServer::Initailize_UI()
 
     QString qstring(std::format("Public IP={}", addr.to_string()).c_str());
     ui.private_ip_title_label->setText(qstring);
+
+    ui.server_push_btn->setText(QString("Start"));
 }
 
 void MProjectServer::Initailize_Bind()
@@ -68,6 +70,9 @@ void MProjectServer::Initailize_Bind()
 
 
     QObject::connect(ui.server_push_btn, &QPushButton::clicked, this, &MProjectServer::OnClick);
+    MThreadManager::GetMutableInstance().AddCompleteDelegate([&] {
+        ui.server_push_btn->setText(QString("Connected"));
+    });
 }
 
 
@@ -76,13 +81,7 @@ void MProjectServer::OnClick(bool checked) {
 		MThreadManager::GetMutableInstance().OnStart();
     } else {
         MThreadManager::GetMutableInstance().AllStop();
+        ui.server_push_btn->setText(QString("Start"));
     }
-
-    ui.server_push_btn->setText(MThreadManager::GetConstInstance().Stopped() ? QString("Start...") : QString("Connecting..."));
 }
 
-
-// 테스트용
-void MProjectServer::AddTestLog(std::string const& str) {
-    MProjectServer::List_Widget->addItem(QString(str.c_str()));
-}

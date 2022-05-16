@@ -38,6 +38,10 @@ public:
 	void SendPacket(SessionKey _session, std::unique_ptr<FPacket> _packet);
 	void ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet);
 
+	//! Getter
+	
+	std::shared_ptr<FSession> GetSession(SessionKey _session_key);
+
 protected:
 	std::shared_ptr<ProtocolHandlerManager> GetHandlerManager() {
 		return protocol_handler_manager;

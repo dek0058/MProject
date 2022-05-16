@@ -1,0 +1,7 @@
+namespace MProject.Packet;
+
+table NUserLoginPacket {
+    
+}
+
+root_type NUserLoginPacket;
