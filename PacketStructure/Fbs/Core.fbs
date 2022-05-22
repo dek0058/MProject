@@ -3,14 +3,21 @@
 namespace MProject.Core;
 
 // Position, Rotation, Scale, etc...
-struct Vector3 {
+table Vector {
     x:float;
     y:float;
     z:float;
 }
 
-struct Transform {
-    position:Vector3;
-    rotation:Vector3;
-    scale:Vector3;
+table Quaternion {
+    x:float;
+    y:float;
+    z:float;
+    w:float;
+}
+
+table Transform {
+    position:Vector;
+    rotation:Quaternion;
+    scale:Vector;
 }

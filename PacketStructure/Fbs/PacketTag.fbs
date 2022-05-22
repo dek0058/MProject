@@ -4,8 +4,19 @@ namespace MProject.Packet;
 enum Tag:uint {
     Create          = 0,
     Test            = 1,
-    UserLogin       = 2,
-    IssueUserKey    = 3
+    
+    ClientUserLogin,
+    ServerUserLogin,
+
+    // Create
+    ClientJoinWorld,
+    
+    LeftWorld,
+
+    SpawnActor,
+    MoveActor,
+
+
 }
 
 table FProtocol {

@@ -1,0 +1,8 @@
+
+namespace MProject.Packet;
+
+table NJoinWorldPacket {
+    
+}
+
+root_type NJoinWorldPacket;

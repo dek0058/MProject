@@ -329,6 +329,15 @@
     <ClInclude Include="spdlog\stopwatch.h" />
     <ClInclude Include="spdlog\tweakme.h" />
     <ClInclude Include="spdlog\version.h" />
+    <ClInclude Include="Structure\ActorStructure.h" />
+    <ClInclude Include="Structure\Actor\Actor.h" />
+    <ClInclude Include="Structure\Actor\UnitActor.h" />
+    <ClInclude Include="Structure\Core\Quaternion.h" />
+    <ClInclude Include="Structure\Core\Transform.h" />
+    <ClInclude Include="Structure\Core\Vector.h" />
+    <ClInclude Include="Structure\PlayerStructure.h" />
+    <ClInclude Include="Structure\Player\GPC.h" />
+    <ClInclude Include="Structure\UnitStructure.h" />
     <ClInclude Include="Utility\FramesPerSecond.h" />
     <ClInclude Include="GlobalDefine.h" />
     <ClInclude Include="GuardDefine.h" />

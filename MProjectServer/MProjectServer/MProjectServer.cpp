@@ -2,6 +2,9 @@
 
 #include "Core/MLogger.h"
 #include "Manager/MThreadManager.h"
+#include "Manager/UserManager.h"
+#include "Manager/WorldManager.h"
+
 #include "Network/HeadServer.h"
 
 #include <QtWidgets/qlistwidget.h>
@@ -32,10 +35,10 @@ void MProjectServer::Initailize_Manager()
     MLogger::GetMutableInstance().Create("MProjectServer-logs", "MProjectServer", 65'536, 1000);
 
     MThreadManager::GetConstInstance();
-
+    UserManager::GetConstInstance();
+    WorldManager::GetConstInstance();
+	
 }
-
-
 
 void MProjectServer::Initailize_UI()
 {

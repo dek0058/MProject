@@ -2,14 +2,15 @@
 #include "Network/Session.h"
 
 
-MUser::MUser(std::shared_ptr<FSession> _session) 
-	: session(_session), user_key(GetTestUserKey()) {
+MUser::MUser(std::shared_ptr<FSession> _session, uint _key)
+	: session(_session), key(_key),
+	game_player_controller(new GPC()) {
 	
 
 }
 
 MUser::~MUser() {
-	delete this;
+	
 }
 
 
@@ -18,7 +19,7 @@ uint MUser::SessionKey() const {
 }
 
 uint MUser::GetUserKey() const {
-	return user_key;
+	return key;
 }
 
 

@@ -1,0 +1,9 @@
+include "Core.fbs"
+
+namespace MProject.Actor;
+
+
+table Actor {
+    id:uint;
+    transform:Transform
+}
