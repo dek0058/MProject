@@ -338,6 +338,7 @@
     <ClInclude Include="Structure\PlayerStructure.h" />
     <ClInclude Include="Structure\Player\GPC.h" />
     <ClInclude Include="Structure\UnitStructure.h" />
+    <ClInclude Include="Structure\WorldStructure.h" />
     <ClInclude Include="Utility\FramesPerSecond.h" />
     <ClInclude Include="GlobalDefine.h" />
     <ClInclude Include="GuardDefine.h" />

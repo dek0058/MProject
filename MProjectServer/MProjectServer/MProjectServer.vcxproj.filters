@@ -73,6 +73,9 @@
     <ClCompile Include="User\MUser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="World\MWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Network\HeadServer.h">
@@ -103,6 +106,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Protocol\IssuseUserKeyProtocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\WorldManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

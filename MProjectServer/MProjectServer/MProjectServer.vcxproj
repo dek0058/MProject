@@ -128,6 +128,7 @@
     <ClCompile Include="Protocol\UserLoginProtocol.cpp" />
     <ClCompile Include="Thread\MainThread.cpp" />
     <ClCompile Include="User\MUser.cpp" />
+    <ClCompile Include="World\MWorld.cpp" />
     <QtRcc Include="MProjectServer.qrc" />
     <QtUic Include="MProjectServer.ui" />
     <QtMoc Include="MProjectServer.h" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="Manager\MThreadManager.h" />
     <ClInclude Include="Manager\UserManager.h" />
+    <ClInclude Include="Manager\WorldManager.h" />
     <ClInclude Include="MProjectServerDefine.h" />
     <ClInclude Include="Network\HeadProtocolHandlerManager.h" />
     <ClInclude Include="Network\HeadServer.h" />
@@ -152,6 +154,7 @@
     <ClInclude Include="Protocol\UserLoginProtocol.h" />
     <ClInclude Include="Thread\MainThread.h" />
     <ClInclude Include="User\MUser.h" />
+    <ClInclude Include="World\MWorld.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
