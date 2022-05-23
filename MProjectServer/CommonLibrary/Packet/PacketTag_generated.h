@@ -18,35 +18,65 @@ struct NProtocolMessageBuilder;
 enum Tag : uint32_t {
   Tag_Create = 0,
   Tag_Test = 1,
-  Tag_UserLogin = 2,
-  Tag_IssueUserKey = 3,
+  Tag_C2S_UserLogin = 2,
+  Tag_S2C_UserLogin = 3,
+  Tag_C2S_UserLogout = 4,
+  Tag_S2C_UserLogout = 5,
+  Tag_C2S_JoinWorld = 6,
+  Tag_S2C_JoinWorld = 7,
+  Tag_C2S_LeftWorld = 8,
+  Tag_S2C_LeftWorld = 9,
+  Tag_S2C_JoinUserInWorld = 10,
+  Tag_S2C_LeftUserInWorld = 11,
+  Tag_C2S_MoveActorInWorld = 12,
+  Tag_S2C_MoveActorInWorld = 13,
   Tag_MIN = Tag_Create,
-  Tag_MAX = Tag_IssueUserKey
+  Tag_MAX = Tag_S2C_MoveActorInWorld
 };
 
-inline const Tag (&EnumValuesTag())[4] {
+inline const Tag (&EnumValuesTag())[14] {
   static const Tag values[] = {
     Tag_Create,
     Tag_Test,
-    Tag_UserLogin,
-    Tag_IssueUserKey
+    Tag_C2S_UserLogin,
+    Tag_S2C_UserLogin,
+    Tag_C2S_UserLogout,
+    Tag_S2C_UserLogout,
+    Tag_C2S_JoinWorld,
+    Tag_S2C_JoinWorld,
+    Tag_C2S_LeftWorld,
+    Tag_S2C_LeftWorld,
+    Tag_S2C_JoinUserInWorld,
+    Tag_S2C_LeftUserInWorld,
+    Tag_C2S_MoveActorInWorld,
+    Tag_S2C_MoveActorInWorld
   };
   return values;
 }
 
 inline const char * const *EnumNamesTag() {
-  static const char * const names[5] = {
+  static const char * const names[15] = {
     "Create",
     "Test",
-    "UserLogin",
-    "IssueUserKey",
+    "C2S_UserLogin",
+    "S2C_UserLogin",
+    "C2S_UserLogout",
+    "S2C_UserLogout",
+    "C2S_JoinWorld",
+    "S2C_JoinWorld",
+    "C2S_LeftWorld",
+    "S2C_LeftWorld",
+    "S2C_JoinUserInWorld",
+    "S2C_LeftUserInWorld",
+    "C2S_MoveActorInWorld",
+    "S2C_MoveActorInWorld",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameTag(Tag e) {
-  if (flatbuffers::IsOutRange(e, Tag_Create, Tag_IssueUserKey)) return "";
+  if (flatbuffers::IsOutRange(e, Tag_Create, Tag_S2C_MoveActorInWorld)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesTag()[index];
 }

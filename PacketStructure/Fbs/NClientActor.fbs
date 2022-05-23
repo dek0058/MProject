@@ -1,0 +1,16 @@
+include "Actor.fbs";
+include "Player.fbs";
+
+namespace MProject.Packet;
+
+
+table NC2S_MoveActorInWorld {
+    world_key:uint;
+    actors:[Actor];
+}
+
+table NS2C_MoveActorInWorld {
+    world_key:uint;
+    actors:[Actor];
+}
+

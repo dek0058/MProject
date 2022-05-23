@@ -1,0 +1,17 @@
+include "Actor.fbs";
+include "Player.fbs";
+
+namespace MProject.Packet;
+
+table NS2C_JoinUserInWorld {
+    world_key:uint;
+    players:[GPC];
+    actors:[Actor];
+}
+
+table NS2C_LeftUserInWorld {
+    world_key:uint;
+    players:[GPC];
+    actors:[Actor];
+}
+

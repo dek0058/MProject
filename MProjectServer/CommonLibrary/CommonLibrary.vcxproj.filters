@@ -414,9 +414,6 @@
     <ClInclude Include="Core\MLogger.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Packet\Core_generated.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="flatbuffers\pch\flatc_pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -519,9 +516,6 @@
     <ClInclude Include="Exception\OpenSSLException.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Packet\NTestPacket_generated.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Utility\MRandom.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -529,12 +523,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Packet\PacketTag_generated.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Packet\NIssuseUserKeyPacket_generated.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Packet\NUserLoginPacket_generated.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Structure\ActorStructure.h">
@@ -565,6 +553,24 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Structure\WorldStructure.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\Actor_generated.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\Core_generated.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\NClientActor_generated.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\NClientLogin_generated.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\NClientWorld_generated.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\Player_generated.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

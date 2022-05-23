@@ -1,6 +1,6 @@
 // Basic core structure implelment.
 
-namespace MProject.Core;
+namespace MProject.Packet;
 
 // Position, Rotation, Scale, etc...
 table Vector {

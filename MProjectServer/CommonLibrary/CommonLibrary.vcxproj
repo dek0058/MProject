@@ -225,11 +225,13 @@
     <ClInclude Include="flatbuffers\vector_downward.h" />
     <ClInclude Include="flatbuffers\verifier.h" />
     <ClInclude Include="Network\BaseProtocol.h" />
+    <ClInclude Include="Packet\Actor_generated.h" />
     <ClInclude Include="Packet\Core_generated.h" />
-    <ClInclude Include="Packet\NIssuseUserKeyPacket_generated.h" />
-    <ClInclude Include="Packet\NTestPacket_generated.h" />
-    <ClInclude Include="Packet\NUserLoginPacket_generated.h" />
+    <ClInclude Include="Packet\NClientActor_generated.h" />
+    <ClInclude Include="Packet\NClientLogin_generated.h" />
+    <ClInclude Include="Packet\NClientWorld_generated.h" />
     <ClInclude Include="Packet\PacketTag_generated.h" />
+    <ClInclude Include="Packet\Player_generated.h" />
     <ClInclude Include="spdlog\async.h" />
     <ClInclude Include="spdlog\async_logger-inl.h" />
     <ClInclude Include="spdlog\async_logger.h" />

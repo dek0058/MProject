@@ -11,8 +11,8 @@
 void HeadProtocolHandlerManager::OnRegisterHandler() {
 	MLogger::GetMutableInstance().LogError("Register Handler!");
 
-	RegisterHandler(std::make_shared<TestProtocolHandler>());
+	/*RegisterHandler(std::make_shared<TestProtocolHandler>());
 	RegisterHandler(std::make_shared<UserLoginProtocolHandler>());
-	RegisterHandler(std::make_shared<IssuseUserKeyProtocolHandler>());
+	RegisterHandler(std::make_shared<IssuseUserKeyProtocolHandler>());*/
 
 }

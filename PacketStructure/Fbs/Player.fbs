@@ -2,9 +2,7 @@ include "Core.fbs";
 
 namespace MProject.Packet;
 
-
-table Actor {
-    actor_key:uint;
+table GPC {
     user_key:uint;
-    transform:Transform;
 }
+

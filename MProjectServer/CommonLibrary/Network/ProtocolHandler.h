@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "NetworkDefine.h"
 #include "BaseProtocol.h"
 
@@ -35,7 +35,7 @@ public:
 	}
 
 protected:
-	virtual void OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) = 0;
+	virtual void OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) { ; }
 
 protected:
 	std::unique_ptr<Protocol> protocol;

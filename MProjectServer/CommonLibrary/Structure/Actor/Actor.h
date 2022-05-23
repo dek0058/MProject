@@ -4,11 +4,11 @@
 
 class Actor {
 public:
-	uint id;
+	uint actor_key;
 	FTransform transform;
 
 
-	Actor(uint _id) : id(_id) {}
+	Actor(uint _actor_key) : actor_key(_actor_key) {}
 
 
 };

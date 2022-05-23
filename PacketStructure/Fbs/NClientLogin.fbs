@@ -1,0 +1,32 @@
+
+namespace MProject.Packet;
+
+// User Login
+table NC2S_UserLogin { 
+}
+table NS2C_UserLogin {
+    user_key:uint;
+    // TODO Character Infos
+}
+
+
+// User Logout
+table NC2S_UserLogout {
+}
+table NS2C_UserLogout {
+}
+
+
+// User Join World
+table NC2S_JoinWorld {
+    // TODO Characeter Info
+}
+table NS2C_JoinWorld {
+    world_key:uint;
+}
+
+// User Left World
+table NC2S_LeftWorld {
+}
+table NS2C_LeftWorld {
+}

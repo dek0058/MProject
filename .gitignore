@@ -56,6 +56,7 @@ mono_crash.*
 
 # Build results
 
+MProjectClient/
 Result/
 MProjectServer/MProjectServer/x64/
 MProjectServer/TestClient/obj/

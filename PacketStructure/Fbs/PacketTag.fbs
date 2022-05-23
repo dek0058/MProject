@@ -1,21 +1,35 @@
 
 namespace MProject.Packet;
 
+/*
+C2S - Client send packet to Server
+S2C - Server send packet to Client
+*/
+
 enum Tag:uint {
     Create          = 0,
     Test            = 1,
     
-    ClientUserLogin,
-    ServerUserLogin,
+    // Client Login
+    C2S_UserLogin,
+    S2C_UserLogin,
 
-    // Create
-    ClientJoinWorld,
+    C2S_UserLogout,
+    S2C_UserLogout,
     
-    LeftWorld,
+    C2S_JoinWorld,
+    S2C_JoinWorld,
 
-    SpawnActor,
-    MoveActor,
+    C2S_LeftWorld,
+    S2C_LeftWorld,
 
+    // Client World
+    S2C_JoinUserInWorld,
+    S2C_LeftUserInWorld,
+
+    // Client Actor Event In World
+    C2S_MoveActorInWorld,
+    S2C_MoveActorInWorld
 
 }
 

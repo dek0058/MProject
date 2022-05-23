@@ -1,7 +1,0 @@
-namespace MProject.Packet;
-
-table NIssuseUserKeyPacket {
-    key:uint;
-}
-
-root_type NIssuseUserKeyPacket;
