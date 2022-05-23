@@ -16,8 +16,10 @@ void HeadServer::OnAccept(std::shared_ptr<FSession> _session) {
 
 	// 우선 패킷 정보 부터 보내자..
 	std::vector<uint> tags;
-	tags.emplace_back(MProject::Packet::Tag::Tag_UserLogin);
-	tags.emplace_back(MProject::Packet::Tag::Tag_IssueUserKey);
+	tags.emplace_back(MProject::Packet::Tag::Tag_C2S_UserLogin);
+	tags.emplace_back(MProject::Packet::Tag::Tag_S2C_UserLogin);
+
+	
 
 	SendPacket(_session->GetSessionKey(), GetHandlerManager()->CreateProtocolMessage(tags));
 

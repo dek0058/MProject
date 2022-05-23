@@ -17,9 +17,10 @@ class NS2C_UserLoginProtocol : public BaseProtocol {
 	GENERATE_PROTOCOL_IMPLEMENT(NS2C_UserLoginProtocol, MProject::Packet::Tag::Tag_S2C_UserLogin)
 
 public:
-	static std::unique_ptr<FPacket> CreatePacket() {
+	static std::unique_ptr<FPacket> CreatePacket(uint _key) {
 		START_PACKET(NS2C_UserLoginProtocol);
-		MProject::Packet::NC2S_UserLoginBuilder packet_builder(builder);
+		MProject::Packet::NS2C_UserLoginBuilder packet_builder(builder);
+		packet_builder.add_user_key(_key);
 		END_PACKET(packet_builder);
 	}
 };

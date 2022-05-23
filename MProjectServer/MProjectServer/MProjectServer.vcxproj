@@ -124,9 +124,6 @@
     <ClCompile Include="Network\HeadProtocolHandlerManager.cpp" />
     <ClCompile Include="Network\HeadServer.cpp" />
     <ClCompile Include="Protocol\ClientLoginProtocol.cpp" />
-    <ClCompile Include="Protocol\IssuseUserKeyProtocol.cpp" />
-    <ClCompile Include="Protocol\TestProtocol.cpp" />
-    <ClCompile Include="Protocol\UserLoginProtocol.cpp" />
     <ClCompile Include="Thread\MainThread.cpp" />
     <ClCompile Include="User\MUser.cpp" />
     <ClCompile Include="World\MWorld.cpp" />
@@ -150,10 +147,7 @@
     <ClInclude Include="MProjectServerDefine.h" />
     <ClInclude Include="Network\HeadProtocolHandlerManager.h" />
     <ClInclude Include="Network\HeadServer.h" />
-    <ClInclude Include="Protocol\IssuseUserKeyProtocol.h" />
     <ClInclude Include="Protocol\ClientLoginProtocol.h" />
-    <ClInclude Include="Protocol\TestProtocol.h" />
-    <ClInclude Include="Protocol\UserLoginProtocol.h" />
     <ClInclude Include="Thread\MainThread.h" />
     <ClInclude Include="User\MUser.h" />
     <ClInclude Include="World\MWorld.h" />

@@ -7,7 +7,7 @@ using System.Net;
 namespace TestClient
 {
     using Network;
-    using Protocol;
+    //using Protocol;
     using Utility;
 
     public class GameSocket : SocketAsyncEventArgs {
@@ -37,7 +37,7 @@ namespace TestClient
 
             // Test
             handler_manager.RegisterHandler((UInt32)MProject.Packet.Tag.Create, new ProtocolMessageHandler());
-            handler_manager.RegisterHandler((UInt32)MProject.Packet.Tag.Test, new TestProtocolHandler());
+            //handler_manager.RegisterHandler((UInt32)MProject.Packet.Tag.Test, new TestProtocolHandler());
 
         }
 

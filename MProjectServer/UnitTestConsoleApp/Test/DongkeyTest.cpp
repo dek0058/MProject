@@ -115,62 +115,62 @@ void DongkeyTest::MapBenchmark() {
 
 
 
-#include "Protocol/TestProtocol.h"
+//#include "Protocol/TestProtocol.h"
 void DongkeyTest::PacketTest() {
-	CircularBuffer_M circular_buffer(1024);
-	std::cout << std::endl;
-	std::cout << UniversalToolkit::Digest2Hex(MSHA256::GenerateHashcode("TestProtocol")) << std::endl;
-	
-	std::cout << "Send Packet\n";
-	std::unique_ptr<FPacket> packet = TestProtocol::CreatePacket(1, 2, 3);
+	//CircularBuffer_M circular_buffer(1024);
+	//std::cout << std::endl;
+	//std::cout << UniversalToolkit::Digest2Hex(MSHA256::GenerateHashcode("TestProtocol")) << std::endl;
+	//
+	//std::cout << "Send Packet\n";
+	//std::unique_ptr<FPacket> packet = TestProtocol::CreatePacket(1, 2, 3);
 
-	std::vector<byte> buffer(PACKET_HEADER_SIZE + packet->data.size());
-	std::memcpy(buffer.data(), &packet->tag, PACKET_TAG_SIZE);
-	std::memcpy(buffer.data() + PACKET_TAG_SIZE, &packet->length, PACKET_LEGNTH_SIZE);
-	std::memcpy(buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, packet->hash_code.data(), PACKET_HASH_CODE_SIZE);
-	std::memcpy(buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE + PACKET_HASH_CODE_SIZE, packet->data.data(), packet->length);
-	circular_buffer.Put(buffer.data(), buffer.size());
-	std::cout << std::format("Circular buffer size:{}\n", circular_buffer.UsedSize());
+	//std::vector<byte> buffer(PACKET_HEADER_SIZE + packet->data.size());
+	//std::memcpy(buffer.data(), &packet->tag, PACKET_TAG_SIZE);
+	//std::memcpy(buffer.data() + PACKET_TAG_SIZE, &packet->length, PACKET_LEGNTH_SIZE);
+	//std::memcpy(buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, packet->hash_code.data(), PACKET_HASH_CODE_SIZE);
+	//std::memcpy(buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE + PACKET_HASH_CODE_SIZE, packet->data.data(), packet->length);
+	//circular_buffer.Put(buffer.data(), buffer.size());
+	//std::cout << std::format("Circular buffer size:{}\n", circular_buffer.UsedSize());
 
-	std::cout << std::format("tag[{}] length[{}]\n", packet->tag, packet->length);
-	std::cout << std::format("hashcode:{}, hashcode size:{}\n", packet->hash_code.size(), PACKET_HASH_CODE_SIZE);
-	for (auto& item : packet->hash_code) {
-		std::cout << std::hex << (unsigned int)item << " ";
-	}
-	std::cout << std::endl;
+	//std::cout << std::format("tag[{}] length[{}]\n", packet->tag, packet->length);
+	//std::cout << std::format("hashcode:{}, hashcode size:{}\n", packet->hash_code.size(), PACKET_HASH_CODE_SIZE);
+	//for (auto& item : packet->hash_code) {
+	//	std::cout << std::hex << (unsigned int)item << " ";
+	//}
+	//std::cout << std::endl;
 
-	auto send_test_protocol = BaseProtocol::GetData<MProject::Packet::NTestPacket>(packet->data.data());
-	std::cout << std::endl;
-	std::cout << std::format("x:{}, y:{}, z:{}", send_test_protocol->x(), send_test_protocol->y(), send_test_protocol->z()) << std::endl;
+	//auto send_test_protocol = BaseProtocol::GetData<MProject::Packet::NTestPacket>(packet->data.data());
+	//std::cout << std::endl;
+	//std::cout << std::format("x:{}, y:{}, z:{}", send_test_protocol->x(), send_test_protocol->y(), send_test_protocol->z()) << std::endl;
 
-	std::cout << std::endl;
-	std::cout << "Receive Packet\n";
-	std::vector<byte> recv_buffer(PACKET_HEADER_SIZE);
-	circular_buffer.Get(recv_buffer.data(), PACKET_HEADER_SIZE);
-	std::cout << std::format("Circular buffer size:{}\n", circular_buffer.UsedSize());
+	//std::cout << std::endl;
+	//std::cout << "Receive Packet\n";
+	//std::vector<byte> recv_buffer(PACKET_HEADER_SIZE);
+	//circular_buffer.Get(recv_buffer.data(), PACKET_HEADER_SIZE);
+	//std::cout << std::format("Circular buffer size:{}\n", circular_buffer.UsedSize());
 
-	uint tag = 0;
-	uint length = 0;
-	byte hash_code[PACKET_HASH_CODE_SIZE] = { 0 };
-	//std::vector<byte> hash_code(PACKET_HASH_CODE_SIZE);
+	//uint tag = 0;
+	//uint length = 0;
+	//byte hash_code[PACKET_HASH_CODE_SIZE] = { 0 };
+	////std::vector<byte> hash_code(PACKET_HASH_CODE_SIZE);
 
-	std::memcpy(&tag, recv_buffer.data(), PACKET_TAG_SIZE);
-	std::memcpy(&length, recv_buffer.data() + PACKET_TAG_SIZE, PACKET_LEGNTH_SIZE);
-	std::memcpy(&hash_code, recv_buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, PACKET_HASH_CODE_SIZE);
+	//std::memcpy(&tag, recv_buffer.data(), PACKET_TAG_SIZE);
+	//std::memcpy(&length, recv_buffer.data() + PACKET_TAG_SIZE, PACKET_LEGNTH_SIZE);
+	//std::memcpy(&hash_code, recv_buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, PACKET_HASH_CODE_SIZE);
 
-	std::vector<byte> packet_data(length);
-	circular_buffer.Get(packet_data.data(), length);
-	std::cout << std::format("Circular buffer size:{}\n", circular_buffer.UsedSize());
-	//std::memcpy(packet_data.data(), recv_buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE + PACKET_HASH_CODE_SIZE, length);
-	auto recv_test_protocol = BaseProtocol::GetData<MProject::Packet::NTestPacket>(packet_data.data());
+	//std::vector<byte> packet_data(length);
+	//circular_buffer.Get(packet_data.data(), length);
+	//std::cout << std::format("Circular buffer size:{}\n", circular_buffer.UsedSize());
+	////std::memcpy(packet_data.data(), recv_buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE + PACKET_HASH_CODE_SIZE, length);
+	//auto recv_test_protocol = BaseProtocol::GetData<MProject::Packet::NTestPacket>(packet_data.data());
 
-	std::cout << std::format("tag[{}] length[{}]\n", tag, length);
-	for (auto& item : hash_code) {
-		std::cout << std::hex << (unsigned int)item << " ";
-	}
-	std::cout << std::endl;
-	std::cout << std::format("x:{}, y:{}, z:{}", recv_test_protocol->x(), recv_test_protocol->y(), recv_test_protocol->z()) << std::endl;
-	std::cout << std::endl;
+	//std::cout << std::format("tag[{}] length[{}]\n", tag, length);
+	//for (auto& item : hash_code) {
+	//	std::cout << std::hex << (unsigned int)item << " ";
+	//}
+	//std::cout << std::endl;
+	//std::cout << std::format("x:{}, y:{}, z:{}", recv_test_protocol->x(), recv_test_protocol->y(), recv_test_protocol->z()) << std::endl;
+	//std::cout << std::endl;
 }
 
 #include <regex>

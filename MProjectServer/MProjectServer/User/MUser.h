@@ -4,6 +4,7 @@
 #include "Structure/Player/GPC.h" // include ActorStructure.h
 
 struct FSession;
+struct FPacket;
 
 class MUser {
 public:
@@ -14,6 +15,7 @@ public:
 	uint SessionKey() const;
 	uint GetUserKey() const;
 	
+	void SendPacket(std::unique_ptr<FPacket> _packet);
 
 private:
 

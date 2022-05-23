@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace TestClient {
     using Utility;
-    using Protocol;
+    //using Protocol;
     using Network;
 
     internal class Program {
@@ -30,7 +30,7 @@ namespace TestClient {
                             loop = false;
                         } break;
                         case ConsoleKey.RightArrow: {
-                            socket.SendPacket(TestProtocol.CreatePacket(10, 5, 3));
+                           // socket.SendPacket(TestProtocol.CreatePacket(10, 5, 3));
                         }
                         break;
                     }
