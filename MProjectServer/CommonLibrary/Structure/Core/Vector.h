@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Packet/Core_generated.h"
 
 struct FVector {
 	float x, y, z;

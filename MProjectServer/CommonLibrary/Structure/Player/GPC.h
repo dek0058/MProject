@@ -2,6 +2,7 @@
 #include "GlobalDefine.h"
 #include "Structure/PlayerStructure.h"
 #include "Structure/Actor/Actor.h"
+#include "Packet/Player_generated.h"
 
 class GPC { // Game Player Controller
 

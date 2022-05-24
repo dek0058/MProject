@@ -3,6 +3,7 @@
 
 #pragma region Include_Protocol
 #include "Protocol/ClientLoginProtocol.h"
+#include "Protocol/ClientWorldProtocol.h"
 #pragma endregion
 
 
@@ -10,12 +11,35 @@ void HeadProtocolHandlerManager::OnRegisterHandler() {
 	MLogger::GetMutableInstance().LogError("Register Handler!");
 	
 	
-	RegisterHandler(std::make_shared<NC2S_UserLoginHandlerHandler>());
-	RegisterHandler(std::make_shared<NS2C_UserLoginHandlerHandler>());
-	
+#pragma region Client Login
 
-	/*RegisterHandler(std::make_shared<TestProtocolHandler>());
-	RegisterHandler(std::make_shared<UserLoginProtocolHandler>());
-	RegisterHandler(std::make_shared<IssuseUserKeyProtocolHandler>());*/
+	RegisterHandler<NC2S_UserLoginHandlerHandler>();
+	RegisterHandler<NS2C_UserLoginHandlerHandler>();
+
+	RegisterHandler<NC2S_UserLogoutHandlerHandler>();
+	RegisterHandler<NS2C_UserLogoutHandlerHandler>();
+
+	
+#pragma endregion
+	
+#pragma region Client World
+
+	RegisterHandler<NC2S_JoinWorldHandlerHandler>();
+	RegisterHandler<NS2C_JoinWorldHandlerHandler>();
+	
+	RegisterHandler<NC2S_LeftWorldHandlerHandler>();
+	RegisterHandler<NS2C_LeftWorldHandlerHandler>();
+	
+	RegisterHandler<NS2C_JoinUserInWorldHandlerHandler>();
+	RegisterHandler<NS2C_LeftUserInWorldHandlerHandler>();
+
+
+#pragma endregion
+
+	
+#pragma region Client Actor
+
+	
+#pragma endregion
 
 }

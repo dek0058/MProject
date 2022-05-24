@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Packet/Core_generated.h"
 
 struct FQuaternion {
 	float x, y, z, w;

@@ -52,9 +52,11 @@ public:
 	std::unique_ptr<FPacket> CreateProtocolMessage(std::vector<uint> _tags);
 
 protected:
-	void RegisterHandler(std::shared_ptr<BaseHandler> _protocol) {
-		handler_map.emplace(_protocol->GetHashCodeString(), _protocol);
-		handler_tag_map.emplace(_protocol->GetPacketTag(), _protocol);
+	template<typename T = BaseHandler>
+	void RegisterHandler() {
+		std::shared_ptr<T> protocol(new T());
+		handler_map.emplace(protocol->GetHashCodeString(), protocol);
+		handler_tag_map.emplace(protocol->GetPacketTag(), protocol);
 	}
 
 	void UnregsiterHandler(std::string _hash_code) {

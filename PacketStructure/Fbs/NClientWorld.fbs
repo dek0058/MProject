@@ -3,6 +3,21 @@ include "Player.fbs";
 
 namespace MProject.Packet;
 
+// User Join World
+table NC2S_JoinWorld {
+    // TODO Characeter Info
+}
+table NS2C_JoinWorld {
+    world_key:uint;
+}
+
+// User Left World
+table NC2S_LeftWorld {
+}
+table NS2C_LeftWorld {
+}
+
+
 table NS2C_JoinUserInWorld {
     world_key:uint;
     players:[GPC];
