@@ -15,7 +15,7 @@ void NC2S_LeftWorldHandlerHandler::OnReceivePacket(SessionKey _session_key, std:
 
 
 std::unique_ptr<FPacket> NS2C_JoinUserInWorlddProtocol::CreatePacket(uint _world_key, std::vector<GPC> _game_players, std::vector<Actor> _actors) {
-	START_PACKET(NS2C_LeftWorldProtocol);
+	START_PACKET(NS2C_JoinUserInWorlddProtocol);
 
 	
 
