@@ -123,6 +123,7 @@
     <ClCompile Include="Manager\UserManager.cpp" />
     <ClCompile Include="Network\HeadProtocolHandlerManager.cpp" />
     <ClCompile Include="Network\HeadServer.cpp" />
+    <ClCompile Include="Protocol\ClientActorProtocol.cpp" />
     <ClCompile Include="Protocol\ClientLoginProtocol.cpp" />
     <ClCompile Include="Protocol\ClientWorldProtocol.cpp" />
     <ClCompile Include="Thread\MainThread.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="MProjectServerDefine.h" />
     <ClInclude Include="Network\HeadProtocolHandlerManager.h" />
     <ClInclude Include="Network\HeadServer.h" />
+    <ClInclude Include="Protocol\ClientActorProtocol.h" />
     <ClInclude Include="Protocol\ClientLoginProtocol.h" />
     <ClInclude Include="Protocol\ClientWorldProtocol.h" />
     <ClInclude Include="Thread\MainThread.h" />

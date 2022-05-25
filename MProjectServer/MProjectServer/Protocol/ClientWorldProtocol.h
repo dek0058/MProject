@@ -3,6 +3,7 @@
 #include "Network/ProtocolHandler.h"
 #include "Packet/NClientWorld_generated.h"
 
+
 class Actor;
 class GPC;
 

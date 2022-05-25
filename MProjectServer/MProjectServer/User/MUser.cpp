@@ -4,7 +4,7 @@
 
 MUser::MUser(std::shared_ptr<FSession> _session, uint _key)
 	: session(_session), key(_key),
-	game_player_controller(new GPC()) {
+	game_player_controller(new GPC(key)) {
 	
 
 }
