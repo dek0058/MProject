@@ -27,5 +27,7 @@ std::shared_ptr<MUser> UserManager::GetUser(SessionKey _session_key) {
 }
 
 void UserManager::ForEach(std::function<void(std::shared_ptr<MUser>)> _func) {
-	
+	for (auto& user : user_map) {
+		_func(user.second);
+	}
 }
