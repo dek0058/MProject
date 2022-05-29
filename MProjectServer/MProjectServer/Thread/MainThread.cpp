@@ -2,7 +2,7 @@
 #include "Network/HeadServer.h"
 #include "Network/NetworkDefine.h"
 
-MainThread::MainThread() : MThread(L"Main", 10) {
+MainThread::MainThread() : MThread(L"Main", 60) {
 	
 }
 

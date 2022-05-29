@@ -2,6 +2,8 @@
 #include "Network/Session.h"
 #include "Network/BaseProtocol.h"
 #include "Network/HeadServer.h"
+#include "World/MWorld.h"
+
 
 MUser::MUser(std::shared_ptr<FSession> _session, uint _key)
 	: session(_session), key(_key),
@@ -10,16 +12,15 @@ MUser::MUser(std::shared_ptr<FSession> _session, uint _key)
 	tags.clear();
 }
 
-uint MUser::SessionKey() const {
-	return session->GetSessionKey();
-}
-
-uint MUser::GetUserKey() const {
-	return key;
-}
-
 void MUser::SendPacket(std::unique_ptr<FPacket> _packet) {
 	HeadServer::GetMutableInstance().SendPacket(SessionKey(), std::move(_packet));
 }
 
+void MUser::SendTag() {
+	HeadServer::GetMutableInstance().SendPacket(SessionKey(), GetPacketTagList());
+}
+
+uint MUser::SessionKey() const {
+	return session->GetSessionKey();
+}
 

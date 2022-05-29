@@ -1,7 +1,7 @@
 ﻿#include "Session.h"
 
 #include "IOService.h"
-#include "Core/MLogger.h"
+#include "Core/LogManager.h"
 #include "BaseProtocol.h"
 #include "NetworkToolkit.h"
 #include "Utility/UniversalToolkit.h"
@@ -147,7 +147,7 @@ void FSession::Write(std::unique_ptr<FPacket> _packet) {
 
 void FSession::OnReceive(boost::system::error_code const& _error_code, size_t _bytes_transferred) {
 	if (_error_code != boost::system::errc::success) {
-		MLogger::GetMutableInstance().LogError(std::format("[{}]{} - code:{}", _error_code.category().name(), _error_code.message(), _error_code.value()));
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Error, "FSession", "OnReceive", std::format("[{}]{} - code:{}", _error_code.category().name(), _error_code.message(), _error_code.value()));
 		return;
 	}
 	recv_buffers.Put(recv_packet.data, _bytes_transferred);
@@ -157,7 +157,7 @@ void FSession::OnReceive(boost::system::error_code const& _error_code, size_t _b
 void FSession::OnWrite(boost::system::error_code const& _error_code, size_t _bytes_transferred) {
 	if (_error_code != boost::system::errc::success) {
 		SetWriting(false);
-		MLogger::GetMutableInstance().LogError(std::format("[{}]{} - code:{}", _error_code.category().name(), _error_code.message(), _error_code.value()));
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Error, "FSession", "OnWrite", std::format("[{}]{} - code:{}", _error_code.category().name(), _error_code.message(), _error_code.value()));
 		return;
 	}
 

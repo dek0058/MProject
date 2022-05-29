@@ -121,6 +121,7 @@
   <ItemGroup>
     <ClCompile Include="Manager\MThreadManager.cpp" />
     <ClCompile Include="Manager\UserManager.cpp" />
+    <ClCompile Include="Manager\WorldManager.cpp" />
     <ClCompile Include="Network\HeadProtocolHandlerManager.cpp" />
     <ClCompile Include="Network\HeadServer.cpp" />
     <ClCompile Include="Protocol\ClientActorProtocol.cpp" />
@@ -128,6 +129,7 @@
     <ClCompile Include="Protocol\ClientWorldProtocol.cpp" />
     <ClCompile Include="Thread\MainThread.cpp" />
     <ClCompile Include="User\MUser.cpp" />
+    <ClCompile Include="World\LoginWorld.cpp" />
     <ClCompile Include="World\MWorld.cpp" />
     <QtRcc Include="MProjectServer.qrc" />
     <QtUic Include="MProjectServer.ui" />
@@ -154,6 +156,7 @@
     <ClInclude Include="Protocol\ClientWorldProtocol.h" />
     <ClInclude Include="Thread\MainThread.h" />
     <ClInclude Include="User\MUser.h" />
+    <ClInclude Include="World\LoginWorld.h" />
     <ClInclude Include="World\MWorld.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

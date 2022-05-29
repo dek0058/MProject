@@ -36,6 +36,7 @@ public:
 	void PushNetEvent(ENetEventType _type, std::shared_ptr<IOService> _IO_service, std::shared_ptr<FSession> _session);
 
 	void SendPacket(SessionKey _session, std::unique_ptr<FPacket> _packet);
+	void SendPacket(SessionKey _session, std::vector<uint> _tags);
 	void ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet);
 
 	//! Getter

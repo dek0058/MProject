@@ -5,14 +5,14 @@
 
 class MUser;
 
-class MWorld {
+class MWorld : public std::enable_shared_from_this<MWorld> {
 
 	using UserMap = std::map<SessionKey, std::shared_ptr<MUser>>;
 	using ActorMap = std::map<uint, std::shared_ptr<Actor>>;
 
-private:
+public:
 
-	MWorld(uint _key, EWorldType _world_type);
+	MWorld(uint _key);
 
 	void JoinUser(std::shared_ptr<MUser> _user);
 	void LeftUser(std::shared_ptr<MUser> _user);
@@ -23,16 +23,31 @@ private:
 
 	//! Getter
 
-	EWorldType GetWorldType() const {
-		return world_type;
+	uint GetWorldKey() const { return key; }
+
+	virtual EWorldType GetWorldType() const {
+		return EWorldType::None;
+	}
+
+	std::vector<uint> GetTags() const {
+		return tags;
+	}
+
+protected:
+
+	virtual void OnJoinUser(std::shared_ptr<MUser> _user) {}
+	virtual void OnLeftUser(std::shared_ptr<MUser> _user) {}
+	
+	//! Setter
+	void SetTags(std::vector<uint> _tags) {
+		tags = _tags;
 	}
 
 private:
 
 	uint key;
-	EWorldType world_type;
-
 	UserMap user_map;
 	ActorMap actor_map;
+	std::vector<uint> tags;
 };
 

@@ -1,7 +1,7 @@
 ﻿#include "MThreadManager.h"
 
 #include "Thread/MainThread.h"
-#include "Core/MLogger.h"
+#include "Core/LogManager.h"
 
 MThreadManager::MThreadManager() {
 }
@@ -9,7 +9,7 @@ MThreadManager::MThreadManager() {
 void MThreadManager::OnStart() {
 	if (false == Stopped())
 	{
-		MLogger::GetMutableInstance().LogError("Thread is still running");
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Critical, "MThreadManager", "OnStart", "ThreadManager is already running");
 		return;
 	}
 	

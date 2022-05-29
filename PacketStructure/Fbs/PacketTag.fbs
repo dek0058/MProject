@@ -17,13 +17,14 @@ enum Tag:uint {
     C2S_UserLogout,
     S2C_UserLogout,
     
+
+    // Client World
     C2S_JoinWorld,
     S2C_JoinWorld,
 
     C2S_LeftWorld,
     S2C_LeftWorld,
-
-    // Client World
+    
     S2C_JoinUserInWorld,
     S2C_LeftUserInWorld,
 

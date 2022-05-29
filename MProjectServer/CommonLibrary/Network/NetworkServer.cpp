@@ -145,6 +145,13 @@ void NetworkServer::SendPacket(SessionKey _session, std::unique_ptr<FPacket> _pa
 	connected_session_map[_session]->Write(std::move(_packet));
 }
 
+void NetworkServer::SendPacket(SessionKey _session, std::vector<uint> _tags) {
+	if (false == connected_session_map.contains(_session)) {
+		return;
+	}
+	connected_session_map[_session]->Write(std::move(GetHandlerManager()->CreateProtocolMessage(_tags)));
+}
+
 void NetworkServer::ExecuteMessage(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {
 	protocol_handler_manager->ReceivePacket(_session, std::move(_packet));
 }

@@ -1,6 +1,6 @@
 ﻿#include "MProjectServer.h"
 
-#include "Core/MLogger.h"
+#include "Core/LogManager.h"
 #include "Manager/MThreadManager.h"
 #include "Manager/UserManager.h"
 #include "Manager/WorldManager.h"
@@ -32,8 +32,8 @@ void MProjectServer::OnInitialize() {
 
 void MProjectServer::Initailize_Manager()
 {
-    MLogger::GetMutableInstance().Create("MProjectServer-logs", "MProjectServer", 65'536, 1000);
-
+    LogManager::GetConstInstance();
+	
     MThreadManager::GetConstInstance();
     UserManager::GetConstInstance();
     WorldManager::GetConstInstance();
@@ -63,12 +63,13 @@ void MProjectServer::Initailize_Bind()
 {
     // 테스트용
     MProjectServer::List_Widget = ui.test_list;
-    MLogger::GetMutableInstance().AddDelegate([]() {
-        std::string msg = MLogger::GetMutableInstance().GetMutableInstance().PopMessage();
-        if (true == msg.empty()) {
+	
+    auto logger = LogManager::GetMutableInstance().GetGenericLogger();
+    logger.lock()->AddDelegate([](ELogLevel _level, std::string const& _msg) {
+        if (true == _msg.empty()) {
             return;
         }
-        MProjectServer::List_Widget->addItem(QString::fromLocal8Bit(msg.c_str()));
+        MProjectServer::List_Widget->addItem(QString::fromLocal8Bit(_msg.c_str()));
     });
 
 

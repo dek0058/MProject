@@ -411,9 +411,6 @@
     <ClInclude Include="spdlog\version.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Core\MLogger.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="flatbuffers\pch\flatc_pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -573,6 +570,21 @@
     <ClInclude Include="Packet\Player_generated.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Core\CoreDefine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ILogger.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GenericLogger.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\LogManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\LogThread.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network\IOService.cpp">
@@ -599,9 +611,6 @@
     <ClCompile Include="Utility\FramesPerSecond.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Core\MLogger.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\UniversalToolkit.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -609,6 +618,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Network\NetworkToolkit.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\LogThread.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

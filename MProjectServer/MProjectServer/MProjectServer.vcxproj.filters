@@ -76,6 +76,12 @@
     <ClCompile Include="Protocol\ClientActorProtocol.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="World\LoginWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\WorldManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Network\HeadServer.h">
@@ -112,6 +118,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Protocol\ClientActorProtocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World\LoginWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,5 @@
 ﻿#include "HeadProtocolHandlerManager.h"
-#include "Core/MLogger.h"
+#include "Core/LogManager.h"
 
 #pragma region Include_Protocol
 #include "Protocol/ClientLoginProtocol.h"
@@ -8,8 +8,7 @@
 
 
 void HeadProtocolHandlerManager::OnRegisterHandler() {
-	MLogger::GetMutableInstance().LogError("Register Handler!");
-	
+	LogManager::GetMutableInstance().GenericLog(ELogLevel::Info, "HeadProtocolHandlerManager", "OnRegisterHandler", "Register Handler!");
 	
 #pragma region Client Login
 

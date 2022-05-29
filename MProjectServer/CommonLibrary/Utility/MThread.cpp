@@ -1,7 +1,7 @@
 ﻿#include "MThread.h"
 #include <windows.h>
 
-#include "Core/MLogger.h"
+#include "Core/LogManager.h"
 #include "Exception/BaseException.h"
 
 MThread::MThread(std::wstring_view _name, int _fixed) 
@@ -47,18 +47,19 @@ void MThread::OnAction() {
 			try {
 				fps.Update();
 				OnUpdate();
-			} catch (std::exception const _exception) {
-				MLogger::GetMutableInstance().LogError(_exception.what());
+			}
+			catch (std::exception const _exception) {
+				LogManager::GetMutableInstance().GenericLog(ELogLevel::Error, "MThread", "OnAction", _exception.what());
 			}
 			fps.Sleep();
 		}
 	}
 	catch (BaseException const _exception) {
-		MLogger::GetMutableInstance().LogError(_exception.what());
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Error, "MThread", "OnAction", _exception.what());
 	} catch (std::exception const _exception) {
-		MLogger::GetMutableInstance().LogError(_exception.what());
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Error, "MThread", "OnAction", _exception.what());
 	} catch (...) {
-		MLogger::GetMutableInstance().LogError("Unknown exception");
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Error, "MThread", "OnAction", "Unknown exception");
 	}
 	
 	OnStop();

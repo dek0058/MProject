@@ -5,7 +5,7 @@
 
 struct FSession;
 struct FPacket;
-class HeadServer;
+class MWorld;
 
 namespace MProject {
 	namespace Packet {
@@ -18,13 +18,24 @@ public:
 
 	MUser(std::shared_ptr<FSession> _session, uint _key);
 
+	void SendPacket(std::unique_ptr<FPacket> _packet);
+	void SendTag();
+	
 
+	//! Setter
 	void SetTags(std::vector<uint> _tags) {
 		tags = _tags;
 	}
 
-	void SendPacket(std::unique_ptr<FPacket> _packet);
-	
+	void SetWorld(std::shared_ptr<MWorld> _world) {
+		world = std::weak_ptr<MWorld>(_world);
+	}
+
+	void LeftWorld() {
+		tags.clear();
+		world.reset();
+	}
+
 	//! Getter
 	uint SessionKey() const;
 	uint GetUserKey() const {
@@ -34,6 +45,9 @@ public:
 		return tags;
 	}
 	
+	std::weak_ptr<MWorld> GetWorld() {
+		return world;
+	}
 
 private:
 
@@ -42,5 +56,8 @@ private:
 	std::shared_ptr<GPC> game_player_controller;
 
 	std::vector<uint> tags;
+
+	std::weak_ptr<MWorld> world;
+
 };
 
