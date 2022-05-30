@@ -7,13 +7,15 @@
 class Actor;
 class GPC;
 
+using namespace MProject;
+
 #pragma region User Join World
 
 //! Receive
 class NC2S_JoinWorldProtocol : public BaseProtocol {
 	GENERATE_PROTOCOL_IMPLEMENT(NC2S_JoinWorldProtocol, MProject::Packet::Tag::Tag_C2S_JoinWorld)
 };
-class NC2S_JoinWorldHandlerHandler : public TProtocolHandler<NC2S_JoinWorldProtocol> {
+class NC2S_JoinWorldProtocolHandler : public TProtocolHandler<NC2S_JoinWorldProtocol> {
 	virtual void OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet);
 };
 
@@ -22,13 +24,14 @@ class NS2C_JoinWorldProtocol : public BaseProtocol {
 	GENERATE_PROTOCOL_IMPLEMENT(NS2C_JoinWorldProtocol, MProject::Packet::Tag::Tag_S2C_JoinWorld)
 
 public:
-	static std::unique_ptr<FPacket> CreatePacket() {
+	static std::unique_ptr<FPacket> CreatePacket(uint _world_key) {
 		START_PACKET(NS2C_JoinWorldProtocol);
 		MProject::Packet::NS2C_JoinWorldBuilder packet_builder(builder);
+		packet_builder.add_world_key(_world_key);
 		END_PACKET(packet_builder);
 	}
 };
-class NS2C_JoinWorldHandlerHandler : public TProtocolHandler<NS2C_JoinWorldProtocol> {
+class NS2C_JoinWorldProtocolHandler : public TProtocolHandler<NS2C_JoinWorldProtocol> {
 };
 
 #pragma endregion
@@ -40,7 +43,7 @@ class NS2C_JoinWorldHandlerHandler : public TProtocolHandler<NS2C_JoinWorldProto
 class NC2S_LeftWorldProtocol : public BaseProtocol {
 	GENERATE_PROTOCOL_IMPLEMENT(NC2S_LeftWorldProtocol, MProject::Packet::Tag::Tag_C2S_LeftWorld)
 };
-class NC2S_LeftWorldHandlerHandler : public TProtocolHandler<NC2S_LeftWorldProtocol> {
+class NC2S_LeftWorldProtocolHandler : public TProtocolHandler<NC2S_LeftWorldProtocol> {
 	virtual void OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet);
 };
 
@@ -56,7 +59,7 @@ public:
 		END_PACKET(packet_builder);
 	}
 };
-class NS2C_LeftWorldHandlerHandler : public TProtocolHandler<NS2C_LeftWorldProtocol> {
+class NS2C_LeftWorldProtocolHandler : public TProtocolHandler<NS2C_LeftWorldProtocol> {
 };
 
 #pragma endregion
@@ -72,7 +75,7 @@ class NS2C_JoinUserInWorlddProtocol : public BaseProtocol {
 public:
 	static std::unique_ptr<FPacket> CreatePacket(uint _world_key, std::vector<GPC> _game_players, std::vector<Actor> _actors);
 };
-class NS2C_JoinUserInWorldHandlerHandler : public TProtocolHandler<NS2C_JoinUserInWorlddProtocol> {
+class NS2C_JoinUserInWorlddProtocolHandler : public TProtocolHandler<NS2C_JoinUserInWorlddProtocol> {
 };
 
 
@@ -83,7 +86,7 @@ class NS2C_LeftUserInWorldProtocol : public BaseProtocol {
 public:
 	static std::unique_ptr<FPacket> CreatePacket(uint _world_key, std::vector<GPC> _game_players, std::vector<Actor> _actors);
 };
-class NS2C_LeftUserInWorldHandlerHandler : public TProtocolHandler<NS2C_LeftUserInWorldProtocol> {
+class NS2C_LeftUserInWorldProtocolHandler : public TProtocolHandler<NS2C_LeftUserInWorldProtocol> {
 };
 
 #pragma endregion

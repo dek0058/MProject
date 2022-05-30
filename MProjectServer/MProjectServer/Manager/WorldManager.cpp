@@ -2,17 +2,27 @@
 #include "Core/LogManager.h"
 #include "User/MUser.h"
 
+#pragma region World
+
 #include "World/LoginWorld.h"
+#include "World/TestWorld.h"
+
+#pragma endregion
+
 
 WorldManager::WorldManager() {
-
 	Add<LoginWorld>();
+	Add<TestWorld>();
 }
 
 
-void WorldManager::JoinUserToWorld(std::shared_ptr<MUser> _user, uint _world_key) {
-	
-	auto cur_world = _user->GetWorld();
+void WorldManager::JoinUserToWorld(std::weak_ptr<MUser> _user, uint _world_key) {
+	if (true == _user.expired()) {
+		GetLogger().lock()->WriteLog(ELogLevel::Error, "[WorldManager::JoinUserToWorld] User is expired");
+		return;
+	}
+
+	auto cur_world = _user.lock()->GetWorld();
 	if (false == cur_world.expired()) {
 		cur_world.lock()->LeftUser(_user);
 	}
@@ -24,6 +34,14 @@ void WorldManager::JoinUserToWorld(std::shared_ptr<MUser> _user, uint _world_key
 	}
 	
 	world.lock()->JoinUser(_user);
+}
+
+std::weak_ptr<ILogger> WorldManager::GetLogger()
+{
+	if (true == logger.expired()) {
+		logger = LogManager::GetMutableInstance().GetGenericLogger();
+	}
+	return logger;
 }
 
 template<typename T>

@@ -52,7 +52,7 @@
     <ClCompile Include="Thread\MainThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Manager\MThreadManager.cpp">
+    <ClCompile Include="Manager\ThreadManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\HeadProtocolHandlerManager.cpp">
@@ -82,6 +82,9 @@
     <ClCompile Include="Manager\WorldManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="World\TestWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Network\HeadServer.h">
@@ -93,7 +96,7 @@
     <ClInclude Include="Thread\MainThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Manager\MThreadManager.h">
+    <ClInclude Include="Manager\ThreadManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MProjectServerDefine.h">
@@ -121,6 +124,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="World\LoginWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World\TestWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

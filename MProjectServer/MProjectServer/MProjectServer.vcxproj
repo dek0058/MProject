@@ -119,7 +119,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Manager\MThreadManager.cpp" />
+    <ClCompile Include="Manager\ThreadManager.cpp" />
     <ClCompile Include="Manager\UserManager.cpp" />
     <ClCompile Include="Manager\WorldManager.cpp" />
     <ClCompile Include="Network\HeadProtocolHandlerManager.cpp" />
@@ -131,6 +131,7 @@
     <ClCompile Include="User\MUser.cpp" />
     <ClCompile Include="World\LoginWorld.cpp" />
     <ClCompile Include="World\MWorld.cpp" />
+    <ClCompile Include="World\TestWorld.cpp" />
     <QtRcc Include="MProjectServer.qrc" />
     <QtUic Include="MProjectServer.ui" />
     <QtMoc Include="MProjectServer.h" />
@@ -145,7 +146,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Manager\MThreadManager.h" />
+    <ClInclude Include="Manager\ThreadManager.h" />
     <ClInclude Include="Manager\UserManager.h" />
     <ClInclude Include="Manager\WorldManager.h" />
     <ClInclude Include="MProjectServerDefine.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="User\MUser.h" />
     <ClInclude Include="World\LoginWorld.h" />
     <ClInclude Include="World\MWorld.h" />
+    <ClInclude Include="World\TestWorld.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -1,7 +1,7 @@
 ﻿#include "MProjectServer.h"
 
 #include "Core/LogManager.h"
-#include "Manager/MThreadManager.h"
+#include "Manager/ThreadManager.h"
 #include "Manager/UserManager.h"
 #include "Manager/WorldManager.h"
 
@@ -34,7 +34,7 @@ void MProjectServer::Initailize_Manager()
 {
     LogManager::GetConstInstance();
 	
-    MThreadManager::GetConstInstance();
+    ThreadManager::GetConstInstance();
     UserManager::GetConstInstance();
     WorldManager::GetConstInstance();
 	
@@ -74,17 +74,17 @@ void MProjectServer::Initailize_Bind()
 
 
     QObject::connect(ui.server_push_btn, &QPushButton::clicked, this, &MProjectServer::OnClick);
-    MThreadManager::GetMutableInstance().AddCompleteDelegate([&] {
+    ThreadManager::GetMutableInstance().AddCompleteDelegate([&] {
         ui.server_push_btn->setText(QString("Connected"));
     });
 }
 
 
 void MProjectServer::OnClick(bool checked) {
-    if (true == MThreadManager::GetConstInstance().Stopped()) {
-		MThreadManager::GetMutableInstance().OnStart();
+    if (true == ThreadManager::GetConstInstance().Stopped()) {
+        ThreadManager::GetMutableInstance().OnStart();
     } else {
-        MThreadManager::GetMutableInstance().AllStop();
+        ThreadManager::GetMutableInstance().AllStop();
         ui.server_push_btn->setText(QString("Start"));
     }
 }

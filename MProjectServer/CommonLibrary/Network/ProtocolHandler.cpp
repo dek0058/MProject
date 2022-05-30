@@ -2,6 +2,15 @@
 #include "BaseProtocol.h"
 #include "Session.h"
 #include "Utility/UniversalToolkit.h"
+#include "Core/LogManager.h"
+
+template<typename Protocol>
+std::weak_ptr<ILogger> TProtocolHandler<Protocol>::GetLogger() {
+	if (true == logger.expired()) {
+		logger = LogManager::GetMutableInstance().GetGenericLogger();
+	}
+	return logger;
+}
 
 
 void ProtocolHandlerManager::ReceivePacket(std::shared_ptr<FSession> _session, std::unique_ptr<FPacket> _packet) {

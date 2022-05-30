@@ -13,7 +13,7 @@ namespace MProject {
 	}
 }
 
-class MUser {
+class MUser : public std::enable_shared_from_this<MUser> {
 public:
 
 	MUser(std::shared_ptr<FSession> _session, uint _key);
@@ -33,6 +33,9 @@ public:
 
 	void LeftWorld() {
 		tags.clear();
+		if (false == world.expired()) {
+			world.lock()->LeftUser(shared_from_this());
+		}
 		world.reset();
 	}
 
@@ -45,9 +48,22 @@ public:
 		return tags;
 	}
 	
+	std::weak_ptr<GPC> GetGamePlayer() {
+		return std::weak_ptr<GPC>(game_player_controller);
+	}
+
 	std::weak_ptr<MWorld> GetWorld() {
 		return world;
 	}
+
+
+
+private:
+
+	//! Getter
+
+	std::weak_ptr<ILogger> logger;
+	std::weak_ptr<ILogger> GetLogger();
 
 private:
 

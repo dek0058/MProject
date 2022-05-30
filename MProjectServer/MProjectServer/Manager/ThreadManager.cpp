@@ -1,12 +1,12 @@
-﻿#include "MThreadManager.h"
+﻿#include "ThreadManager.h"
 
 #include "Thread/MainThread.h"
 #include "Core/LogManager.h"
 
-MThreadManager::MThreadManager() {
+ThreadManager::ThreadManager() {
 }
 
-void MThreadManager::OnStart() {
+void ThreadManager::OnStart() {
 	if (false == Stopped())
 	{
 		LogManager::GetMutableInstance().GenericLog(ELogLevel::Critical, "MThreadManager", "OnStart", "ThreadManager is already running");
@@ -23,7 +23,7 @@ void MThreadManager::OnStart() {
 	}
 }
 
-void MThreadManager::AllStop()
+void ThreadManager::AllStop()
 {
 	for (auto& data : threads) {
 		auto& [thread, completed] = data.second;
@@ -34,12 +34,12 @@ void MThreadManager::AllStop()
 
 //! Getter
 
-std::shared_ptr<MThread>* MThreadManager::GetThread(ThreadType _type) {
+std::shared_ptr<MThread>* ThreadManager::GetThread(ThreadType _type) {
 	auto result = threads.find(_type);
 	return result != threads.end() ? &std::get<std::shared_ptr<MThread>>(result->second) : nullptr;
 }
 
-bool MThreadManager::Stopped() const
+bool ThreadManager::Stopped() const
 {
 	for (auto& data : threads)
 	{
@@ -53,13 +53,13 @@ bool MThreadManager::Stopped() const
 }
 
 
-void MThreadManager::AddThread(std::shared_ptr<MThread> const& _thread, ThreadType _type) {
+void ThreadManager::AddThread(std::shared_ptr<MThread> const& _thread, ThreadType _type) {
 	threads.emplace(_type, std::make_tuple(_thread, false));
 	_thread->AddStartDelegate([this, _type]() { OnCompleted(_type); });
 }
 
 
-void MThreadManager::OnCompleted(ThreadType _type) {
+void ThreadManager::OnCompleted(ThreadType _type) {
 	std::get<bool>(threads[_type]) = true;
 	bool all_completed = true;
 	for (auto& data : threads) {

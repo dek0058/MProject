@@ -4,33 +4,42 @@
 #include "Network/NetworkDefine.h"
 
 class MUser;
+class ILogger;
 
 class UserManager : public TSingleton<UserManager> {
 	
-	using UserMap = std::map<SessionKey, std::shared_ptr<MUser>>;
+	template<typename T>
+	using UserMap = std::map<T, std::shared_ptr<MUser>>;
 
-	static int GetUserKey() {
-		static int key = 0;
+	static uint GetUserKey() {
+		static uint key = 0;
 		return ++key;
 	}
 	
 public:
 
-	std::shared_ptr<MUser> ConnectUser(SessionKey _session_key);
-	void DisconnectUser(SessionKey _session_key);
+	std::weak_ptr<MUser> ConnectUser(SessionKey _session_key);
+	std::shared_ptr<MUser> DisconnectUser(SessionKey _session_key);
 
 	//! Getter
 
-	std::shared_ptr<MUser> GetUser(SessionKey _session_key);
+	std::weak_ptr<MUser> GetUser(SessionKey _session_key);
+	std::weak_ptr<MUser> GetUserByKey(uint _user_key);
 
+	//! Utility
 
-	//! Iterator
-
-	void ForEach(std::function<void(std::shared_ptr<MUser>)> _func);
+	void ForEach(std::function<void(std::weak_ptr<MUser>)> _func);
 
 private:
 
+	//! Getter
 	
-	UserMap user_map;
+	std::weak_ptr<ILogger> logger;
+	std::weak_ptr<ILogger> GetLogger();
+
+private:
+
+	UserMap<SessionKey> user_map;
+	UserMap<uint> user_key_map;
 
 };

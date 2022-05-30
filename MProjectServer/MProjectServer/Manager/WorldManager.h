@@ -13,6 +13,7 @@ class WorldManager : public TSingleton<WorldManager> {
 	using WorldMap = std::map<uint/*Key*/, std::shared_ptr<MWorld>>;
 
 	static uint GetWorldKey() {
+		// TODO 테이블 데이터로 대체 해야함...
 		static uint key = 0;
 		return ++key;
 	}
@@ -22,7 +23,7 @@ protected:
 
 public:
 
-	void JoinUserToWorld(std::shared_ptr<MUser> _user, uint _world_key);
+	void JoinUserToWorld(std::weak_ptr<MUser> _user, uint _world_key);
 
 
 	//! Getter
@@ -55,12 +56,9 @@ private:
 
 	
 	//! Getter
-	std::weak_ptr<ILogger> GetLogger() {
-		if (true == logger.expired()) {
-			logger = LogManager::GetMutableInstance().GetGenericLogger();
-		}
-		return logger;
-	}
+
+	std::weak_ptr<ILogger> logger;
+	std::weak_ptr<ILogger> GetLogger();
 
 	//! Utility
 
@@ -73,7 +71,6 @@ public:
 private:
 	
 	WorldMap world_map;
-	std::weak_ptr<ILogger> logger;
 	
 
 };

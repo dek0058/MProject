@@ -4,6 +4,7 @@
 
 struct FPacket;
 struct FSession;
+class ILogger;
 
 class BaseHandler {
 public:
@@ -36,9 +37,12 @@ public:
 
 protected:
 	virtual void OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) { ; }
+	
+	std::weak_ptr<ILogger> GetLogger();
 
 protected:
 	std::unique_ptr<Protocol> protocol;
+	std::weak_ptr<ILogger> logger;
 };
 
 class ProtocolHandlerManager {

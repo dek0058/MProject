@@ -1,4 +1,5 @@
 ﻿#include "MUser.h"
+#include "Core/LogManager.h"
 #include "Network/Session.h"
 #include "Network/BaseProtocol.h"
 #include "Network/HeadServer.h"
@@ -22,5 +23,13 @@ void MUser::SendTag() {
 
 uint MUser::SessionKey() const {
 	return session->GetSessionKey();
+}
+
+
+std::weak_ptr<ILogger> MUser::GetLogger() {
+	if (true == logger.expired()) {
+		logger = LogManager::GetMutableInstance().GetGenericLogger();
+	}
+	return logger;
 }
 

@@ -4,11 +4,11 @@
 #include "Utility/MThread.h"
 #include "MProjectServerDefine.h"
 
-class MThreadManager : public TSingleton<MThreadManager> {
+class ThreadManager : public TSingleton<ThreadManager> {
 	using ManagerDeleagte = std::vector<std::function<void()>>;
 
 protected:
-	MThreadManager();
+	ThreadManager();
 
 public:
 	void OnStart();
