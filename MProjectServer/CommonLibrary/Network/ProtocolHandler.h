@@ -38,11 +38,8 @@ public:
 protected:
 	virtual void OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) { ; }
 	
-	std::weak_ptr<ILogger> GetLogger();
-
 protected:
 	std::unique_ptr<Protocol> protocol;
-	std::weak_ptr<ILogger> logger;
 };
 
 class ProtocolHandlerManager {
@@ -85,4 +82,3 @@ private:
 	HandlerMap<std::string> handler_map;
 	HandlerMap<uint> handler_tag_map;
 };
-

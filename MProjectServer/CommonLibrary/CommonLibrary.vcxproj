@@ -369,6 +369,8 @@
   <ItemGroup>
     <ClCompile Include="Core\LogThread.cpp" />
     <ClCompile Include="Network\NetworkToolkit.cpp" />
+    <ClCompile Include="Structure\Actor\Actor.cpp" />
+    <ClCompile Include="Structure\Player\GPC.cpp" />
     <ClCompile Include="Utility\FramesPerSecond.cpp" />
     <ClCompile Include="Utility\MThread.cpp" />
     <ClCompile Include="Network\IOAcceptor.cpp" />

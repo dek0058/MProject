@@ -33,6 +33,9 @@ void HeadServer::OnDisconnect(std::shared_ptr<FSession> _session) {
 	NetworkServer::OnDisconnect(_session);
 	
 	auto user = UserManager::GetMutableInstance().DisconnectUser(_session->GetSessionKey());
+	if (nullptr == user.get()) {
+		return;
+	}
 	//if (false == user.expired()) {
 		// WorldManager로 보내야함 다른 유저한테도 패킷 보내야 하기 때문에...
 		//user.lock()->LeftWorld();

@@ -3,15 +3,16 @@
 #include "Manager/WorldManager.h"
 #include "User/MUser.h"
 #include "World/MWorld.h"
-#include "Core/ILogger.h"
+#include "Core/LogManager.h"
 #include "Structure/Actor/Actor.h"
+#include "Structure/Player/GPC.h"
 
 
 using namespace MProject;
 
 
 void NC2S_MoveActorInWorldProtocolHandler::OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) {
-	auto user = UserManager::GetMutableInstance().GetUser(_session_key);
+	/*auto user = UserManager::GetMutableInstance().GetUser(_session_key);
 	if (true == user.expired()) {
 		GetLogger().lock()->WriteLog(ELogLevel::Warning, std::format("[NC2S_MoveActorInWorldHandler::OnReceivePacket]User not find.", _session_key));
 		return;
@@ -28,13 +29,13 @@ void NC2S_MoveActorInWorldProtocolHandler::OnReceivePacket(SessionKey _session_k
 	if (true == game_player.expired()) {
 		GetLogger().lock()->WriteLog(ELogLevel::Critical, std::format("[NC2S_MoveActorInWorldHandler::OnReceivePacket]GPC is expired. [{}]", user.lock()->GetUserKey()));
 		return;
-	}
+	}*/
 
-	for (auto iter = data->actors()->begin(); iter != data->actors()->end(); ++iter) {
-		if (auto actor = game_player.lock()->GetActor(iter->actor_key()); false == actor.expired()) {
-			//actor.lock()->SetTransform()
-		}
-	}
+	//for (auto iter = data->actors()->begin(); iter != data->actors()->end(); ++iter) {
+	//	if (auto actor = game_player.lock()->GetActor(iter->actor_key()); false == actor.expired()) {
+	//		//actor.lock()->SetTransform()
+	//	}
+	//}
 	
 	//NS2C_MoveActorInWorldProtocol::CreatePacket()
 }

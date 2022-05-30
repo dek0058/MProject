@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include "Network/NetworkDefine.h"
 
-#include "Structure/Player/GPC.h" // include ActorStructure.h
-
 struct FSession;
 struct FPacket;
 class MWorld;
+class GPC;
+class ILogger;
 
 namespace MProject {
 	namespace Packet {
@@ -31,13 +31,7 @@ public:
 		world = std::weak_ptr<MWorld>(_world);
 	}
 
-	void LeftWorld() {
-		tags.clear();
-		if (false == world.expired()) {
-			world.lock()->LeftUser(shared_from_this());
-		}
-		world.reset();
-	}
+	void LeftWorld();
 
 	//! Getter
 	uint SessionKey() const;

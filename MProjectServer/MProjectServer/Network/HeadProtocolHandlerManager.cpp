@@ -4,6 +4,7 @@
 #pragma region Include_Protocol
 #include "Protocol/ClientLoginProtocol.h"
 #include "Protocol/ClientWorldProtocol.h"
+#include "Protocol/ClientActorProtocol.h"
 #pragma endregion
 
 
@@ -12,25 +13,25 @@ void HeadProtocolHandlerManager::OnRegisterHandler() {
 	
 #pragma region Client Login
 
-	RegisterHandler<NC2S_UserLoginHandlerHandler>();
-	RegisterHandler<NS2C_UserLoginHandlerHandler>();
+	RegisterHandler<NC2S_UserLoginProtocolHandler>();
+	RegisterHandler<NS2C_UserLoginProtocolHandler>();
 
-	RegisterHandler<NC2S_UserLogoutHandlerHandler>();
-	RegisterHandler<NS2C_UserLogoutHandlerHandler>();
+	RegisterHandler<NC2S_UserLogoutProtocolHandler>();
+	RegisterHandler<NNS2C_UserLogoutProtocolHandler>();
 
 	
 #pragma endregion
 	
 #pragma region Client World
 
-	RegisterHandler<NC2S_JoinWorldHandlerHandler>();
-	RegisterHandler<NS2C_JoinWorldHandlerHandler>();
+	RegisterHandler<NC2S_JoinWorldProtocolHandler>();
+	RegisterHandler<NS2C_JoinWorldProtocolHandler>();
 	
-	RegisterHandler<NC2S_LeftWorldHandlerHandler>();
-	RegisterHandler<NS2C_LeftWorldHandlerHandler>();
+	RegisterHandler<NC2S_LeftWorldProtocolHandler>();
+	RegisterHandler<NS2C_LeftWorldProtocolHandler>();
 	
-	RegisterHandler<NS2C_JoinUserInWorldHandlerHandler>();
-	RegisterHandler<NS2C_LeftUserInWorldHandlerHandler>();
+	RegisterHandler<NS2C_JoinUserInWorlddProtocolHandler>();
+	RegisterHandler<NS2C_LeftUserInWorldProtocolHandler>();
 
 
 #pragma endregion
@@ -38,6 +39,8 @@ void HeadProtocolHandlerManager::OnRegisterHandler() {
 	
 #pragma region Client Actor
 
+	RegisterHandler<NC2S_MoveActorInWorldProtocolHandler>();
+	RegisterHandler<NS2C_MoveActorInWorldProtocolHandler>();
 	
 #pragma endregion
 

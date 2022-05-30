@@ -2,7 +2,7 @@
 #include "Manager/UserManager.h"
 #include "Manager/WorldManager.h"
 #include "User/MUser.h"
-#include "Core/ILogger.h"
+#include "Core/LogManager.h"
 #include "Structure/Actor/Actor.h"
 #include "Structure/Player/GPC.h"
 
@@ -12,13 +12,13 @@
 void NC2S_JoinWorldProtocolHandler::OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) {
 	auto user = UserManager::GetMutableInstance().GetUser(_session_key);
 	if (true == user.expired()) {
-		GetLogger().lock()->WriteLog(ELogLevel::Warning, std::format("[NC2S_JoinWorldHandlerHandler::OnReceivePacket]User not find.", _session_key));
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Warning, "NC2S_JoinWorldHandlerHandler", "OnReceivePacket", std::format("User not find. [{}]", _session_key));
 		return;
 	}
 
 	auto world = WorldManager::GetMutableInstance().FindWorld<TestWorld>();
 	if (true == world.expired()) {
-		GetLogger().lock()->WriteLog(ELogLevel::Critical, "[NC2S_JoinWorldHandlerHandler::OnReceivePacket]Test World is not find.");
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Warning, "NC2S_JoinWorldHandlerHandler", "OnReceivePacket", "Test World is not find.");
 		return;
 	}
 
@@ -30,13 +30,13 @@ void NC2S_JoinWorldProtocolHandler::OnReceivePacket(SessionKey _session_key, std
 void NC2S_LeftWorldProtocolHandler::OnReceivePacket(SessionKey _session_key, std::unique_ptr<FPacket> _packet) {
 	auto user = UserManager::GetMutableInstance().GetUser(_session_key);
 	if (true == user.expired()) {
-		GetLogger().lock()->WriteLog(ELogLevel::Warning, std::format("[NC2S_LeftWorldHandlerHandler::OnReceivePacket]User not find.", _session_key));
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Warning, "NC2S_LeftWorldProtocolHandler", "OnReceivePacket", std::format("User not find. [{}]", _session_key));
 		return;
 	}
 
 	auto world = WorldManager::GetMutableInstance().FindWorld<LoginWorld>();
 	if (true == world.expired()) {
-		GetLogger().lock()->WriteLog(ELogLevel::Critical, "[NC2S_LeftWorldHandlerHandler::OnReceivePacket]Test World is not find.");
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Warning, "NC2S_JoinWorldHandlerHandler", "OnReceivePacket", "Login World is not find.");
 		return;
 	}
 

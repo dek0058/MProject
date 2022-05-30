@@ -1,6 +1,7 @@
 ﻿#include "MWorld.h"
 #include "Core/LogManager.h"
 #include "User/MUser.h"
+#include "Structure/Actor/Actor.h"
 
 MWorld::MWorld(uint _key) :
 	key(_key) {

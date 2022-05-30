@@ -2,32 +2,19 @@
 #include "GlobalDefine.h"
 #include "Core/LogManager.h"
 #include "Structure/PlayerStructure.h"
-#include "Structure/Actor/Actor.h"
 #include "Packet/Player_generated.h"
 
+using namespace MProject;
+
+class Actor;
 
 class GPC : public std::enable_shared_from_this<GPC> { // Game Player Controller
 public:
 	
 	GPC(uint _user_key) : user_key(_user_key) {}
 
-
-	void TakeActor(std::shared_ptr<Actor> _actor) {
-		if (nullptr == _actor.get()) {
-			LogManager::GetMutableInstance().GenericLog(ELogLevel::Warning, "GPC", "TakeActor", "Actor is null.");
-			return;
-		}
-		if (false == actor_map.contains(_actor->GetActorKey())) {
-			actor_map.emplace(_actor);
-		}
-		_actor->SetOwner(std::weak_ptr<GPC>(shared_from_this()));
-	}
-
-	void LostActor(uint _actor_key) {
-		if (true == actor_map.contains(_actor_key)) {
-			actor_map.erase(_actor_key);
-		}
-	}
+	void TakeActor(std::shared_ptr<Actor> _actor);
+	void LostActor(uint _actor_key);
 
 	//! Getter
 

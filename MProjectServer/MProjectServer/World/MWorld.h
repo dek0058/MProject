@@ -4,6 +4,7 @@
 #include "Structure/Actor/Actor.h"
 
 class MUser;
+class Actor;
 class ILogger;
 
 class MWorld : public std::enable_shared_from_this<MWorld> {

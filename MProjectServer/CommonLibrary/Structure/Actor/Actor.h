@@ -2,16 +2,14 @@
 #include "GlobalDefine.h"
 #include "Core/LogManager.h"
 #include "Structure/Core/Transform.h"
-#include "Structure/Player/GPC.h"
 #include "Packet/Actor_generated.h"
+
+class GPC;
 
 class Actor : public std::enable_shared_from_this<Actor> {
 public:
 
-	Actor(uint _actor_key, std::weak_ptr<GPC> _game_player)
-		: actor_key(_actor_key), game_player(_game_player) {
-		_game_player.lock()->TakeActor(shared_from_this());
-	}
+	Actor(uint _actor_key, std::weak_ptr<GPC> _game_player);
 
 
 	static std::shared_ptr<Actor> Create(std::weak_ptr<GPC> _game_player, FVector _position, FQuaternion _rotation, FVector _scale) {
@@ -34,12 +32,7 @@ public:
 		transform.scale = _scale;
 	}
 
-	void LostOwner() {
-		if (false == game_player.expired()) {
-			game_player.lock()->LostActor(GetActorKey());
-			game_player.reset();
-		}
-	}
+	void LostOwner();
 
 	void SetOwner(std::weak_ptr<GPC> _game_player) {
 		LostOwner();
@@ -56,13 +49,7 @@ public:
 		return actor_key;
 	}
 
-	uint GetUserKey() const {
-		if (true == game_player.expired()) {
-			return 0;
-		} else {
-			return game_player.lock()->GetUserKey();
-		}
-	}
+	uint GetUserKey() const;
 
 	FVector& GetPosition() {
 		return transform.position;

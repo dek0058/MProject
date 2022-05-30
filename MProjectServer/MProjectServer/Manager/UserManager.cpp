@@ -20,7 +20,7 @@ std::weak_ptr<MUser> UserManager::ConnectUser(SessionKey _session_key) {
 
 std::shared_ptr<MUser> UserManager::DisconnectUser(SessionKey _session_key) {
 	if (false == user_map.contains(_session_key)) {
-		return;
+		return std::shared_ptr<MUser>();
 	}
 	std::shared_ptr<MUser> user = user_map[_session_key];
 	user_map.erase(_session_key);
