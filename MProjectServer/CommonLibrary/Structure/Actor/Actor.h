@@ -32,6 +32,10 @@ public:
 		transform.scale = _scale;
 	}
 
+	void SetTransform(FTransform _transform) {
+		transform = _transform;
+	}
+
 	void LostOwner();
 
 	void SetOwner(std::weak_ptr<GPC> _game_player) {
