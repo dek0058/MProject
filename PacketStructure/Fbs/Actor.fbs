@@ -6,5 +6,5 @@ namespace MProject.Packet;
 table Actor {
     actor_key:uint;
     user_key:uint;
-    transform:Transform;
+    transform:FTransform;
 }

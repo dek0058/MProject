@@ -9,38 +9,38 @@ using global::System;
 using global::System.Collections.Generic;
 using global::FlatBuffers;
 
-public struct Vector : IFlatbufferObject
+public struct FVector : IFlatbufferObject
 {
   private Table __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
   public static void ValidateVersion() { FlatBufferConstants.FLATBUFFERS_2_0_0(); }
-  public static Vector GetRootAsVector(ByteBuffer _bb) { return GetRootAsVector(_bb, new Vector()); }
-  public static Vector GetRootAsVector(ByteBuffer _bb, Vector obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public static FVector GetRootAsFVector(ByteBuffer _bb) { return GetRootAsFVector(_bb, new FVector()); }
+  public static FVector GetRootAsFVector(ByteBuffer _bb, FVector obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
-  public Vector __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+  public FVector __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public float X { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
   public float Y { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
   public float Z { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
 
-  public static Offset<MProject.Packet.Vector> CreateVector(FlatBufferBuilder builder,
+  public static Offset<MProject.Packet.FVector> CreateFVector(FlatBufferBuilder builder,
       float x = 0.0f,
       float y = 0.0f,
       float z = 0.0f) {
     builder.StartTable(3);
-    Vector.AddZ(builder, z);
-    Vector.AddY(builder, y);
-    Vector.AddX(builder, x);
-    return Vector.EndVector(builder);
+    FVector.AddZ(builder, z);
+    FVector.AddY(builder, y);
+    FVector.AddX(builder, x);
+    return FVector.EndFVector(builder);
   }
 
-  public static void StartVector(FlatBufferBuilder builder) { builder.StartTable(3); }
+  public static void StartFVector(FlatBufferBuilder builder) { builder.StartTable(3); }
   public static void AddX(FlatBufferBuilder builder, float x) { builder.AddFloat(0, x, 0.0f); }
   public static void AddY(FlatBufferBuilder builder, float y) { builder.AddFloat(1, y, 0.0f); }
   public static void AddZ(FlatBufferBuilder builder, float z) { builder.AddFloat(2, z, 0.0f); }
-  public static Offset<MProject.Packet.Vector> EndVector(FlatBufferBuilder builder) {
+  public static Offset<MProject.Packet.FVector> EndFVector(FlatBufferBuilder builder) {
     int o = builder.EndTable();
-    return new Offset<MProject.Packet.Vector>(o);
+    return new Offset<MProject.Packet.FVector>(o);
   }
 }
 

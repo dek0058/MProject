@@ -9,17 +9,17 @@
 namespace MProject {
 namespace Packet {
 
-struct Vector;
-struct VectorBuilder;
+struct FVector;
+struct FVectorBuilder;
 
-struct Quaternion;
-struct QuaternionBuilder;
+struct FQuaternion;
+struct FQuaternionBuilder;
 
-struct Transform;
-struct TransformBuilder;
+struct FTransform;
+struct FTransformBuilder;
 
-struct Vector FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef VectorBuilder Builder;
+struct FVector FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FVectorBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_X = 4,
     VT_Y = 6,
@@ -43,44 +43,44 @@ struct Vector FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
 };
 
-struct VectorBuilder {
-  typedef Vector Table;
+struct FVectorBuilder {
+  typedef FVector Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
   void add_x(float x) {
-    fbb_.AddElement<float>(Vector::VT_X, x, 0.0f);
+    fbb_.AddElement<float>(FVector::VT_X, x, 0.0f);
   }
   void add_y(float y) {
-    fbb_.AddElement<float>(Vector::VT_Y, y, 0.0f);
+    fbb_.AddElement<float>(FVector::VT_Y, y, 0.0f);
   }
   void add_z(float z) {
-    fbb_.AddElement<float>(Vector::VT_Z, z, 0.0f);
+    fbb_.AddElement<float>(FVector::VT_Z, z, 0.0f);
   }
-  explicit VectorBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+  explicit FVectorBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  flatbuffers::Offset<Vector> Finish() {
+  flatbuffers::Offset<FVector> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<Vector>(end);
+    auto o = flatbuffers::Offset<FVector>(end);
     return o;
   }
 };
 
-inline flatbuffers::Offset<Vector> CreateVector(
+inline flatbuffers::Offset<FVector> CreateFVector(
     flatbuffers::FlatBufferBuilder &_fbb,
     float x = 0.0f,
     float y = 0.0f,
     float z = 0.0f) {
-  VectorBuilder builder_(_fbb);
+  FVectorBuilder builder_(_fbb);
   builder_.add_z(z);
   builder_.add_y(y);
   builder_.add_x(x);
   return builder_.Finish();
 }
 
-struct Quaternion FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef QuaternionBuilder Builder;
+struct FQuaternion FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FQuaternionBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_X = 4,
     VT_Y = 6,
@@ -109,40 +109,40 @@ struct Quaternion FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
 };
 
-struct QuaternionBuilder {
-  typedef Quaternion Table;
+struct FQuaternionBuilder {
+  typedef FQuaternion Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
   void add_x(float x) {
-    fbb_.AddElement<float>(Quaternion::VT_X, x, 0.0f);
+    fbb_.AddElement<float>(FQuaternion::VT_X, x, 0.0f);
   }
   void add_y(float y) {
-    fbb_.AddElement<float>(Quaternion::VT_Y, y, 0.0f);
+    fbb_.AddElement<float>(FQuaternion::VT_Y, y, 0.0f);
   }
   void add_z(float z) {
-    fbb_.AddElement<float>(Quaternion::VT_Z, z, 0.0f);
+    fbb_.AddElement<float>(FQuaternion::VT_Z, z, 0.0f);
   }
   void add_w(float w) {
-    fbb_.AddElement<float>(Quaternion::VT_W, w, 0.0f);
+    fbb_.AddElement<float>(FQuaternion::VT_W, w, 0.0f);
   }
-  explicit QuaternionBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+  explicit FQuaternionBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  flatbuffers::Offset<Quaternion> Finish() {
+  flatbuffers::Offset<FQuaternion> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<Quaternion>(end);
+    auto o = flatbuffers::Offset<FQuaternion>(end);
     return o;
   }
 };
 
-inline flatbuffers::Offset<Quaternion> CreateQuaternion(
+inline flatbuffers::Offset<FQuaternion> CreateFQuaternion(
     flatbuffers::FlatBufferBuilder &_fbb,
     float x = 0.0f,
     float y = 0.0f,
     float z = 0.0f,
     float w = 0.0f) {
-  QuaternionBuilder builder_(_fbb);
+  FQuaternionBuilder builder_(_fbb);
   builder_.add_w(w);
   builder_.add_z(z);
   builder_.add_y(y);
@@ -150,21 +150,21 @@ inline flatbuffers::Offset<Quaternion> CreateQuaternion(
   return builder_.Finish();
 }
 
-struct Transform FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef TransformBuilder Builder;
+struct FTransform FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FTransformBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_POSITION = 4,
     VT_ROTATION = 6,
     VT_SCALE = 8
   };
-  const MProject::Packet::Vector *position() const {
-    return GetPointer<const MProject::Packet::Vector *>(VT_POSITION);
+  const MProject::Packet::FVector *position() const {
+    return GetPointer<const MProject::Packet::FVector *>(VT_POSITION);
   }
-  const MProject::Packet::Quaternion *rotation() const {
-    return GetPointer<const MProject::Packet::Quaternion *>(VT_ROTATION);
+  const MProject::Packet::FQuaternion *rotation() const {
+    return GetPointer<const MProject::Packet::FQuaternion *>(VT_ROTATION);
   }
-  const MProject::Packet::Vector *scale() const {
-    return GetPointer<const MProject::Packet::Vector *>(VT_SCALE);
+  const MProject::Packet::FVector *scale() const {
+    return GetPointer<const MProject::Packet::FVector *>(VT_SCALE);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -178,36 +178,36 @@ struct Transform FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
 };
 
-struct TransformBuilder {
-  typedef Transform Table;
+struct FTransformBuilder {
+  typedef FTransform Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_position(flatbuffers::Offset<MProject::Packet::Vector> position) {
-    fbb_.AddOffset(Transform::VT_POSITION, position);
+  void add_position(flatbuffers::Offset<MProject::Packet::FVector> position) {
+    fbb_.AddOffset(FTransform::VT_POSITION, position);
   }
-  void add_rotation(flatbuffers::Offset<MProject::Packet::Quaternion> rotation) {
-    fbb_.AddOffset(Transform::VT_ROTATION, rotation);
+  void add_rotation(flatbuffers::Offset<MProject::Packet::FQuaternion> rotation) {
+    fbb_.AddOffset(FTransform::VT_ROTATION, rotation);
   }
-  void add_scale(flatbuffers::Offset<MProject::Packet::Vector> scale) {
-    fbb_.AddOffset(Transform::VT_SCALE, scale);
+  void add_scale(flatbuffers::Offset<MProject::Packet::FVector> scale) {
+    fbb_.AddOffset(FTransform::VT_SCALE, scale);
   }
-  explicit TransformBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+  explicit FTransformBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  flatbuffers::Offset<Transform> Finish() {
+  flatbuffers::Offset<FTransform> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<Transform>(end);
+    auto o = flatbuffers::Offset<FTransform>(end);
     return o;
   }
 };
 
-inline flatbuffers::Offset<Transform> CreateTransform(
+inline flatbuffers::Offset<FTransform> CreateFTransform(
     flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<MProject::Packet::Vector> position = 0,
-    flatbuffers::Offset<MProject::Packet::Quaternion> rotation = 0,
-    flatbuffers::Offset<MProject::Packet::Vector> scale = 0) {
-  TransformBuilder builder_(_fbb);
+    flatbuffers::Offset<MProject::Packet::FVector> position = 0,
+    flatbuffers::Offset<MProject::Packet::FQuaternion> rotation = 0,
+    flatbuffers::Offset<MProject::Packet::FVector> scale = 0) {
+  FTransformBuilder builder_(_fbb);
   builder_.add_scale(scale);
   builder_.add_rotation(rotation);
   builder_.add_position(position);

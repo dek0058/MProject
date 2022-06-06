@@ -24,7 +24,7 @@ protected:
 public:
 
 	void JoinUserToWorld(std::weak_ptr<MUser> _user, uint _world_key);
-
+	void LeaveUserFromWorld(std::weak_ptr<MUser> _user);
 
 	//! Getter
 

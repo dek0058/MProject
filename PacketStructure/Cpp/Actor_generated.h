@@ -27,8 +27,8 @@ struct Actor FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   uint32_t user_key() const {
     return GetField<uint32_t>(VT_USER_KEY, 0);
   }
-  const MProject::Packet::Transform *transform() const {
-    return GetPointer<const MProject::Packet::Transform *>(VT_TRANSFORM);
+  const MProject::Packet::FTransform *transform() const {
+    return GetPointer<const MProject::Packet::FTransform *>(VT_TRANSFORM);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -50,7 +50,7 @@ struct ActorBuilder {
   void add_user_key(uint32_t user_key) {
     fbb_.AddElement<uint32_t>(Actor::VT_USER_KEY, user_key, 0);
   }
-  void add_transform(flatbuffers::Offset<MProject::Packet::Transform> transform) {
+  void add_transform(flatbuffers::Offset<MProject::Packet::FTransform> transform) {
     fbb_.AddOffset(Actor::VT_TRANSFORM, transform);
   }
   explicit ActorBuilder(flatbuffers::FlatBufferBuilder &_fbb)
@@ -68,7 +68,7 @@ inline flatbuffers::Offset<Actor> CreateActor(
     flatbuffers::FlatBufferBuilder &_fbb,
     uint32_t actor_key = 0,
     uint32_t user_key = 0,
-    flatbuffers::Offset<MProject::Packet::Transform> transform = 0) {
+    flatbuffers::Offset<MProject::Packet::FTransform> transform = 0) {
   ActorBuilder builder_(_fbb);
   builder_.add_transform(transform);
   builder_.add_user_key(user_key);

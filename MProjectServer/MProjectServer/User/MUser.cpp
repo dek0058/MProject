@@ -20,13 +20,16 @@ void MUser::SendPacket(std::unique_ptr<FPacket> _packet) {
 
 void MUser::SendTag() {
 	HeadServer::GetMutableInstance().SendPacket(SessionKey(), GetPacketTagList());
+
 }
 
-void MUser::LeftWorld() {
+void MUser::SetWorld(std::shared_ptr<MWorld> _world) {
+	world = std::weak_ptr<MWorld>(_world);
+	tags = world.lock()->GetTags();
+}
+
+void MUser::ResetWorld() {
 	tags.clear();
-	if (false == world.expired()) {
-		world.lock()->LeftUser(shared_from_this());
-	}
 	world.reset();
 }
 

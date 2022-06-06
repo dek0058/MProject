@@ -11,13 +11,13 @@ MWorld::MWorld(uint _key) :
 
 void MWorld::JoinUser(std::weak_ptr<MUser> _user) {
 	if (true == _user.expired()) {
-		logger.lock()->WriteLog(ELogLevel::Info, "[MWorld::JoinUser]User is expired.");
+		GetLogger().lock()->WriteLog(ELogLevel::Info, std::format("[MWorld::JoinUser]User is expired.[{}]", GetWorldKey()));
 		return;
 	}
 
 	SessionKey session_key = _user.lock()->SessionKey();
 	if (true == user_map.contains(session_key)) {
-		logger.lock()->WriteLog(ELogLevel::Info, "[MWorld::JoinUser]User already exists.");
+		GetLogger().lock()->WriteLog(ELogLevel::Info, std::format("[MWorld::JoinUser]User already exists.[{}]", GetWorldKey()));
 		return;
 	}
 
@@ -29,19 +29,18 @@ void MWorld::JoinUser(std::weak_ptr<MUser> _user) {
 
 void MWorld::LeftUser(std::weak_ptr<MUser> _user) {
 	if (true == _user.expired()) {
-		logger.lock()->WriteLog(ELogLevel::Info, "[MWorld::LeftUser]User is expired.");
+		GetLogger().lock()->WriteLog(ELogLevel::Info, std::format("[MWorld::LeftUser]User is expired.[{}]", GetWorldKey()));
 		return;
 	}
 
 	SessionKey session_key = _user.lock()->SessionKey();
 	if (false == user_map.contains(session_key)) {
-		logger.lock()->WriteLog(ELogLevel::Info, "[MWorld::LeftUser]User is not exists.");
+		GetLogger().lock()->WriteLog(ELogLevel::Info, std::format("[MWorld::LeftUser]User is not exists.[{}]", GetWorldKey()));
 		return;
 	}
 
 	user_map.erase(session_key);
-	_user.lock()->LeftWorld();
-	_user.lock()->SendTag();
+	_user.lock()->ResetWorld();
 	OnLeftUser(_user);
 }
 
@@ -51,6 +50,25 @@ void MWorld::JoinActor(std::weak_ptr<Actor> _actor) {
 
 void MWorld::LeftActor(std::weak_ptr<Actor> _actor) {
 
+}
+
+std::vector<std::weak_ptr<GPC>> MWorld::GetGamePlayers() const {
+	std::vector<std::weak_ptr<GPC>> result;
+	for (auto& user : user_map) {
+		if (true == user.second.expired()) {
+			continue;
+		}
+		result.emplace_back(user.second.lock()->GetGamePlayer());
+	}
+	return result;
+}
+
+std::vector<std::weak_ptr<Actor>> MWorld::GetActors() const {
+	std::vector<std::weak_ptr<Actor>> result;
+	for (auto& actor : actor_map) {
+		result.emplace_back(std::weak_ptr<Actor>(actor.second));
+	}
+	return result;
 }
 
 std::weak_ptr<ILogger> MWorld::GetLogger() {

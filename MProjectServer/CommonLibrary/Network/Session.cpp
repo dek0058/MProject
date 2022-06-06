@@ -112,6 +112,7 @@ void FSession::Receive() {
 
 void FSession::Write(std::unique_ptr<FPacket> _packet) {
 	if (GetSequenceType() != ESequenceType::Connected) {
+		Disconnect();
 		return;
 	}
 
@@ -148,6 +149,7 @@ void FSession::Write(std::unique_ptr<FPacket> _packet) {
 void FSession::OnReceive(boost::system::error_code const& _error_code, size_t _bytes_transferred) {
 	if (_error_code != boost::system::errc::success) {
 		LogManager::GetMutableInstance().GenericLog(ELogLevel::Error, "FSession", "OnReceive", std::format("[{}]{} - code:{}", _error_code.category().name(), _error_code.message(), _error_code.value()));
+		OnDisconnect();
 		return;
 	}
 	recv_buffers.Put(recv_packet.data, _bytes_transferred);
@@ -158,6 +160,7 @@ void FSession::OnWrite(boost::system::error_code const& _error_code, size_t _byt
 	if (_error_code != boost::system::errc::success) {
 		SetWriting(false);
 		LogManager::GetMutableInstance().GenericLog(ELogLevel::Error, "FSession", "OnWrite", std::format("[{}]{} - code:{}", _error_code.category().name(), _error_code.message(), _error_code.value()));
+		OnDisconnect();
 		return;
 	}
 
@@ -224,6 +227,7 @@ void FSession::OnDisconnect() {
 
 void FSession::Flush() {
 	if (static_cast<uint>(recv_buffers.UsedSize()) < PACKET_HEADER_SIZE) {
+		recv_buffers.Discard(recv_buffers.UsedSize());
 		return;
 	}
 

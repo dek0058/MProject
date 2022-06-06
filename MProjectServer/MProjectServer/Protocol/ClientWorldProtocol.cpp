@@ -24,6 +24,7 @@ void NC2S_JoinWorldProtocolHandler::OnReceivePacket(SessionKey _session_key, std
 
 	WorldManager::GetMutableInstance().JoinUserToWorld(user, world.lock()->GetWorldKey());
 	user.lock()->SendPacket(NS2C_JoinWorldProtocol::CreatePacket(world.lock()->GetWorldKey()));
+	user.lock()->SendPacket(NS2C_JoinUserInWorlddProtocol::CreatePacket(world.lock()->GetWorldKey(), world.lock()->GetGamePlayers(), world.lock()->GetActors()));
 }
 
 
@@ -45,17 +46,23 @@ void NC2S_LeftWorldProtocolHandler::OnReceivePacket(SessionKey _session_key, std
 }
 
 
-std::unique_ptr<FPacket> NS2C_JoinUserInWorlddProtocol::CreatePacket(uint _world_key, std::vector<GPC> _game_players, std::vector<Actor> _actors) {
+std::unique_ptr<FPacket> NS2C_JoinUserInWorlddProtocol::CreatePacket(uint _world_key, std::vector<std::weak_ptr<GPC>> _game_players, std::vector<std::weak_ptr<Actor>> _actors) {
 	START_PACKET(NS2C_JoinUserInWorlddProtocol);
 
 	std::vector<flatbuffers::Offset<MProject::Packet::GPC>> game_palyers_buf;
 	for (auto game_player : _game_players) {
-		game_palyers_buf.emplace_back(game_player.ToFaltbuffer(builder));
+		if (true == game_player.expired()) {
+			continue;
+		}
+		game_palyers_buf.emplace_back(game_player.lock()->ToFaltbuffer(builder));
 	}
 
 	std::vector<flatbuffers::Offset<MProject::Packet::Actor>> actors_buf;
 	for (auto actor : _actors) {
-		actors_buf.emplace_back(actor.ToFaltbuffer(builder));
+		if (true == actor.expired()) {
+			continue;
+		}
+		actors_buf.emplace_back(actor.lock()->ToFaltbuffer(builder));
 	}
 
 	auto game_player_data = builder.CreateVector(game_palyers_buf);
@@ -70,17 +77,23 @@ std::unique_ptr<FPacket> NS2C_JoinUserInWorlddProtocol::CreatePacket(uint _world
 }
 
 
-std::unique_ptr<FPacket> NS2C_LeftUserInWorldProtocol::CreatePacket(uint _world_key, std::vector<GPC> _game_players, std::vector<Actor> _actors) {
+std::unique_ptr<FPacket> NS2C_LeftUserInWorldProtocol::CreatePacket(uint _world_key, std::vector<std::weak_ptr<GPC>> _game_players, std::vector<std::weak_ptr<Actor>> _actors) {
 	START_PACKET(NS2C_LeftUserInWorldProtocol);
 
 	std::vector<flatbuffers::Offset<MProject::Packet::GPC>> game_palyers_buf;
 	for (auto game_player : _game_players) {
-		game_palyers_buf.emplace_back(game_player.ToFaltbuffer(builder));
+		if (true == game_player.expired()) {
+			continue;
+		}
+		game_palyers_buf.emplace_back(game_player.lock()->ToFaltbuffer(builder));
 	}
 
 	std::vector<flatbuffers::Offset<MProject::Packet::Actor>> actors_buf;
 	for (auto actor : _actors) {
-		actors_buf.emplace_back(actor.ToFaltbuffer(builder));
+		if (true == actor.expired()) {
+			continue;
+		}
+		actors_buf.emplace_back(actor.lock()->ToFaltbuffer(builder));
 	}
 
 	auto game_player_data = builder.CreateVector(game_palyers_buf);

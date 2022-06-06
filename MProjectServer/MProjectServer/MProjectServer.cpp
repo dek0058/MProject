@@ -65,11 +65,15 @@ void MProjectServer::Initailize_Bind()
     MProjectServer::List_Widget = ui.test_list;
 	
     auto logger = LogManager::GetMutableInstance().GetGenericLogger();
-    logger.lock()->AddDelegate([](ELogLevel _level, std::string const& _msg) {
+    logger.lock()->AddDelegate([](ELogLevel _level, std::string _msg) {
         if (true == _msg.empty()) {
             return;
         }
-        MProjectServer::List_Widget->addItem(QString::fromLocal8Bit(_msg.c_str()));
+        try {
+            MProjectServer::List_Widget->addItem(QString::fromLocal8Bit(_msg.c_str()));
+        } catch (std::exception _exception) {
+			// ERROR
+        }
     });
 
 

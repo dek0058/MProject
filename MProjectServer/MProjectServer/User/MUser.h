@@ -23,15 +23,8 @@ public:
 	
 
 	//! Setter
-	void SetTags(std::vector<uint> _tags) {
-		tags = _tags;
-	}
-
-	void SetWorld(std::shared_ptr<MWorld> _world) {
-		world = std::weak_ptr<MWorld>(_world);
-	}
-
-	void LeftWorld();
+	void SetWorld(std::shared_ptr<MWorld> _world);
+	void ResetWorld();
 
 	//! Getter
 	uint SessionKey() const;

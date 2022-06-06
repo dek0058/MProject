@@ -24,7 +24,7 @@ std::shared_ptr<MUser> UserManager::DisconnectUser(SessionKey _session_key) {
 	}
 	std::shared_ptr<MUser> user = user_map[_session_key];
 	user_map.erase(_session_key);
-	user_map.erase(user->GetUserKey());
+	user_key_map.erase(user->GetUserKey());
 	return user;
 }
 

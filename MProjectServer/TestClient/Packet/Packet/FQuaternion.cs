@@ -9,42 +9,42 @@ using global::System;
 using global::System.Collections.Generic;
 using global::FlatBuffers;
 
-public struct Quaternion : IFlatbufferObject
+public struct FQuaternion : IFlatbufferObject
 {
   private Table __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
   public static void ValidateVersion() { FlatBufferConstants.FLATBUFFERS_2_0_0(); }
-  public static Quaternion GetRootAsQuaternion(ByteBuffer _bb) { return GetRootAsQuaternion(_bb, new Quaternion()); }
-  public static Quaternion GetRootAsQuaternion(ByteBuffer _bb, Quaternion obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public static FQuaternion GetRootAsFQuaternion(ByteBuffer _bb) { return GetRootAsFQuaternion(_bb, new FQuaternion()); }
+  public static FQuaternion GetRootAsFQuaternion(ByteBuffer _bb, FQuaternion obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
-  public Quaternion __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+  public FQuaternion __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public float X { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
   public float Y { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
   public float Z { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
   public float W { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
 
-  public static Offset<MProject.Packet.Quaternion> CreateQuaternion(FlatBufferBuilder builder,
+  public static Offset<MProject.Packet.FQuaternion> CreateFQuaternion(FlatBufferBuilder builder,
       float x = 0.0f,
       float y = 0.0f,
       float z = 0.0f,
       float w = 0.0f) {
     builder.StartTable(4);
-    Quaternion.AddW(builder, w);
-    Quaternion.AddZ(builder, z);
-    Quaternion.AddY(builder, y);
-    Quaternion.AddX(builder, x);
-    return Quaternion.EndQuaternion(builder);
+    FQuaternion.AddW(builder, w);
+    FQuaternion.AddZ(builder, z);
+    FQuaternion.AddY(builder, y);
+    FQuaternion.AddX(builder, x);
+    return FQuaternion.EndFQuaternion(builder);
   }
 
-  public static void StartQuaternion(FlatBufferBuilder builder) { builder.StartTable(4); }
+  public static void StartFQuaternion(FlatBufferBuilder builder) { builder.StartTable(4); }
   public static void AddX(FlatBufferBuilder builder, float x) { builder.AddFloat(0, x, 0.0f); }
   public static void AddY(FlatBufferBuilder builder, float y) { builder.AddFloat(1, y, 0.0f); }
   public static void AddZ(FlatBufferBuilder builder, float z) { builder.AddFloat(2, z, 0.0f); }
   public static void AddW(FlatBufferBuilder builder, float w) { builder.AddFloat(3, w, 0.0f); }
-  public static Offset<MProject.Packet.Quaternion> EndQuaternion(FlatBufferBuilder builder) {
+  public static Offset<MProject.Packet.FQuaternion> EndFQuaternion(FlatBufferBuilder builder) {
     int o = builder.EndTable();
-    return new Offset<MProject.Packet.Quaternion>(o);
+    return new Offset<MProject.Packet.FQuaternion>(o);
   }
 }
 

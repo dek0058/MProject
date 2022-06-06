@@ -6,6 +6,7 @@
 class MUser;
 class Actor;
 class ILogger;
+class GPC;
 
 class MWorld : public std::enable_shared_from_this<MWorld> {
 
@@ -35,6 +36,9 @@ public:
 		return tags;
 	}
 
+	std::vector<std::weak_ptr<GPC>> GetGamePlayers() const;
+	std::vector<std::weak_ptr<Actor>> GetActors() const;
+
 protected:
 
 	virtual void OnJoinUser(std::weak_ptr<MUser> _user) {}
@@ -45,7 +49,7 @@ protected:
 		tags = _tags;
 	}
 
-private:
+protected:
 	
 	//! Getter
 

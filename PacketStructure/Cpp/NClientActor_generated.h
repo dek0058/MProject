@@ -6,8 +6,8 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-#include "Actor_generated.h"
 #include "Player_generated.h"
+#include "Actor_generated.h"
 #include "Core_generated.h"
 
 namespace MProject {

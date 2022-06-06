@@ -3,21 +3,21 @@
 namespace MProject.Packet;
 
 // Position, Rotation, Scale, etc...
-table Vector {
+table FVector {
     x:float;
     y:float;
     z:float;
 }
 
-table Quaternion {
+table FQuaternion {
     x:float;
     y:float;
     z:float;
     w:float;
 }
 
-table Transform {
-    position:Vector;
-    rotation:Quaternion;
-    scale:Vector;
+table FTransform {
+    position:FVector;
+    rotation:FQuaternion;
+    scale:FVector;
 }

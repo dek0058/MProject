@@ -8,6 +8,9 @@ TestWorld::TestWorld(uint _key) : MWorld(_key) {
 		MProject::Packet::Tag_C2S_UserLogout,
 		MProject::Packet::Tag_S2C_UserLogout,
 
+		MProject::Packet::Tag_C2S_JoinWorld,
+		MProject::Packet::Tag_S2C_JoinWorld,
+
 		MProject::Packet::Tag_C2S_LeftWorld,
 		MProject::Packet::Tag_S2C_LeftWorld,
 
