@@ -121,6 +121,7 @@ void FSession::Write(std::unique_ptr<FPacket> _packet) {
 		return;
 	}
 	
+	LogManager::GetMutableInstance().GenericLog(ELogLevel::Trace, "FSession", "Write", std::format("Send [{0}] Tag", _packet->tag));
 	if (true == IsWriting()) {
 		//! 이미 쓰기 작업을 하고 있다면 버퍼에 푸시만 해준다.
 		send_packets.emplace_after(send_packets.before_begin(), std::move(_packet));
@@ -238,6 +239,8 @@ void FSession::Flush() {
 	std::memcpy(&packet->tag, buffer.data(), PACKET_TAG_SIZE);
 	std::memcpy(&packet->length, buffer.data() + PACKET_TAG_SIZE, PACKET_LEGNTH_SIZE);
 	std::memcpy(packet->hash_code.data(), buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, PACKET_HASH_CODE_SIZE);
+
+	LogManager::GetMutableInstance().GenericLog(ELogLevel::Trace, "FSession", "Flush", std::format("Receive [{0}] Tag Packet", packet->tag));
 
 	if (recv_buffers.UsedSize() < packet->length) {
 		throw std::runtime_error("[FSession::Flush] packet length error");

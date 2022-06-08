@@ -8,7 +8,7 @@ using SessionKey = uint;
 constexpr uint SESSION_CAPACITY = 16'384;
 constexpr uint NET_EVENT_CAPCITY = 256;
 
-constexpr size_t PACKET_MAX_SIZE = 1'024;
+constexpr size_t PACKET_MAX_SIZE = 5000;
 constexpr size_t PACKET_BUFFER_BUILDER_SIZE = 1'024;
 constexpr size_t PACKET_PRE_ALLOC_SIZE = 10; // 메모리 풀 개수 (메모리풀 총 크기 PACKET_MAX_SIZE * PACKET_PRE_ALLOC_SIZE)
 
