@@ -15,7 +15,7 @@ public:
 		thread->Stop();
 	}
 
-	void GenericLog(ELogLevel _log_level, std::string const& _file_name, std::string const& _func_name, std::string const& _msg) {
+	void GenericLog(ELogLevel _log_level, std::string const& _file_name, std::string const& _func_name, std::string _msg) {
 		thread->GenericLog(_log_level, _file_name, _func_name, _msg);
 	}
 

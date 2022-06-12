@@ -121,17 +121,21 @@ void FSession::Write(std::unique_ptr<FPacket> _packet) {
 		return;
 	}
 	
-	LogManager::GetMutableInstance().GenericLog(ELogLevel::Trace, "FSession", "Write", std::format("Send [{0}] Tag", _packet->tag));
 	if (true == IsWriting()) {
 		//! 이미 쓰기 작업을 하고 있다면 버퍼에 푸시만 해준다.
-		send_packets.emplace_after(send_packets.before_begin(), std::move(_packet));
+		send_packets.emplace_back(std::move(_packet));
 		return;
 	} else {
+		{
+			int tag = _packet->tag;
+			LogManager::GetMutableInstance().GenericLog(ELogLevel::Trace, "FSession", "Write", std::format("Maybe tag {0}", tag));
+		}
 		SetWriting(true);
+
 		auto buffer = NetworkToolkit::GetPacketData(std::move(_packet));
 		send_packet.Allocate(buffer.size());
 		memcpy(send_packet.data, buffer.data(), buffer.size());
-
+		
 		GetSocket().async_write_some(
 			boost::asio::buffer(send_packet.data, send_packet.length),
 			boost::asio::bind_executor(
@@ -186,13 +190,31 @@ void FSession::OnWrite(boost::system::error_code const& _error_code, size_t _byt
 		SetWriting(false);
 		return;
 	}
-	auto packet = std::move(send_packets.front());
-	send_packets.pop_front();
+
+	std::unique_ptr<FPacket> packet;
+	while (send_packets.size() > 0) {
+		packet = std::move(send_packets.front());
+		send_packets.pop_front();
+		if (packet == nullptr) {
+			LogManager::GetMutableInstance().GenericLog(ELogLevel::Trace, "FSession", "OnWrite", "FPacket is null");
+			continue;
+		}
+		break;
+	}
+	if (nullptr == packet.get()) {
+		SetWriting(false);
+		return;
+	}
+	
+	{
+		int tag = packet->tag;
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Trace, "FSession", "OnWrite", std::format("Maybe tag {0}", tag));
+	}
 
 	auto buffer = NetworkToolkit::GetPacketData(std::move(packet));
 	send_packet.Allocate(buffer.size());
 	memcpy(send_packet.data, buffer.data(), buffer.size());
-
+	
 	GetSocket().async_write_some(
 		boost::asio::buffer(send_packet.data, send_packet.length),
 		boost::asio::bind_executor(

@@ -14,7 +14,7 @@ public:
 
 
 	//! Generic
-	void GenericLog(ELogLevel _log_level, std::string const& _file_name, std::string const& _func_name, std::string const& _msg) {
+	void GenericLog(ELogLevel _log_level, std::string const& _file_name, std::string const& _func_name, std::string _msg) {
 		std::string msg = std::format("[{}::{}]{}", _file_name, _func_name, _msg);
 		messages[ELogCoreType::Generic].emplace_back(std::make_tuple(_log_level, msg));
 	}

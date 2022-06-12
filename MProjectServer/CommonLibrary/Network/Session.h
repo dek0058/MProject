@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <boost/asio.hpp>
 #include <boost/circular_buffer.hpp>
 
@@ -28,6 +28,7 @@ private:
 
 		void Relase() {
 			if (nullptr != data) {
+				std::fill(data, data + length, 0);
 				memory_pool->Release(data);
 			}
 		}
@@ -135,7 +136,7 @@ private:
 	FPacketData<byte[PACKET_MAX_SIZE]> send_packet;
 	FPacketData<byte[PACKET_MAX_SIZE]> recv_packet;
 	
-	std::forward_list<std::unique_ptr<FPacket>> send_packets;
+	std::list<std::unique_ptr<FPacket>> send_packets;
 	CircularBuffer_M recv_buffers;
 
 	int max_packet_size;

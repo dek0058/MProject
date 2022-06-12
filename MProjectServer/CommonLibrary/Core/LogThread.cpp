@@ -13,7 +13,7 @@ void LogThread::OnUpdate() {
 		if (true == messages[ELogCoreType::Generic].empty()) {
 			continue;
 		}
-		auto [level, msg] = messages[ELogCoreType::Generic].back();
+		auto [level, msg] = messages[ELogCoreType::Generic].front();
 		messages[ELogCoreType::Generic].pop_front();
 		Iter.second->WriteLog(level, msg);
 	}
