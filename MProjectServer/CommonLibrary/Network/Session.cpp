@@ -6,11 +6,12 @@
 #include "NetworkToolkit.h"
 #include "Utility/UniversalToolkit.h"
 
+
 FSession::FSession(std::shared_ptr<IOService> _IO_service, ESessionType _session_type, size_t _send_buffer_size, size_t _recv_buffer_size, int _max_packet_size)
 	: top_IO_service(_IO_service), sock(_IO_service->GetIOService()), strand(_IO_service->GetIOService()),
 		session_key(0), session_type(_session_type), sequence_type(ESequenceType::Disconnected),
 		public_ip(), public_port(),
-		buffer_pool(PACKET_MAX_SIZE, PACKET_PRE_ALLOC_SIZE), send_packet(&buffer_pool), recv_packet(&buffer_pool), recv_buffers(_recv_buffer_size),
+		buffer_pool(PACKET_MAX_SIZE, PACKET_PRE_ALLOC_SIZE), send_packet(&buffer_pool), recv_packet(&buffer_pool), send_packet_queue(new SPSCQueue<std::unique_ptr<FPacket>>(NET_SEND_PACKET_COUNT)), recv_buffers(_recv_buffer_size),
 		max_packet_size(_max_packet_size), is_writing(false) {
 
 }
@@ -26,7 +27,7 @@ void FSession::Accept(SessionKey _session_key) {
 	sequence_type = ESequenceType::Connected;
 	send_packet.Relase();
 	recv_packet.Relase();
-	send_packets.clear();
+	while (false == send_packet_queue->empty()) { send_packet_queue->pop(); }
 	recv_buffers.Discard(recv_buffers.UsedSize());
 
 	
@@ -42,7 +43,7 @@ void FSession::Connect(SessionKey _session_key) {
 	sequence_type = ESequenceType::Connected;
 	send_packet.Relase();
 	recv_packet.Relase();
-	send_packets.clear();
+	while (false == send_packet_queue->empty()) { send_packet_queue->pop(); }
 	recv_buffers.Discard(recv_buffers.UsedSize());
 	
 	
@@ -57,7 +58,7 @@ void FSession::Disconnect() {
 	sequence_type = ESequenceType::Disconnected;
 	send_packet.Relase();
 	recv_packet.Relase();
-	send_packets.clear();
+	while (false == send_packet_queue->empty()) { send_packet_queue->pop(); }
 	recv_buffers.Discard(recv_buffers.UsedSize());
 }
 
@@ -110,7 +111,7 @@ void FSession::Receive() {
 	);
 }
 
-void FSession::Write(std::unique_ptr<FPacket> _packet) {
+void FSession::Write(std::unique_ptr<FPacket> _packet, bool _ignore/* = false */) {
 	if (GetSequenceType() != ESequenceType::Connected) {
 		Disconnect();
 		return;
@@ -121,9 +122,9 @@ void FSession::Write(std::unique_ptr<FPacket> _packet) {
 		return;
 	}
 	
-	if (true == IsWriting()) {
+	if (true == IsWriting() && false == _ignore) {
 		//! 이미 쓰기 작업을 하고 있다면 버퍼에 푸시만 해준다.
-		send_packets.emplace_back(std::move(_packet));
+		send_packet_queue->emplace(std::move(_packet));
 		return;
 	} else {
 		{
@@ -186,17 +187,38 @@ void FSession::OnWrite(boost::system::error_code const& _error_code, size_t _byt
 		return;
 	}
 
-	if (true == send_packets.empty()) {
+	GetSocket().async_wait(
+		boost::asio::ip::tcp::socket::wait_type::wait_write,
+		boost::asio::bind_executor(
+			strand,
+			boost::bind(
+				&FSession::OnWait,
+				shared_from_this(),
+				boost::asio::placeholders::error
+			)
+		)
+	);
+}
+
+void FSession::OnWait(boost::system::error_code const& _error_code) {
+	if (_error_code != boost::system::errc::success) {
+		SetWriting(false);
+		LogManager::GetMutableInstance().GenericLog(ELogLevel::Error, "FSession", "OnWrite", std::format("[{}]{} - code:{}", _error_code.category().name(), _error_code.message(), _error_code.value()));
+		OnDisconnect();
+		return;
+	}
+
+	if (true == send_packet_queue->empty()) {
 		SetWriting(false);
 		return;
 	}
 
-	std::unique_ptr<FPacket> packet;
-	while (send_packets.size() > 0) {
-		packet = std::move(send_packets.front());
-		send_packets.pop_front();
+	std::unique_ptr<FPacket> packet = nullptr;
+	while (send_packet_queue->size() > 0) {
+		packet = std::move(*send_packet_queue->front());
+		send_packet_queue->pop();
 		if (packet == nullptr) {
-			LogManager::GetMutableInstance().GenericLog(ELogLevel::Trace, "FSession", "OnWrite", "FPacket is null");
+			LogManager::GetMutableInstance().GenericLog(ELogLevel::Trace, "FSession", "Write", "FPacket is null");
 			continue;
 		}
 		break;
@@ -205,28 +227,8 @@ void FSession::OnWrite(boost::system::error_code const& _error_code, size_t _byt
 		SetWriting(false);
 		return;
 	}
-	
-	{
-		int tag = packet->tag;
-		LogManager::GetMutableInstance().GenericLog(ELogLevel::Trace, "FSession", "OnWrite", std::format("Maybe tag {0}", tag));
-	}
 
-	auto buffer = NetworkToolkit::GetPacketData(std::move(packet));
-	send_packet.Allocate(buffer.size());
-	memcpy(send_packet.data, buffer.data(), buffer.size());
-	
-	GetSocket().async_write_some(
-		boost::asio::buffer(send_packet.data, send_packet.length),
-		boost::asio::bind_executor(
-			strand,
-			boost::bind(
-				&FSession::OnWrite,
-				shared_from_this(),
-				boost::asio::placeholders::error,
-				boost::asio::placeholders::bytes_transferred
-			)
-		)
-	);
+	Write(std::move(packet), true);
 }
 
 void FSession::OnDisconnect() {
@@ -257,7 +259,7 @@ void FSession::Flush() {
 	std::unique_ptr<FPacket> packet = std::make_unique<FPacket>();
 	std::vector<byte> buffer(PACKET_HEADER_SIZE);
 	recv_buffers.Get(buffer.data(), PACKET_HEADER_SIZE);
-	
+
 	std::memcpy(&packet->tag, buffer.data(), PACKET_TAG_SIZE);
 	std::memcpy(&packet->length, buffer.data() + PACKET_TAG_SIZE, PACKET_LEGNTH_SIZE);
 	std::memcpy(packet->hash_code.data(), buffer.data() + PACKET_TAG_SIZE + PACKET_LEGNTH_SIZE, PACKET_HASH_CODE_SIZE);

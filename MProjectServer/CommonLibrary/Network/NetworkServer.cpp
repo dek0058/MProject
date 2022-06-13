@@ -5,6 +5,7 @@
 #include "NetEvent.h"
 #include "Session.h"
 #include "BaseProtocol.h"
+#include "Core/LogManager.h"
 
 
 NetworkServer::NetworkServer(std::shared_ptr<ProtocolHandlerManager> _handler_manager) : protocol_handler_manager(_handler_manager), net_event_queue(NET_EVENT_CAPCITY) {
@@ -72,10 +73,10 @@ void NetworkServer::Loop() {
 			
 			} break;
 			case ENetEventType::Error: {
-				// error
+				LogManager::GetMutableInstance().GenericLog(ELogLevel::Error, "NetworkServer", "Loop", "Server error occuured!!!");
 			} break;
 			default: {
-				// error
+				LogManager::GetMutableInstance().GenericLog(ELogLevel::Error, "NetworkServer", "Loop", "Unknown!!!");
 			} break;
 		}
 	}

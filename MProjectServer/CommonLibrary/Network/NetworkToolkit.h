@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "GuardDefine.h"
 #include "Network/NetworkDefine.h"
@@ -11,5 +11,6 @@ class NetworkToolkit {
 public:
 
 	static std::vector<byte> GetPacketData(std::unique_ptr<FPacket> _packet);
+	static std::vector<byte> GetPacketData(std::shared_ptr<FPacket> _packet);
 
 };

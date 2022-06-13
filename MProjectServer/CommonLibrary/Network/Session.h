@@ -5,6 +5,7 @@
 #include "NetworkDefine.h"
 #include "Utility/CircularBuffer.h"
 #include "Utility//MemoryPool.h"
+#include "Utility/SPSCQueue.h"
 
 class IOService;
 struct FPacket;
@@ -107,10 +108,11 @@ private:
 	void Close();
 
 	void Receive();
-	void Write(std::unique_ptr<FPacket> _packet);
+	void Write(std::unique_ptr<FPacket> _packet, bool _ignore = false);
 
 	void OnReceive(boost::system::error_code const& _error_code, size_t _bytes_transferred);
 	void OnWrite(boost::system::error_code const& _error_code, size_t _bytes_transferred);
+	void OnWait(boost::system::error_code const& _error_code);
 	void OnDisconnect();
 
 	void Flush();
@@ -136,7 +138,7 @@ private:
 	FPacketData<byte[PACKET_MAX_SIZE]> send_packet;
 	FPacketData<byte[PACKET_MAX_SIZE]> recv_packet;
 	
-	std::list<std::unique_ptr<FPacket>> send_packets;
+	std::unique_ptr<SPSCQueue<std::unique_ptr<FPacket>>> send_packet_queue;
 	CircularBuffer_M recv_buffers;
 
 	int max_packet_size;

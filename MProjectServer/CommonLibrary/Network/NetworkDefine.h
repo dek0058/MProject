@@ -7,6 +7,7 @@ using SessionKey = uint;
 
 constexpr uint SESSION_CAPACITY = 16'384;
 constexpr uint NET_EVENT_CAPCITY = 256;
+constexpr uint NET_SEND_PACKET_COUNT = 256;
 
 constexpr size_t PACKET_MAX_SIZE = 5000;
 constexpr size_t PACKET_BUFFER_BUILDER_SIZE = 1'024;
