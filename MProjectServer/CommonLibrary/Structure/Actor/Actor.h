@@ -11,17 +11,7 @@ public:
 
 	Actor(uint _actor_key, std::weak_ptr<GPC> _game_player);
 
-
-	static std::shared_ptr<Actor> Create(std::weak_ptr<GPC> _game_player, FVector _position, FQuaternion _rotation, FVector _scale) {
-		if (true == _game_player.expired()) {
-			LogManager::GetMutableInstance().GenericLog(ELogLevel::Warning, "Actor", "Create", "GPC is expired.");
-			return std::shared_ptr<Actor>();
-		}
-		static uint key = 0;
-		std::shared_ptr<Actor> actor(new Actor(++key, _game_player));
-		actor->SetTransform(_position, _rotation, _scale);
-		return actor;
-	}
+	static std::shared_ptr<Actor> Create(std::weak_ptr<GPC> _game_player, FVector _position, FQuaternion _rotation, FVector _scale);
 
 
 	//! Setter
