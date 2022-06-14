@@ -18,10 +18,14 @@ public:
 	MWorld(uint _key);
 
 	void JoinUser(std::weak_ptr<MUser> _user);
+	
 	void LeftUser(std::weak_ptr<MUser> _user);
 
 	void JoinActor(std::weak_ptr<Actor> _actor);
+	void JoinActor(std::vector<std::weak_ptr<Actor>> _actors);
+
 	void LeftActor(std::weak_ptr<Actor> _actor);
+	void LeftActor(std::vector<std::weak_ptr<Actor>> _actors);
 
 
 	//! Getter
@@ -38,6 +42,10 @@ public:
 
 	std::vector<std::weak_ptr<GPC>> GetGamePlayers() const;
 	std::vector<std::weak_ptr<Actor>> GetActors() const;
+
+	//! Broadcast Alter
+	void Send_JoinActor(std::weak_ptr<Actor> _actor);
+	void Send_JoinActor(std::vector<std::weak_ptr<Actor>> _actors);
 
 protected:
 

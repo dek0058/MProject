@@ -27,7 +27,7 @@ void NC2S_JoinWorldProtocolHandler::OnReceivePacket(SessionKey _session_key, std
 
 	std::shared_ptr<Actor> actor = Actor::Create(user.lock()->GetGamePlayer(), FVector(0,0,0), FQuaternion(0,0,0,0), FVector(0,0,0));
 	world.lock()->JoinActor(actor);
-	user.lock()->SendPacket(NS2C_JoinUserInWorlddProtocol::CreatePacket(world.lock()->GetWorldKey(), world.lock()->GetGamePlayers(), world.lock()->GetActors()));
+	//user.lock()->SendPacket(NS2C_JoinUserInWorlddProtocol::CreatePacket(world.lock()->GetWorldKey(), world.lock()->GetGamePlayers(), world.lock()->GetActors()));
 }
 
 

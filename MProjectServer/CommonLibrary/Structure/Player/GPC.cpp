@@ -17,3 +17,15 @@ void GPC::LostActor(uint _actor_key) {
 			actor_map.erase(_actor_key);
 	}
 }
+
+std::vector<std::weak_ptr<Actor>> GPC::GetActors() {
+	std::vector<std::weak_ptr<Actor>> result;
+	for (auto& [key, actor] : actor_map) {
+		if (nullptr == actor.get()) {
+			// TODO 삭제 필요
+			continue;
+		}
+		result.emplace_back(std::weak_ptr<Actor>(actor));
+	}
+	return result;
+}

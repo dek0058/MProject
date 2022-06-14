@@ -34,6 +34,8 @@ public:
 		}
 	}
 
+	std::vector<std::weak_ptr<Actor>> GetActors();
+
 private:
 	uint user_key;
 	std::map<uint, std::shared_ptr<Actor>> actor_map;
