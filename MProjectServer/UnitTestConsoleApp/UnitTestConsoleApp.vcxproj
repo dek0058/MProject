@@ -122,12 +122,12 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);../CommonLibrary;../../Library/boost_1_78_0;../../Library/openssl1_1_1/Debug/include;%(AdditionalIncludeDirectories);../MProjectServer</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);../CommonLibrary;../../Library/boost;../../Library/openssl1_1_1/Debug/include;%(AdditionalIncludeDirectories);../MProjectServer</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib;../../Libraryopenssl1_1_1/Debug/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../Library/boost/stage/lib;../../Libraryopenssl1_1_1/Debug/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>../../Library/openssl1_1_1/Debug/lib/libcrypto.lib;../../Library/openssl1_1_1/Debug/lib/libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -141,14 +141,14 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);../CommonLibrary;../../Library/boost_1_78_0;../../Library/openssl1_1_1/Release/include;%(AdditionalIncludeDirectories);../MProjectServer</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);../CommonLibrary;../../Library/boost;../../Library/openssl1_1_1/Release/include;%(AdditionalIncludeDirectories);../MProjectServer</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../../Library/boost_1_78_0/stage/lib;../../Libraryopenssl1_1_1/Release/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../Library/boost/stage/lib;../../Libraryopenssl1_1_1/Release/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>../../Library/openssl1_1_1/Release/lib/libcrypto.lib;../../Library/openssl1_1_1/Release/lib/libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
