@@ -1,8 +1,7 @@
-#include "DongkeyUnitTestSuite.h"
+﻿#include "DongkeyUnitTestSuite.h"
 #include "UnitTestSuite.h"
 
 // Test
-#include "Test/FramePerSecondTest.h"
 #include "Test/DongkeyTest.h"
 
 UnitTest* DongkeyUnitTestSuite::Suite() {

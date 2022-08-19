@@ -222,12 +222,24 @@ void DongkeyTest::RegexTest() {
 	
 }
 
+
+#include <boost/thread.hpp>
+#include <boost/asio.hpp>
+void DongkeyTest::Free()
+{
+	
+	
+
+}
+
+
 UnitTest* DongkeyTest::Suite() {
 	UnitTestSuite* suite = new UnitTestSuite("DongkeyTest");
 	//TUnitTest_AddTest(suite, DongkeyTest, MapTest);
 	//TUnitTest_AddTest(suite, DongkeyTest, MapBenchmark);
-	TUnitTest_AddTest(suite, DongkeyTest, PacketTest);
+	//TUnitTest_AddTest(suite, DongkeyTest, PacketTest);
 	//TUnitTest_AddTest(suite, DongkeyTest, RegexTest);
+	//TUnitTest_AddTest(suite, DongkeyTest, Free);
 	return suite;
 }
 

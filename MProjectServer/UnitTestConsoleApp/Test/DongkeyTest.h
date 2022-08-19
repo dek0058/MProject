@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "UnitTestCase.h"
 
 class DongkeyTest : public UnitTestCase {
@@ -11,6 +11,8 @@ public:
 
 	void PacketTest();
 	void RegexTest();
+
+	void Free();
 
 	static UnitTest* Suite();
 };

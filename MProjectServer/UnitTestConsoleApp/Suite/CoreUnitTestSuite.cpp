@@ -1,4 +1,4 @@
-#include "CoreUnitTestSuite.h"
+﻿#include "CoreUnitTestSuite.h"
 #include "UnitTestSuite.h"
 
 // Test
@@ -9,9 +9,9 @@
 UnitTest* CoreUnitTestSuite::Suite() {
 	UnitTestSuite* suite = new UnitTestSuite("CoreTestSuite");
 
-	suite->AddTest(MemoryPoolTest::Suite());
-	suite->AddTest(SPSCQueueTest::Suite());
-	suite->AddTest(CircularBufferTest::Suite());
+	//suite->AddTest(MemoryPoolTest::Suite());
+	//suite->AddTest(SPSCQueueTest::Suite());
+	//suite->AddTest(CircularBufferTest::Suite());
 
 	return suite;
 }
