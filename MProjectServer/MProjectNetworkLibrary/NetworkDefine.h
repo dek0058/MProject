@@ -7,7 +7,10 @@
 	네트워크 관련 정의
 */
 
+enum class ESessionType : byte {
+	Test = 0,
 
+};
 
 /*
 	개발전용 고정 값

@@ -225,10 +225,12 @@ void DongkeyTest::RegexTest() {
 
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
+#include "MProjectLogger/Logger/SpdLogger.h"
 void DongkeyTest::Free()
 {
 	
-	
+	mproject::logger::SpdLogger logger("MProjectServer-logs", "MProjectServer", 65'536, 1000);
+	logger.WriteLog(mproject::logger::ELogLevel::Critical, "Critical!!");
 
 }
 
@@ -239,7 +241,7 @@ UnitTest* DongkeyTest::Suite() {
 	//TUnitTest_AddTest(suite, DongkeyTest, MapBenchmark);
 	//TUnitTest_AddTest(suite, DongkeyTest, PacketTest);
 	//TUnitTest_AddTest(suite, DongkeyTest, RegexTest);
-	//TUnitTest_AddTest(suite, DongkeyTest, Free);
+	TUnitTest_AddTest(suite, DongkeyTest, Free);
 	return suite;
 }
 

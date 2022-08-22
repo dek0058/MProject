@@ -7,13 +7,14 @@
 
 class IOService;
 class Session;
+class SessionObserver;
 
 class Acceptor : public std::enable_shared_from_this<Acceptor>
 {
 
 public:
 
-	Acceptor(std::shared_ptr<IOService> _IO_service, ushort _port_num, uint _thread_count);
+	Acceptor(std::shared_ptr<IOService> _IO_service, std::shared_ptr<SessionObserver> _session_observer, ushort _port_num, uint _thread_count);
 	~Acceptor();
 
 public:
@@ -34,5 +35,9 @@ private:
 	
 	//! Thread
 	boost::thread_group thread_group;
+
+	//! Management
+	std::shared_ptr<SessionObserver> session_ob;
+
 	uint thread_count;
 };

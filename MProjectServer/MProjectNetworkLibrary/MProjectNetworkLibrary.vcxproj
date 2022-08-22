@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Core\Acceptor.h" />
     <ClInclude Include="Core\Session.h" />
+    <ClInclude Include="Core\SessionObserver.h" />
     <ClInclude Include="NetworkDefine.h" />
     <ClInclude Include="Server\TestServer.h" />
     <ClInclude Include="Core\IOService.h" />
@@ -28,6 +29,7 @@
   <ItemGroup>
     <ClCompile Include="Core\Acceptor.cpp" />
     <ClCompile Include="Core\IOService.cpp" />
+    <ClCompile Include="Core\Session.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -128,7 +130,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;MPROJECTNETWORKLIBRARY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;MPROJECTNETWORKLIBRARY_EXPORTS;_WINDOWS;_USRDLL;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -153,7 +155,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;MPROJECTNETWORKLIBRARY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;MPROJECTNETWORKLIBRARY_EXPORTS;_WINDOWS;_USRDLL;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>

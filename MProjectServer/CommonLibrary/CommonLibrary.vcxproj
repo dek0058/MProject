@@ -180,6 +180,7 @@
     <ClInclude Include="Core\ILogger.h" />
     <ClInclude Include="Core\LogManager.h" />
     <ClInclude Include="Core\LogThread.h" />
+    <ClInclude Include="Core\MObject.h" />
     <ClInclude Include="Exception\BaseException.h" />
     <ClInclude Include="Exception\OpenSSLException.h" />
     <ClInclude Include="flatbuffers\allocator.h" />
@@ -368,6 +369,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\LogThread.cpp" />
+    <ClCompile Include="Core\MObject.cpp" />
     <ClCompile Include="Network\NetworkToolkit.cpp" />
     <ClCompile Include="Structure\Actor\Actor.cpp" />
     <ClCompile Include="Structure\Player\GPC.cpp" />

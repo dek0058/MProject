@@ -585,6 +585,9 @@
     <ClInclude Include="Core\LogThread.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Core\MObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network\IOService.cpp">
@@ -627,6 +630,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Structure\Player\GPC.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

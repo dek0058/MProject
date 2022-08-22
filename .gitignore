@@ -59,8 +59,8 @@ MProjectBackend/
 MProjectFrontend/
 MProjectClient/
 Result/
-MProjectServer/MProjectServer/x64/
-MProjectServer/TestClient/obj/
+x64/
+obj/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

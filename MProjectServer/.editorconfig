@@ -20,6 +20,8 @@ tab_width = 4
 indent_size = 4
 end_of_line = crlf
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
+dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_namespace_match_folder = true:suggestion
 [*.cs]
 #### 명명 스타일 ####
 
@@ -85,6 +87,7 @@ csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 csharp_space_around_binary_operators = before_and_after
 csharp_indent_labels = one_less_than_current
+csharp_style_namespace_declarations = block_scoped:silent
 
 [*.vb]
 #### 명명 스타일 ####
