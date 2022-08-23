@@ -15,33 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NetworkDefine.h">
+    <ClInclude Include="MProjectNetwork\NetworkDefine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Core\IOService.h">
+    <ClInclude Include="MProjectNetwork\Core\IOService.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Server\TestServer.h">
+    <ClInclude Include="MProjectNetwork\Core\Session.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Acceptor.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Session.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\SessionObserver.h">
+    <ClInclude Include="MProjectNetwork\Core\SessionPool.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\IOService.cpp">
+    <ClCompile Include="MProjectNetwork\Core\IOService.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Acceptor.cpp">
+    <ClCompile Include="MProjectNetwork\Core\Session.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Session.cpp">
+    <ClCompile Include="MProjectNetwork\Core\SessionPool.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -19,17 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Acceptor.h" />
-    <ClInclude Include="Core\Session.h" />
-    <ClInclude Include="Core\SessionObserver.h" />
-    <ClInclude Include="NetworkDefine.h" />
-    <ClInclude Include="Server\TestServer.h" />
-    <ClInclude Include="Core\IOService.h" />
+    <ClInclude Include="MProjectNetwork\Core\IOService.h" />
+    <ClInclude Include="MProjectNetwork\Core\Session.h" />
+    <ClInclude Include="MProjectNetwork\Core\SessionPool.h" />
+    <ClInclude Include="MProjectNetwork\NetworkDefine.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\Acceptor.cpp" />
-    <ClCompile Include="Core\IOService.cpp" />
-    <ClCompile Include="Core\Session.cpp" />
+    <ProjectReference Include="..\CommonLibrary\CommonLibrary.vcxproj">
+      <Project>{4a1eaa50-7e0b-49f5-9b05-568c1408988a}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MProjectNetwork\Core\IOService.cpp" />
+    <ClCompile Include="MProjectNetwork\Core\Session.cpp" />
+    <ClCompile Include="MProjectNetwork\Core\SessionPool.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -37,6 +40,7 @@
     <ProjectGuid>{872daa6d-dcb7-4c31-af75-21e8fff0ca59}</ProjectGuid>
     <RootNamespace>MProjectNetworkLibrary</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>MProjectNetwork</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

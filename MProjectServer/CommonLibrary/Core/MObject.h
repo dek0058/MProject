@@ -2,7 +2,7 @@
 
 class MObject {
 public:
-	explicit MObject();
+	MObject();
 	~MObject();
 	
 public:
@@ -18,7 +18,7 @@ protected:
 		return id;
 	}
 	virtual void OnInitialize() {};
-	virtual void OnDestroy() {}
+	virtual void OnDestroy() {};
 
 private:
 	void Initialize() {

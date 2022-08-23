@@ -10,9 +10,10 @@ template<
 	typename MsgType,
 	typename MsgTypeEnabled = typename std::enable_if_t<is_str<MsgType>::value, MsgType>
 >
-class ILogger : public MObject {
+class ILogger {
 public:
-	ILogger(uint _max_size = 10000) : max_size(_max_size) { }
+	ILogger(uint _max_size = 10000) : max_size(_max_size) { 
+	}
 
 public:
 	void WriteLog(ELogLevel _level, MsgType _msg) {

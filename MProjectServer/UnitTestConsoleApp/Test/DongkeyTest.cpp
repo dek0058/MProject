@@ -231,7 +231,6 @@ void DongkeyTest::Free()
 	
 	mproject::logger::SpdLogger logger("MProjectServer-logs", "MProjectServer", 65'536, 1000);
 	logger.WriteLog(mproject::logger::ELogLevel::Critical, "Critical!!");
-
 }
 
 

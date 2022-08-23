@@ -16,11 +16,12 @@ namespace {
 
 
 MObject::MObject() : id(GetUniqueID()) {
-	Initialize();
 }
 
 MObject::~MObject() {
-	Destroy();
+	if (!IsDestroy()) {
+		Destroy();
+	}
 	RecallUniqueID(id);
 }
 
