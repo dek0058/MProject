@@ -175,6 +175,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cctz\civil_time.h" />
+    <ClInclude Include="cctz\civil_time_detail.h" />
+    <ClInclude Include="cctz\time_zone.h" />
+    <ClInclude Include="cctz\zone_info_source.h" />
     <ClInclude Include="Core\CoreDefine.h" />
     <ClInclude Include="Core\GenericLogger.h" />
     <ClInclude Include="Core\ILogger.h" />

@@ -44,3 +44,8 @@ MMORPG 서버를 지향하는 프로젝트입니다.
 
 **[Download it now](https://cmake.org/download/)**
 
+
+## Other
+
+spdlog:1.10.0(https://github.com/gabime/spdlog)
+cctz:2.3(https://github.com/google/cctz)

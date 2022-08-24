@@ -1,11 +1,23 @@
 ﻿#pragma once
 
+#include <boost/uuid/uuid.hpp>
+
 class MObject {
 public:
 	MObject();
 	~MObject();
 	
-public:
+public: //! Operator
+	bool operator==(MObject const& _rhs) const {
+		return tag == _rhs.tag;
+	}
+	
+	MObject& operator=(MObject const& _rhs) {
+		tag = _rhs.tag;
+		return *this;
+	}
+
+public:	//! Getter
 	bool IsInitialize() const {
 		return is_initialize;
 	}
@@ -13,14 +25,7 @@ public:
 		return is_destroy;
 	}
 
-protected:
-	size_t GetID() const {
-		return id;
-	}
-	virtual void OnInitialize() {};
-	virtual void OnDestroy() {};
-
-private:
+public:
 	void Initialize() {
 		is_initialize = true;
 		OnInitialize();
@@ -30,8 +35,14 @@ private:
 		OnDestroy();
 	}
 
+	
+protected:
+	
+	virtual void OnInitialize() {};
+	virtual void OnDestroy() {};
+
 private:
-	size_t id;
+	boost::uuids::uuid tag;
 	bool is_initialize = false;
 	bool is_destroy = false;
 };

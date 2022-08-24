@@ -1,27 +1,18 @@
 ﻿#include "MObject.h"
+#include <random>
 
-namespace {
-	//! Unique ID Generator
-	
-	size_t GetUniqueID() {
-		// TODO
-		return 0;
-	}
+#include "cctz/time_zone.h"
+#include "cctz/civil_time_detail.h"
+#include <boost/uuid/uuid_generators.hpp>
 
-	void RecallUniqueID(size_t& unique_id) {
-		// TODO
-		unique_id = 0;
-	}
-}
-
-
-MObject::MObject() : id(GetUniqueID()) {
+MObject::MObject() 
+	: tag(boost::uuids::basic_random_generator<std::mt19937_64>()()) {
 }
 
 MObject::~MObject() {
 	if (!IsDestroy()) {
 		Destroy();
 	}
-	RecallUniqueID(id);
+	tag = boost::uuids::nil_generator()();
 }
 

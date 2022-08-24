@@ -4,14 +4,20 @@
 namespace mproject {
 namespace network {
 
-Session_TCP::Session_TCP(std::shared_ptr<IOService> _IO_service, SessionKey _session_key, ESessionType _session_type) :
+//! Session
+Session::Session(std::shared_ptr<IOService> _IO_service, ESessionType _session_type) :
 	IO_Service(_IO_service),
-	sock(_IO_service->GetIOService()),
-	strand(_IO_service->GetIOService()),
-	session_key(_session_key),
+	session_key(0),
 	session_type(_session_type),
 	sequence_type(ESequenceType::Disconnected) {
+}
 
+
+//! Session_TCP
+Session_TCP::Session_TCP(std::shared_ptr<IOService> _IO_service, ESessionType _session_type) : 
+	Session(_IO_service, _session_type),
+	sock(_IO_service->GetIOService()),
+	strand(_IO_service->GetIOService()) {
 }
 
 Session_TCP::~Session_TCP() {
