@@ -13,8 +13,9 @@ SessionPool::SessionPool(std::shared_ptr<IOService> _IO_Service, size_t _max_siz
 	: IO_service(_IO_Service),
 	  max_size(_max_size),
 	  cur_size(0) {
-	stores.reserve(_max_size);
-	active_session.reserve(_max_size);
+	
+	
+
 }
 
 

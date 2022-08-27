@@ -25,8 +25,8 @@ public:
 	}
 
 protected:
-	std::vector<std::shared_ptr<Session>> stores;
-	std::unordered_map<SessionKey, std::shared_ptr<Session>> active_session;
+	std::unordered_map<std::string, std::shared_ptr<Session>> datas;
+	std::set<std::string> available_tags;
 	
 	std::shared_ptr<IOService> IO_service;
 

@@ -588,18 +588,6 @@
     <ClInclude Include="Core\MObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cctz\civil_time.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cctz\civil_time_detail.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cctz\time_zone.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cctz\zone_info_source.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network\IOService.cpp">

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <boost/uuid/uuid.hpp>
+#include <string>
 
 class MObject {
 public:
@@ -24,6 +25,9 @@ public:	//! Getter
 	bool IsDestroy() const {
 		return is_destroy;
 	}
+
+	std::string ToString() const;
+	std::wstring ToWString() const;
 
 public:
 	void Initialize() {
