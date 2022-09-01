@@ -1,5 +1,6 @@
 ﻿#include "Session.h"
 #include "IOService.h"
+#include "SessionPool.h"
 
 namespace mproject {
 namespace network {
@@ -10,8 +11,19 @@ Session::Session(std::shared_ptr<IOService> _IO_service, ESessionType _session_t
 	session_key(0),
 	session_type(_session_type),
 	sequence_type(ESequenceType::Disconnected) {
+
+	session_pool.reset();
 }
 
+Session::~Session() {
+	if (!session_pool.expired()) {
+		session_pool.lock()->Release(shared_from_this());
+	}
+}
+
+void Session::SetParent(std::weak_ptr<SessionPool> _session_pool) {
+	session_pool = _session_pool;
+}
 
 //! Session_TCP
 Session_TCP::Session_TCP(std::shared_ptr<IOService> _IO_service, ESessionType _session_type) : 

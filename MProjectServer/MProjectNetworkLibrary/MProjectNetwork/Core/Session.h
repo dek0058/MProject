@@ -4,16 +4,19 @@
 #include <boost/asio.hpp>
 
 #include "MProjectNetwork/NetworkDefine.h"
+#include "Core/MObject.h"
 
 namespace mproject {
 namespace network {
 
 class IOService;
+class SessionPool;
 
-class Session {
+class Session : public MObject, public std::enable_shared_from_this<Session> {
 	
 public:
 	Session(std::shared_ptr<IOService> _IO_service, ESessionType _session_type);
+	~Session();
 
 public:
 	virtual void Accept() = 0;
@@ -21,6 +24,9 @@ public:
 	virtual void Shutdown() = 0;
 	virtual void Close() = 0;
 	
+public: //! Setter
+	void SetParent(std::weak_ptr<SessionPool> _session_pool);
+
 public: //! Getter
 	std::weak_ptr<IOService> GetIOService() {
 		return IO_Service;
@@ -39,7 +45,9 @@ public: //! Getter
 	}
 
 protected:
-	
+	//! parent
+	std::weak_ptr<SessionPool> session_pool;
+
 	//! network
 	std::shared_ptr<IOService> IO_Service;
 
@@ -49,7 +57,7 @@ protected:
 	ESequenceType sequence_type;
 };
 
-class Session_TCP : public Session, public std::enable_shared_from_this<Session_TCP> {
+class Session_TCP : public Session {
 
 public:
 	Session_TCP(std::shared_ptr<IOService> _IO_service, ESessionType _session_type);

@@ -26,6 +26,9 @@ public:	//! Getter
 		return is_destroy;
 	}
 
+	boost::uuids::uuid Guid() const {
+		return tag;
+	}
 	std::string ToString() const;
 	std::wstring ToWString() const;
 
