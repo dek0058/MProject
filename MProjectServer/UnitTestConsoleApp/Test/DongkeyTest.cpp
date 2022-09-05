@@ -222,24 +222,33 @@ void DongkeyTest::RegexTest() {
 	
 }
 
+class TestA {
+public:
+	int a;
+	int b;
+	int c;
+};
 
-#include <boost/thread.hpp>
-#include <boost/asio.hpp>
-#include "MProjectLogger/Logger/SpdLogger.h"
+class TestB {
+public:
+	int d;
+	int f;
+	int g;
+};
+
+class TestC : public TestA, public TestB {
+public:
+	auto operator<=>(TestC const&) const = default;
+};
+
 void DongkeyTest::Free()
 {
-	
-	mproject::logger::SpdLogger logger("MProjectServer-logs", "MProjectServer", 65'536, 1000);
-	logger.WriteLog(mproject::logger::ELogLevel::Critical, "Critical!!");
+	TestC a = { {.a = 1, .b = 2, .c = 3}, {.d = 4, .f = 5, .g = 6} };
 }
 
 
 UnitTest* DongkeyTest::Suite() {
 	UnitTestSuite* suite = new UnitTestSuite("DongkeyTest");
-	//TUnitTest_AddTest(suite, DongkeyTest, MapTest);
-	//TUnitTest_AddTest(suite, DongkeyTest, MapBenchmark);
-	//TUnitTest_AddTest(suite, DongkeyTest, PacketTest);
-	//TUnitTest_AddTest(suite, DongkeyTest, RegexTest);
 	TUnitTest_AddTest(suite, DongkeyTest, Free);
 	return suite;
 }

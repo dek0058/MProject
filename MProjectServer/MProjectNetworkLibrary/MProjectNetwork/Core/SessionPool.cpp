@@ -2,7 +2,7 @@
 #include "IOService.h"
 #include "Session.h"
 
-
+#include "Exception/BaseException.h"
 #include <boost/uuid/uuid_generators.hpp>
 
 namespace mproject {
@@ -45,6 +45,7 @@ void SessionPool_TCP::Initialize() {
 	}
 	if (max_size != sessions.size()) {
 		// 예외처리 날려보자. 초기화가 안된건 큰일이다.
+		throw BaseException("Initialize is failed.", __LINE__, __FILE__);
 	}
 }
 

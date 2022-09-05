@@ -8,7 +8,7 @@ namespace logger {
 	
 template<
 	typename MsgType,
-	typename MsgTypeEnabled = typename std::enable_if_t<is_str<MsgType>::value, MsgType>
+	typename MsgTypeEnabled = typename std::enable_if_t<is_str<MsgType>, MsgType>
 >
 class ILogger {
 public:
