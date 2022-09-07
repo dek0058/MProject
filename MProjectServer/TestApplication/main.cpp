@@ -1,8 +1,5 @@
 ﻿#include <wx/wx.h>
-#include <wx/sizer.h>
 
-#include <wx/msw/stattext.h>
-#include <wx/msw/frame.h>
 
 class App : public wxApp {
 public:
