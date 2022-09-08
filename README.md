@@ -25,12 +25,12 @@ MMORPG 서버를 지향하는 프로젝트입니다.
 **[Document](https://www.boost.org/doc/libs/1_80_0/)**
 
 
-## QT
-<img src="https://user-images.githubusercontent.com/47653276/162651496-ca078087-990f-46db-bd28-82e2a6bf94f6.png" width="87" height="64"/>
+## wxWidgets
+<img src="https://user-images.githubusercontent.com/47653276/189046826-ddb9fe52-1239-48bd-a144-1c09d0c88b04.png" width="300" height="70"/>
 
-**[Download it now](https://www.qt.io/download-qt-installer?hsCtaTracking=99d9dd4f-5681-48d2-b096-470725510d34%7C074ddad0-fdef-4e53-8aa8-5e8a876d6ab4)**
+**[Download it now](https://www.wxwidgets.org/downloads/)**
 
-<summary>6.3.3</summary>
+<summary>3.2.0</summary>
 
 ## Flatbuffers
 <img src="https://user-images.githubusercontent.com/47653276/164363866-f4041e94-9e36-40de-aabb-5179bf4069b3.png" width="100" height="100"/>
@@ -48,4 +48,4 @@ MMORPG 서버를 지향하는 프로젝트입니다.
 ## Other
 
 spdlog:1.10.0(https://github.com/gabime/spdlog)
-cctz:2.3(https://github.com/google/cctz)
+
