@@ -1,6 +1,6 @@
-#include "FramesPerSecond.h"
-#include "boost/date_time/posix_time/posix_time.hpp"
-#include "boost/thread/thread.hpp"
+﻿#include "FramesPerSecond.h"
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/thread/thread.hpp>
 
 void FramesPerSecond::Update() {
 	if (count == 0) {

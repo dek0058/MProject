@@ -152,12 +152,12 @@
     <ProjectReference Include="..\MProjectLogger\MProjectLogger.vcxproj">
       <Project>{9f52a1a7-f1f5-4608-8a5b-389093420f73}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\MProjectNetworkLibrary\MProjectNetworkLibrary.vcxproj">
-      <Project>{872daa6d-dcb7-4c31-af75-21e8fff0ca59}</Project>
+    <ProjectReference Include="..\MProjectNetwork\MProjectNetwork.vcxproj">
+      <Project>{59ebee14-971e-4e55-ae87-64e92bf0ad7d}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TestApplication\Core\TestSession.h" />
+    <ClInclude Include="TestApplication\Server\TestEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

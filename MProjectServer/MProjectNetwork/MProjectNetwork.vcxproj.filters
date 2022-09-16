@@ -15,105 +15,105 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utility\TSingleton.h">
+    <ClInclude Include="MProjectNetwork\NetworkDefine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalDefine.h">
+    <ClInclude Include="flatbuffers\pch\flatc_pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\pch\flatc_pch.h">
+    <ClInclude Include="flatbuffers\pch\pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\pch\pch.h">
+    <ClInclude Include="flatbuffers\allocator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\base.h">
+    <ClInclude Include="flatbuffers\array.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\code_generators.h">
+    <ClInclude Include="flatbuffers\base.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\flatbuffers.h">
+    <ClInclude Include="flatbuffers\bfbs_generator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\flatc.h">
+    <ClInclude Include="flatbuffers\buffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\flexbuffers.h">
+    <ClInclude Include="flatbuffers\buffer_ref.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\grpc.h">
+    <ClInclude Include="flatbuffers\code_generators.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\hash.h">
+    <ClInclude Include="flatbuffers\default_allocator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\idl.h">
+    <ClInclude Include="flatbuffers\detached_buffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\minireflect.h">
+    <ClInclude Include="flatbuffers\flatbuffer_builder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\reflection.h">
+    <ClInclude Include="flatbuffers\flatbuffers.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\reflection_generated.h">
+    <ClInclude Include="flatbuffers\flatc.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\registry.h">
+    <ClInclude Include="flatbuffers\flexbuffers.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\stl_emulation.h">
+    <ClInclude Include="flatbuffers\grpc.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="flatbuffers\include\flatbuffers\util.h">
+    <ClInclude Include="flatbuffers\hash.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\SPSCQueue.h">
+    <ClInclude Include="flatbuffers\idl.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\MemoryPool.h">
+    <ClInclude Include="flatbuffers\minireflect.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GuardDefine.h">
+    <ClInclude Include="flatbuffers\reflection.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Exception\BaseException.h">
+    <ClInclude Include="flatbuffers\reflection_generated.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\CircularBuffer.h">
+    <ClInclude Include="flatbuffers\registry.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\FramesPerSecond.h">
+    <ClInclude Include="flatbuffers\stl_emulation.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\UniversalToolkit.h">
+    <ClInclude Include="flatbuffers\string.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\MSHA256.h">
+    <ClInclude Include="flatbuffers\struct.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Exception\OpenSSLException.h">
+    <ClInclude Include="flatbuffers\table.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\MRandom.h">
+    <ClInclude Include="flatbuffers\util.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Core\MObject.h">
+    <ClInclude Include="flatbuffers\vector.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\vector_downward.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\verifier.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MProjectNetwork\Server\MEngine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Utility\FramesPerSecond.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\UniversalToolkit.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\MSHA256.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\MObject.cpp">
+    <ClCompile Include="_run.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{0dae1ec3-6509-4a86-8ce6-46d447102464}</ProjectGuid>
-    <RootNamespace>UnitTestConsoleApp</RootNamespace>
+    <ProjectGuid>{59ebee14-971e-4e55-ae87-64e92bf0ad7d}</ProjectGuid>
+    <RootNamespace>MProjectNetwork</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -70,19 +70,11 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</OutDir>
     <IntDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
     <OutDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</OutDir>
     <IntDir>../../Result/$(ProjectName)/$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
@@ -90,12 +82,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;MPROJECTNETWORK_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -104,32 +99,41 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;MPROJECTNETWORK_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;MPROJECTNETWORK_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);../CommonLibrary;../MProjectLogger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);../CommonLibrary/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>../../Library/openssl1_1_1/Debug/lib/libcrypto.lib;../../Library/openssl1_1_1/Debug/lib/libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <EnableUAC>false</EnableUAC>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -137,58 +141,68 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;MPROJECTNETWORK_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);../CommonLibrary/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);../CommonLibrary;../MProjectLogger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>../../Library/openssl1_1_1/Release/lib/libcrypto.lib;../../Library/openssl1_1_1/Release/lib/libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <EnableUAC>false</EnableUAC>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Suite\DongkeyUnitTestSuite.cpp" />
-    <ClCompile Include="Test\CircularBufferTest.cpp" />
-    <ClCompile Include="Test\DongkeyTest.cpp" />
-    <ClCompile Include="Test\SPSCQueueTest.cpp" />
-    <ClCompile Include="Suite\CoreUnitTestSuite.cpp" />
-    <ClCompile Include="Test\MemoryPoolTest.cpp" />
-    <ClCompile Include="TextUnitTestResult.cpp" />
-    <ClCompile Include="UnitTestCase.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="UnitTestFailure.cpp" />
-    <ClCompile Include="UnitTestRunner.cpp" />
-    <ClCompile Include="UnitTestSuite.cpp" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLibrary\CommonLibrary.vcxproj">
       <Project>{4a1eaa50-7e0b-49f5-9b05-568c1408988a}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\MProjectLogger\MProjectLogger.vcxproj">
-      <Project>{9f52a1a7-f1f5-4608-8a5b-389093420f73}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Suite\DongkeyUnitTestSuite.h" />
-    <ClInclude Include="Test\CircularBufferTest.h" />
-    <ClInclude Include="Test\DongkeyTest.h" />
-    <ClInclude Include="Test\SPSCQueueTest.h" />
-    <ClInclude Include="Suite\CoreUnitTestSuite.h" />
-    <ClInclude Include="Test\MemoryPoolTest.h" />
-    <ClInclude Include="TextUnitTestResult.h" />
-    <ClInclude Include="UnitTest.h" />
-    <ClInclude Include="UnitTestCaller.h" />
-    <ClInclude Include="UnitTestCase.h" />
-    <ClInclude Include="UnitTestFailure.h" />
-    <ClInclude Include="UnitTestResult.h" />
-    <ClInclude Include="UnitTestRunner.h" />
-    <ClInclude Include="UnitTestSuite.h" />
+    <ClInclude Include="flatbuffers\allocator.h" />
+    <ClInclude Include="flatbuffers\array.h" />
+    <ClInclude Include="flatbuffers\base.h" />
+    <ClInclude Include="flatbuffers\bfbs_generator.h" />
+    <ClInclude Include="flatbuffers\buffer.h" />
+    <ClInclude Include="flatbuffers\buffer_ref.h" />
+    <ClInclude Include="flatbuffers\code_generators.h" />
+    <ClInclude Include="flatbuffers\default_allocator.h" />
+    <ClInclude Include="flatbuffers\detached_buffer.h" />
+    <ClInclude Include="flatbuffers\flatbuffers.h" />
+    <ClInclude Include="flatbuffers\flatbuffer_builder.h" />
+    <ClInclude Include="flatbuffers\flatc.h" />
+    <ClInclude Include="flatbuffers\flexbuffers.h" />
+    <ClInclude Include="flatbuffers\grpc.h" />
+    <ClInclude Include="flatbuffers\hash.h" />
+    <ClInclude Include="flatbuffers\idl.h" />
+    <ClInclude Include="flatbuffers\minireflect.h" />
+    <ClInclude Include="flatbuffers\pch\flatc_pch.h" />
+    <ClInclude Include="flatbuffers\pch\pch.h" />
+    <ClInclude Include="flatbuffers\reflection.h" />
+    <ClInclude Include="flatbuffers\reflection_generated.h" />
+    <ClInclude Include="flatbuffers\registry.h" />
+    <ClInclude Include="flatbuffers\stl_emulation.h" />
+    <ClInclude Include="flatbuffers\string.h" />
+    <ClInclude Include="flatbuffers\struct.h" />
+    <ClInclude Include="flatbuffers\table.h" />
+    <ClInclude Include="flatbuffers\util.h" />
+    <ClInclude Include="flatbuffers\vector.h" />
+    <ClInclude Include="flatbuffers\vector_downward.h" />
+    <ClInclude Include="flatbuffers\verifier.h" />
+    <ClInclude Include="MProjectNetwork\NetworkDefine.h" />
+    <ClInclude Include="MProjectNetwork\Server\MEngine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="_run.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
