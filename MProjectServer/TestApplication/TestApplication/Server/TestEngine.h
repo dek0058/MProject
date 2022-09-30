@@ -13,7 +13,7 @@
 
 namespace mproject {
 
-class TestEngine : public mproject::network::MEngine {
+class TestEngine : public network::MEngine {
 
 public:
 		
@@ -22,6 +22,12 @@ public:
 	virtual void Update() override {}
 
 	virtual void Stop() override {}
+
+private:
+
+	// TODO:스레드
+
+	
 
 };
 

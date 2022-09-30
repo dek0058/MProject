@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <boost/date_time/posix_time/ptime.hpp>
 
 class FramesPerSecond {

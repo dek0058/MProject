@@ -111,9 +111,24 @@
     <ClInclude Include="MProjectNetwork\Server\MEngine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="MProjectNetwork\Thread\ChiefThread.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MProjectNetwork\Thread\EliteThread.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="_run.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MProjectNetwork\Server\MEngine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MProjectNetwork\Thread\ChiefThread.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MProjectNetwork\Thread\EliteThread.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
