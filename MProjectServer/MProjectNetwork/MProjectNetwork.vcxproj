@@ -198,16 +198,20 @@
     <ClInclude Include="flatbuffers\vector.h" />
     <ClInclude Include="flatbuffers\vector_downward.h" />
     <ClInclude Include="flatbuffers\verifier.h" />
+    <ClInclude Include="MProjectNetwork\Core\IOService.h" />
+    <ClInclude Include="MProjectNetwork\Core\Session.h" />
     <ClInclude Include="MProjectNetwork\NetworkDefine.h" />
+    <ClInclude Include="MProjectNetwork\Server\Acceptor.h" />
     <ClInclude Include="MProjectNetwork\Server\MEngine.h" />
     <ClInclude Include="MProjectNetwork\Thread\ChiefThread.h" />
     <ClInclude Include="MProjectNetwork\Thread\EliteThread.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MProjectNetwork\Core\IOService.cpp" />
+    <ClCompile Include="MProjectNetwork\Server\Acceptor.cpp" />
     <ClCompile Include="MProjectNetwork\Server\MEngine.cpp" />
     <ClCompile Include="MProjectNetwork\Thread\ChiefThread.cpp" />
     <ClCompile Include="MProjectNetwork\Thread\EliteThread.cpp" />
-    <ClCompile Include="_run.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

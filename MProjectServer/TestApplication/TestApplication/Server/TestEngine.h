@@ -17,11 +17,6 @@ class TestEngine : public network::MEngine {
 
 public:
 		
-	virtual void Start() override {}
-
-	virtual void Update() override {}
-
-	virtual void Stop() override {}
 
 private:
 

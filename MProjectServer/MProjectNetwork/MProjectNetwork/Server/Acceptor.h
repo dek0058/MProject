@@ -1,41 +1,45 @@
 ﻿/*****************************************************************//**
- * \file   ChiefThread.h
+ * \file   Acceptor.h
  * \brief  
  * 
  * \author dek0058
- * \date   2022-09-30
+ * \date   2022-10-04
  * \version 0.1
  *********************************************************************/
 
 #pragma once
-#include "Thread/MThread.h"
-#include <barrier>
+#include "MProjectNetwork/Thread/EliteThread.h"
 
 namespace mproject {
 namespace network {
 
-class EliteThread;
+class MEngine;
+class IOService;
+class Session;
 
-class ChiefThread : public MThread {
-
+class Acceptor : public EliteThread {
+	
 public:
 	
 	/**
-	 * \param _fps Frames per second
+	 * \param _fps		Frames per second
+	 * \param _engine	Server engine.
 	 */
-	ChiefThread(int _fps);
-
-	~ChiefThread();
+	Acceptor(int _fps, std::shared_ptr<MEngine> _server);
+	
+	
+	
 
 protected:
+	
 	virtual void OnStart() override;
 	virtual void OnUpdate() override;
 	virtual void OnStop() override;
+	
+private:
 
-	void AddSubThread(std::shared_ptr<EliteThread> _sub_thread);
-
-protected:
-	std::vector<std::shared_ptr<EliteThread>> sub_threads;
+	std::weak_ptr<MEngine> server;
+	
 };
 
 }	// network

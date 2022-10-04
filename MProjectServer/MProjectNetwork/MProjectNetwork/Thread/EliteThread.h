@@ -18,8 +18,18 @@ class ChiefThread;
 class EliteThread : public MThread {
 
 public:
-	EliteThread(int _fps, std::weak_ptr<ChiefThread> _chief_thread);
+
+	/**
+	 * \param _fps Frames per second
+	 * \param _chief_thread	Chief thread
+	 */
+	EliteThread(int _fps, std::shared_ptr<ChiefThread> _chief_thread);
 	
+protected:
+	virtual void OnStart() override;
+	virtual void OnUpdate() override;
+	virtual void OnStop() override;
+
 private:
 
 	std::weak_ptr<ChiefThread> chief_thread;

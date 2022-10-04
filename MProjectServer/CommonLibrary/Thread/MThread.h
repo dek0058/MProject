@@ -25,7 +25,7 @@ public:
 	MThread();
 
 	/**
-	 * \param int _fps Frames per second
+	 * \param _fps Frames per second
 	 */
 	MThread(int _fps);
 
