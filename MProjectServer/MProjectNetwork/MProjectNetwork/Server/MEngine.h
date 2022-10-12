@@ -9,7 +9,7 @@
  *********************************************************************/
 #pragma once
 #include "MProjectNetwork/Thread/ChiefThread.h"
-//#include <boost/lockfree/spsc_queue.hpp>
+
 
 namespace mproject {
 namespace network {
@@ -25,9 +25,15 @@ public:
 	/**
 	 * \param int _fps Frames per second
 	 */
-	MEngine(int _fps);
+	MEngine(FString _name, int _fps, ushort _acceptor_port);
 
 	~MEngine();
+
+public:
+
+	std::weak_ptr<IOService> GetIOService() {
+		return IO_service;
+	}
 
 protected:
 	virtual void OnStart() override;
@@ -42,8 +48,6 @@ private:
 	std::shared_ptr<IOService> IO_service;
 
 	std::shared_ptr<Acceptor> acceptor;
-	
-	
 };
 
 }	// network

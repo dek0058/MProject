@@ -7,44 +7,36 @@
 namespace mproject {
 namespace logger {
 
-class SpdLogger final : public ILogger<std::string> {
+class SpdLogger final : public ILogger {
 
 public:
-	SpdLogger(std::string _name, std::string _path, size_t _max_size, size_t max_files) : 
+	
+	/*
+	*	\param _name Logger name
+	*	\param _path Log file path
+	*	\param _max_size mb unit
+	*	\param _max_files max file count (start from 1)
+	*/
+	SpdLogger(FString _name, FString _path, uint _max_size = 32, uint _max_files = 99) :
+		ILogger(_max_size),
 		name(_name),
 		path(_path),
-		max_size(_max_size),
-		max_files(max_files) {
-		logger = spdlog::rotating_logger_mt(name.data(), std::format("{}/{}.log", path, name), max_size, max_files);
-		logger->flush_on(spdlog::level::warn);
+		max_files(_max_files) {
+		//logger = spdlog::rotating_logger_mt(name, path, max_size, max_files);
+		//logger->flush_on(spdlog::level::warn);
 	}
 
 protected:
-
-	virtual void OnWrite(ELogLevel _level, std::string _msg) override {
-		switch (_level) {
-			case ELogLevel::Trace:
-			logger->log(spdlog::level::trace, _msg);
-			break;
-			case ELogLevel::Debug:
-			logger->log(spdlog::level::debug, _msg);
-			break;
-			case ELogLevel::Info:
-			logger->log(spdlog::level::info, _msg);
-			break;
-			case ELogLevel::Warning:
-			logger->log(spdlog::level::warn, _msg);
-			break;
-			case ELogLevel::Error:
-			logger->log(spdlog::level::err, _msg);
-			break;
-			case ELogLevel::Critical:
-			logger->log(spdlog::level::critical, _msg);
-			break;
-			default:
-			logger->log(spdlog::level::off, _msg);
-			break;
-		}
+	virtual void OnWrite(ELogLevel _level, FString _msg) override {
+		/*switch (_level) {
+			case ELogLevel::Trace:		logger->log(spdlog::level::trace, _msg.ToStdWString());			break;
+			case ELogLevel::Debug:		logger->log(spdlog::level::debug, _msg.ToStdWString());			break;
+			case ELogLevel::Info:		logger->log(spdlog::level::info, _msg.ToStdWString());			break;
+			case ELogLevel::Warning:	logger->log(spdlog::level::warn, _msg.ToStdWString());			break;
+			case ELogLevel::Error:		logger->log(spdlog::level::err, _msg.ToStdWString());			break;
+			case ELogLevel::Critical:	logger->log(spdlog::level::critical, _msg.ToStdWString());		break;
+			default:					logger->log(spdlog::level::off, _msg.ToStdWString());			break;
+		}*/
 	}
 
 private:
@@ -53,11 +45,11 @@ private:
 	std::shared_ptr<spdlog::logger> logger;
 
 	//! Information
-	std::string name;
-	std::string path;
-	size_t max_size;
-	size_t max_files;
+	FString name;
+	FString path;
+	uint max_files;
 };
 
 } // namespace logger
 } // namespace mproject
+

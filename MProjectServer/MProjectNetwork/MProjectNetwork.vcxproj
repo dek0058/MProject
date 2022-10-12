@@ -123,7 +123,7 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);../../Library/boost;../CommonLibrary/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);../../Library/boost;../CommonLibrary/;../MProjectLogger/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
@@ -146,7 +146,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);../../Library/boost;../CommonLibrary/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);../../Library/boost;../CommonLibrary/;../MProjectLogger/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeaderOutputFile />
@@ -165,6 +165,9 @@
   <ItemGroup>
     <ProjectReference Include="..\CommonLibrary\CommonLibrary.vcxproj">
       <Project>{4a1eaa50-7e0b-49f5-9b05-568c1408988a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MProjectLogger\MProjectLogger.vcxproj">
+      <Project>{9f52a1a7-f1f5-4608-8a5b-389093420f73}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

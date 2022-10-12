@@ -12,6 +12,11 @@
 #include <barrier>
 
 namespace mproject {
+namespace logger
+{
+class ILogger;
+}	// logger
+
 namespace network {
 
 class EliteThread;
@@ -21,9 +26,10 @@ class ChiefThread : public MThread {
 public:
 	
 	/**
-	 * \param _fps Frames per second
-	 */
-	ChiefThread(int _fps);
+	* \param _name Thread name
+	* \param _fps Thread frames per second
+	*/
+	ChiefThread(FString _name, int _fps);
 
 	~ChiefThread();
 
@@ -35,6 +41,8 @@ protected:
 	void AddSubThread(std::shared_ptr<EliteThread> _sub_thread);
 
 protected:
+	FString name;
+	std::unique_ptr<logger::ILogger> logger;
 	std::vector<std::shared_ptr<EliteThread>> sub_threads;
 };
 

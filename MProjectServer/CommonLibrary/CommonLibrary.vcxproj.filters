@@ -105,6 +105,12 @@
     <ClInclude Include="Thread\MThread.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Exception\ExpiredException.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="String\String.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\FramesPerSecond.cpp">

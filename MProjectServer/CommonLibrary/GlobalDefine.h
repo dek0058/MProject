@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -16,7 +16,6 @@
 #include <functional>
 #include <exception>
 
-#include <string>
 #include <vector>
 #include <array>
 #include <map>
@@ -24,6 +23,8 @@
 #include <set>
 #include <queue>
 #include <forward_list>
+
+#include "String/String.h"	// include string, locale, codecvt
 
 // variable define
 //typedef char				char;

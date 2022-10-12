@@ -1,11 +1,15 @@
 ﻿#include "ChiefThread.h"
 #include "EliteThread.h"
+#include "MProjectLogger/Logger/SpdLogger.h"
+#include "MProjectNetwork/NetworkDefine.h"
 
 namespace mproject {
 namespace network {
 
-ChiefThread::ChiefThread(int _fps) :
-	MThread(_fps) {
+ChiefThread::ChiefThread(FString _name, int _fps) :
+	MThread(_fps), name(_name) {
+	//logger = std::make_unique<logger::SpdLogger>(name, "./Logs/");
+	
 }
 
 ChiefThread::~ChiefThread() {

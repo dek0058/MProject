@@ -6,35 +6,35 @@
 namespace mproject {
 namespace logger {
 	
-template<
-	typename MsgType,
-	typename MsgTypeEnabled = typename std::enable_if_t<is_str<MsgType>, MsgType>
->
 class ILogger {
 public:
-	ILogger(uint _max_size = 10000) : max_size(_max_size) { 
+	
+	/*
+	*	\param _max_size mb unit
+	*/
+	ILogger(uint _max_size = 32) : max_size(1048576 * _max_size) {
 	}
 
 public:
-	void WriteLog(ELogLevel _level, MsgType _msg) {
+	void WriteLog(ELogLevel _level, FString _msg) {
 		OnWrite(_level, _msg);
 		if (msg.size() < max_size) {
 			msg.emplace_back(_level, _msg);
 		}
 	}
 
-	std::vector<std::tuple<ELogLevel, MsgType>> GetMessages() {
-		std::vector<std::tuple<ELogLevel, MsgType>> result(msg.begin(), msg.end());
+	std::vector<std::tuple<ELogLevel, FString>> GetMessages() {
+		std::vector<std::tuple<ELogLevel, FString>> result(msg.begin(), msg.end());
 		msg.clear();
 		return result;
 	}
 
 protected:
-	virtual void OnWrite(ELogLevel _level, MsgType _msg) {}
+	virtual void OnWrite(ELogLevel _level, FString _msg) {}
 
 private:
-	std::list<std::tuple<ELogLevel, MsgType>> msg;
-	uint max_size;
+	std::list<std::tuple<ELogLevel, FString>> msg;
+	size_t max_size;
 };
 
 }	// logger

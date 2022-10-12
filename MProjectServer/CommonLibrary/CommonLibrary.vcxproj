@@ -177,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="Core\MObject.h" />
     <ClInclude Include="Exception\BaseException.h" />
+    <ClInclude Include="Exception\ExpiredException.h" />
     <ClInclude Include="Exception\OpenSSLException.h" />
     <ClInclude Include="flatbuffers\include\flatbuffers\base.h" />
     <ClInclude Include="flatbuffers\include\flatbuffers\code_generators.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="flatbuffers\include\flatbuffers\registry.h" />
     <ClInclude Include="flatbuffers\include\flatbuffers\stl_emulation.h" />
     <ClInclude Include="flatbuffers\include\flatbuffers\util.h" />
+    <ClInclude Include="String\String.h" />
     <ClInclude Include="Thread\MThread.h" />
     <ClInclude Include="Utility\FramesPerSecond.h" />
     <ClInclude Include="GlobalDefine.h" />

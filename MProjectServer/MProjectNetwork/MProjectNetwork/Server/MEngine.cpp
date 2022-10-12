@@ -3,19 +3,20 @@
 #include "MProjectNetwork/Core/Session.h"
 #include "MProjectNetwork/Core/IOService.h"
 
+
 namespace mproject {
 namespace network {
 
 
-MEngine::MEngine(int _fps)
-	: ChiefThread(_fps) {
-	
+MEngine::MEngine(FString _name, int _fps, ushort _acceptor_port)
+	: ChiefThread(_name, _fps) {
+
 	IO_service = std::make_shared<IOService>();
 
 	size_t capacity = 0;
 
 	// TODO: Create sub thread
-	acceptor = std::make_shared<Acceptor>(_fps, std::static_pointer_cast<MEngine>(shared_from_this()));
+	acceptor = std::make_shared<Acceptor>(_fps, std::static_pointer_cast<MEngine>(shared_from_this()), _acceptor_port);
 	++capacity;
 
 	sub_threads.reserve(capacity);
@@ -28,9 +29,13 @@ MEngine::~MEngine() {
 }
 
 void MEngine::OnStart() {
-
-	acceptor->Start();
-
+	
+	try {
+		acceptor->Start();
+	}
+	catch (std::exception _exception) {
+		
+	}
 }
 
 void MEngine::OnUpdate() {

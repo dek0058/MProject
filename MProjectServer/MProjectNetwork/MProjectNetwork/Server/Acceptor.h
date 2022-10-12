@@ -9,6 +9,7 @@
 
 #pragma once
 #include "MProjectNetwork/Thread/EliteThread.h"
+#include <boost/asio/ip/tcp.hpp>
 
 namespace mproject {
 namespace network {
@@ -25,7 +26,7 @@ public:
 	 * \param _fps		Frames per second
 	 * \param _engine	Server engine.
 	 */
-	Acceptor(int _fps, std::shared_ptr<MEngine> _server);
+	Acceptor(int _fps, std::shared_ptr<MEngine> _server, ushort _port);
 	
 	
 	
@@ -39,7 +40,8 @@ protected:
 private:
 
 	std::weak_ptr<MEngine> server;
-	
+	std::unique_ptr<boost::asio::ip::tcp::acceptor> acceptor;
+	boost::asio::ip::tcp::endpoint endpoint;
 };
 
 }	// network
