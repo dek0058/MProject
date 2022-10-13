@@ -8,19 +8,9 @@ namespace logger {
 	
 class ILogger {
 public:
-	
-	/*
-	*	\param _max_size mb unit
-	*/
-	ILogger(uint _max_size = 32) : max_size(1048576 * _max_size) {
-	}
-
-public:
 	void WriteLog(ELogLevel _level, FString _msg) {
 		OnWrite(_level, _msg);
-		if (msg.size() < max_size) {
-			msg.emplace_back(_level, _msg);
-		}
+		msg.emplace_back(_level, _msg);
 	}
 
 	std::vector<std::tuple<ELogLevel, FString>> GetMessages() {
@@ -34,7 +24,6 @@ protected:
 
 private:
 	std::list<std::tuple<ELogLevel, FString>> msg;
-	size_t max_size;
 };
 
 }	// logger

@@ -16,30 +16,46 @@ struct FString {
 	
 	// Constructors
 	FString() = default;
-	//std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(_str)
-	FString(const char* _str) : str() {}
+	FString(const char* _str, std::locale locale = std::locale()) {
+		std::mbstate_t state {0};
+		wchar_t* from_next = str.data();
+		
+		/*std::codecvt<wchar_t, char, std::mbstate_t> codecvt();
+		std::codecvt<wchar_t, char, std::mbstate_t>(locale).in(
+			state,
+			_str,
+			_str + strlen(_str),
+			_str,
+			&str[0],
+			&str[0] + str.max_size(),
+			from_next
+		);*/
+		std::string temp(_str);
+		str.assign(temp.begin(), temp.end());
+	}
 	FString(const std::string& _str) : str(_str.begin(), _str.end()) {}
 	FString(const std::wstring& _str) : str(_str) {}
 	FString(const FString& _str) : str(_str.str) {}
 	FString(FString&& _str) noexcept : str(std::move(_str.str)) {}
 
 	// Operators
-	//str = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(_str)
 	FString& operator=(const char* _str) { ; return *this; }
-	FString& operator=(const std::string& _str) { str = std::wstring(_str.begin(), _str.end()); return *this; }
+	FString& operator=(const std::string& _str) { str.assign(_str.begin(), _str.end()); return *this; }
 	FString& operator=(const std::wstring& _str) { str = _str; return *this; }
 	FString& operator=(const FString& _str) { str = _str.str; return *this; }
 	FString& operator=(FString&& _str) noexcept { str = std::move(_str.str); return *this; }
 
 	// Methods
-	std::string ToStdString() const { return std::string(str.begin(), str.end()); }
-	std::wstring ToStdWString() const { return str; }
+	/*std::string ToString() { 
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> conv1;
+		return conv1.to_bytes(str);
+	}*/
 
 	// Operators
-	operator std::string() const { return std::string(str.begin(), str.end()); }
 	operator std::wstring() const { return str; }
 
 private:
 	// Fields
 	std::wstring str;
 };
+
