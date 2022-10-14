@@ -1,5 +1,5 @@
-#include "MSHA256.h"
-#include "Exception/OpenSSLException.h"
+﻿#include "MSHA256.h"
+#include "Exception/BaseException.h"
 
 #include <cstdlib>
 #include <iomanip>
@@ -48,20 +48,20 @@ MSHA256::MSHA256() {
 
 void MSHA256::Reset() {
 	if (SHA256_Init(&context) == 0) {
-		throw SHA256Exception();
+		throw BaseException(FString(pTEXT("SHA256_Init failed")), __LINE__, FString(pTEXT("MSHA256.cpp")));
 	}
 }
 
 void MSHA256::Update(void const* _data, size_t _length) {
 	if (SHA256_Update(&context, _data, _length) == 0) {
-		throw SHA256Exception();
+		throw BaseException(FString(pTEXT("SHA256_Init failed")), __LINE__, FString(pTEXT("MSHA256.cpp")));
 	}
 }
 
 std::vector<unsigned char> MSHA256::Digest() {
 	std::vector<unsigned char> result(SHA256_DIGEST_LENGTH);
 	if (SHA256_Final(result.data(), &context) == 0) {
-		throw SHA256Exception();
+		throw BaseException(FString(pTEXT("SHA256_Init failed")), __LINE__, FString(pTEXT("MSHA256.cpp")));
 	}
 	return result;
 	return {};

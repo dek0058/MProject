@@ -1,6 +1,6 @@
-#include "UnitTestCase.h"
+﻿#include "UnitTestCase.h"
 #include "UnitTestResult.h"
-#include "Exception/BaseException.h"
+#include "BaseException.h"
 
 #include <iostream>
 #include <stdexcept>

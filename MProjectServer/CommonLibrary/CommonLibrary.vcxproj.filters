@@ -93,9 +93,6 @@
     <ClInclude Include="Utility\MSHA256.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Exception\OpenSSLException.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Utility\MRandom.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -103,9 +100,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Thread\MThread.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Exception\ExpiredException.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="String\String.h">
@@ -126,6 +120,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Thread\MThread.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="String\String.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

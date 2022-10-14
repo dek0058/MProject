@@ -4,8 +4,6 @@
 #include "MProjectNetwork/Core/IOService.h"
 #include "MProjectNetwork/Core/Session.h"
 
-#include "Exception/ExpiredException.h"
-
 #include <boost/system/detail/error_code.hpp>
 
 namespace mproject {
@@ -24,10 +22,10 @@ void Acceptor::OnStart() {
 		if (!IO_service.expired()) {
 			acceptor = std::make_unique<boost::asio::ip::tcp::acceptor>(IO_service.lock()->Get());
 		} else {
-			throw ExpiredException("IO_service", __LINE__, __FILE__);
+			//throw ExpiredException("IO_service", __LINE__, __FILE__);
 		}
 	} else {
-		throw ExpiredException("server", __LINE__, __FILE__);
+		//throw ExpiredException("server", __LINE__, __FILE__);
 	}
 	
 	if (nullptr == acceptor.get()) {

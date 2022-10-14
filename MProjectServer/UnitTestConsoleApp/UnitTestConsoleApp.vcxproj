@@ -175,6 +175,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseException.h" />
     <ClInclude Include="Suite\DongkeyUnitTestSuite.h" />
     <ClInclude Include="Test\CircularBufferTest.h" />
     <ClInclude Include="Test\DongkeyTest.h" />

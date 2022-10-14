@@ -8,8 +8,7 @@ namespace network {
 
 ChiefThread::ChiefThread(FString _name, int _fps) :
 	MThread(_fps), name(_name) {
-	//logger = std::make_unique<logger::SpdLogger>(name, "./Logs/");
-	
+	logger = std::make_unique<logger::SpdLogger>(name, FString(pTEXT("./Logs")));
 }
 
 ChiefThread::~ChiefThread() {

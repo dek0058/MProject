@@ -2,7 +2,8 @@
 #include "Acceptor.h"
 #include "MProjectNetwork/Core/Session.h"
 #include "MProjectNetwork/Core/IOService.h"
-
+#include "MProjectLogger/Logger/SpdLogger.h"
+#include "Exception/BaseException.h"
 
 namespace mproject {
 namespace network {
@@ -33,8 +34,11 @@ void MEngine::OnStart() {
 	try {
 		acceptor->Start();
 	}
+	catch (BaseException const& _exception) {
+		logger->WriteLog(mproject::logger::ELogLevel::Critical, _exception.Message());
+	}
 	catch (std::exception _exception) {
-		
+		logger->WriteLog(mproject::logger::ELogLevel::Critical, FString(_exception.what()));
 	}
 }
 

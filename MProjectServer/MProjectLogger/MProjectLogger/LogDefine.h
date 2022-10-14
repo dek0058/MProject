@@ -2,6 +2,8 @@
 #include "GlobalDefine.h"
 #include <concepts>
 
+#define SPDLOG_WCHAR_TO_UTF8_SUPPORT
+
 namespace mproject {
 namespace logger {
 

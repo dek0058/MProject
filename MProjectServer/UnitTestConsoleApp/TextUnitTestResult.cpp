@@ -1,6 +1,6 @@
-#include "TextUnitTestResult.h"
+ï»¿#include "TextUnitTestResult.h"
 #include "UnitTest.h"
-#include "Exception/BaseException.h"
+#include "BaseException.h"
 
 #include <iostream>
 #include <fstream>
@@ -181,7 +181,7 @@ void TextUnitTestResult::PrintHeader(std::ostream& _ostream) {
 	if (true == WasSuccessful()) {
 		_ostream << "OK (" << RunTests() << " tests)" << std::endl;
 	} else {
-		_ostream << "[½ÇÆÐ]" << "\n" << "Runs: " << RunTests() << "   Failures:" << TestFailures() << "   Errors: " << TestErrors() << std::endl;
+		_ostream << "[ì‹¤íŒ¨]" << "\n" << "Runs: " << RunTests() << "   Failures:" << TestFailures() << "   Errors: " << TestErrors() << std::endl;
 	}
 }
 

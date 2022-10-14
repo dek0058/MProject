@@ -1,9 +1,9 @@
-#pragma once
+﻿#pragma once
 #include <exception>
 #include <string>
 
 #include "GuardDefine.h"
-#include "Exception/BaseException.h"
+#include "BaseException.h"
 
 class UnitTest;
 
