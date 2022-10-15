@@ -32,6 +32,10 @@ MMORPG 서버를 지향하는 프로젝트입니다.
 
 <summary>3.2.0</summary>
 
+### wxFormBuilder
+**[Download it now](https://github.com/wxFormBuilder)**
+
+
 ## Flatbuffers
 <img src="https://user-images.githubusercontent.com/47653276/164363866-f4041e94-9e36-40de-aabb-5179bf4069b3.png" width="100" height="100"/>
 
