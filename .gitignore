@@ -423,6 +423,10 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+# Tools Result
+/Tool/wxWidgets/MProjectServer/*.h
+/Tool/wxWidgets/MProjectServer/*.cpp
+
 # End of https://www.toptal.com/developers/gitignore/api/csharp,c++
 /MProjectServer/MProjectServer/logs/
 /MProjectServer/MProjectServer/출력-빌드.txt

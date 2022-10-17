@@ -1,20 +1,21 @@
 ﻿#include <wx/wx.h>
-
+#include "TestApplication/Administrator.h"
 
 class App : public wxApp {
 public:
-	bool OnInit() {
-		
-		wxFrame* window = new wxFrame(nullptr, wxID_ANY, "GUI Test");
-		//wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
-		//wxStaticText* text = new wxStaticText(window, wxID_ANY, "Well Don\nEverything seems to be working", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL);
-		//text->SetFont(wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
-		//sizer->Add(text);
-		
-		window->Show();
-		return true;
-	}
+	bool OnInit();
+	int OnExit();
 
 };
 
 wxIMPLEMENT_APP(App);
+
+
+bool App::OnInit() {
+	return mproject::Administrator::GetMutableInstance().Initialize();
+}
+
+int App::OnExit() {
+	mproject::Administrator::GetMutableInstance().Finalize();
+	return 0;
+}

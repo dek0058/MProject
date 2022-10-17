@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "GlobalDefine.h"
+#include "TestApplication/ServerDefine.h"
 #include "Utility/TSingleton.h"
 
 namespace mproject {
@@ -16,9 +16,8 @@ namespace mproject {
 class TestEngine;
 
 class Administrator : public TSingleton<Administrator> {
-
 public:
-	
+
 	/**
 	 * \brief 메모리 초기화.
 	 * 
@@ -26,19 +25,27 @@ public:
 	 */
 	bool Initialize();
 	
-	
-	void StartServer();
-	
-	
 	/**
 	 * \brief 메모리 해제
 	 */
 	void Finalize();
+
+private:
+	/**
+	 * \brief UI 시작.
+	 *
+	 */
+	void StartUI();
+	
+	/**
+	 * \brief 서버 시작.
+	 */
+	void StartServer();
 	
 
 private:
 
-	std::unique_ptr<TestEngine> engine;
+	std::shared_ptr<TestEngine> engine;
 
 	uint server_port;
 };

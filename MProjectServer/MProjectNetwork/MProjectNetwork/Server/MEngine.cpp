@@ -17,6 +17,10 @@ MEngine::MEngine(FString _name, int _fps, ushort _acceptor_port)
 	size_t capacity = 0;
 
 	// TODO: Create sub thread
+	//static_cast<*>()
+	//std::static_pointer_cast<*>()
+	//A->B->C->D
+	//static_cast<A>(D)
 	acceptor = std::make_shared<Acceptor>(_fps, std::static_pointer_cast<MEngine>(shared_from_this()), _acceptor_port);
 	++capacity;
 
