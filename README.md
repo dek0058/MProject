@@ -12,8 +12,6 @@ MMORPG 서버를 지향하는 프로젝트입니다.
 ### C++20 (lastest)
 <summary>SDK Version: v143</summary>
 
-#### spdlog (lasteset) **[Open source link](https://github.com/gabime/spdlog)**
-
 
 ### Boost API
 <img src="https://user-images.githubusercontent.com/47653276/162651411-11b80b8f-213b-4695-a53d-e6ed9e028dd4.png" width="277" height="86"/>
@@ -31,6 +29,9 @@ MMORPG 서버를 지향하는 프로젝트입니다.
 **[Download it now](https://www.wxwidgets.org/downloads/)**
 
 <summary>3.2.0</summary>
+
+#### wxFormBuilder **[Open source link](https://github.com/wxFormBuilder)**
+
 
 ## Flatbuffers
 <img src="https://user-images.githubusercontent.com/47653276/164363866-f4041e94-9e36-40de-aabb-5179bf4069b3.png" width="100" height="100"/>
