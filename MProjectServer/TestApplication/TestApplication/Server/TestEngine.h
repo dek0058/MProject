@@ -16,11 +16,11 @@ namespace mproject {
 class TestEngine : public network::MEngine {
 
 public:
-		
+	TestEngine(ushort _acceptor_port);
+
 
 private:
 
-	// TODO:스레드
 
 	
 
