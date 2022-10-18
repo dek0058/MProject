@@ -46,6 +46,7 @@ protected:
 private:
 
 	std::shared_ptr<IOService> IO_service;
+	ushort acceptor_port;
 
 	std::shared_ptr<Acceptor> acceptor;
 };

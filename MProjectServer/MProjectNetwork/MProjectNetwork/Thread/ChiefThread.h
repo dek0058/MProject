@@ -42,6 +42,7 @@ protected:
 
 protected:
 	FString name;
+	int fps;
 	std::unique_ptr<logger::ILogger> logger;
 	std::vector<std::shared_ptr<EliteThread>> sub_threads;
 };

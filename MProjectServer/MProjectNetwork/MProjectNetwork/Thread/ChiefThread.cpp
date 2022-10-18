@@ -7,7 +7,7 @@ namespace mproject {
 namespace network {
 
 ChiefThread::ChiefThread(FString _name, int _fps) :
-	MThread(_fps), name(_name) {
+	MThread(_fps), name(_name), fps(_fps) {
 	logger = std::make_unique<logger::SpdLogger>(name, FString(pTEXT("./Logs")));
 }
 

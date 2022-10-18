@@ -33,6 +33,9 @@
     <ClCompile Include="TestApplication\Manager\UIManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="TestApplication\Core\MainProcess.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestApplication\Server\TestEngine.h">
@@ -54,6 +57,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="TestApplication\ServerDefine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TestApplication\Core\MainProcess.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

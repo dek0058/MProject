@@ -27,7 +27,7 @@ public:
 
 public:
 	/**
-	 * Default UI를 생성합니다.
+	 * \brief Default UI를 생성합니다.
 	 * 
 	 */
 	void Start();

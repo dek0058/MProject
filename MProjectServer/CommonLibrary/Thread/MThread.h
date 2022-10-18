@@ -55,10 +55,10 @@ protected:
 	virtual void OnStop() {}
 
 private:
-	void Thread_Run(std::stop_token _token);
+	void Thread_Run();
 
 private:
 	std::jthread data;
 	EState state = EState::None;
-	//FramesPerSecond fps;
+	FramesPerSecond fps;
 };

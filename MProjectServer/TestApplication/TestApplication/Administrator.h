@@ -13,6 +13,7 @@
 
 namespace mproject {
 
+class MainProcess;
 class TestEngine;
 
 class Administrator : public TSingleton<Administrator> {
@@ -44,6 +45,8 @@ private:
 	
 
 private:
+
+	std::shared_ptr<MainProcess> main_process;
 
 	std::shared_ptr<TestEngine> engine;
 

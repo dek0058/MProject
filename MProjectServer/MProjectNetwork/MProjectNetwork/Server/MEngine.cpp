@@ -10,23 +10,9 @@ namespace network {
 
 
 MEngine::MEngine(FString _name, int _fps, ushort _acceptor_port)
-	: ChiefThread(_name, _fps) {
+	: ChiefThread(_name, _fps), acceptor_port(_acceptor_port) {
 
 	IO_service = std::make_shared<IOService>();
-
-	size_t capacity = 0;
-
-	// TODO: Create sub thread
-	//static_cast<*>()
-	//std::static_pointer_cast<*>()
-	//A->B->C->D
-	//static_cast<A>(D)
-	acceptor = std::make_shared<Acceptor>(_fps, std::static_pointer_cast<MEngine>(shared_from_this()), _acceptor_port);
-	++capacity;
-
-	sub_threads.reserve(capacity);
-	// TODO: Add sub thread
-	AddSubThread(acceptor);
 }
 
 MEngine::~MEngine() {
@@ -34,7 +20,17 @@ MEngine::~MEngine() {
 }
 
 void MEngine::OnStart() {
+	size_t capacity = 0;
+
+	// TODO: Create sub thread
+	acceptor = std::make_shared<Acceptor>(fps, std::static_pointer_cast<MEngine>(shared_from_this()), acceptor_port);
+	++capacity;
+
+	sub_threads.reserve(capacity);
 	
+	// TODO: Add sub thread
+	AddSubThread(acceptor);
+
 	try {
 		acceptor->Start();
 	}

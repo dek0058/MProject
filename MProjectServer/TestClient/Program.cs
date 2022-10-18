@@ -11,6 +11,30 @@ namespace TestClient {
     internal class Program {
         static public GameSocket socket;
 
+        
+        class ObjectA {
+        
+            public virtual void Print(int id, string msg, int[] arr) {
+                // TODO
+            }
+
+            public void Print(Action<int, string, int[]> action) {
+                // TODO
+            }
+
+        }
+
+
+        class ObjectB : ObjectA {
+            public override void Print ( int id, string msg, int[] arr ) {
+                // TODO
+            }
+        }
+        
+        
+        
+
+
         static void Main(string[] args) {
 
 

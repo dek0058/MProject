@@ -6,6 +6,9 @@ public:
 	DongkeyTest(std::string const& _name);
 	~DongkeyTest();
 
+	// Cast Test
+	void TestCast();
+
 	static UnitTest* Suite();
 };
 
