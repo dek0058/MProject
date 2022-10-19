@@ -11,8 +11,8 @@ MThread::~MThread() {
 	Stop();
 }
 
-void MThread::Start() {
-	data = std::jthread(&MThread::Thread_Run, shared_from_this());
+void MThread::Start(std::stop_token _stop_token) {
+	data = std::jthread(&MThread::Thread_Run, this, _stop_token);
 }
 
 void MThread::Stop() {
@@ -20,15 +20,11 @@ void MThread::Stop() {
 		return;
 	}
 	state = EState::Stopping;
-	data.request_stop();
 }
 
-void MThread::Thread_Run() {
-	std::stop_source stop_source;
-	std::stop_token stop_token = stop_source.get_token();
-	
+void MThread::Thread_Run(std::stop_token _stop_token) {
 	auto thread_id = std::this_thread::get_id();
-	std::stop_callback stop_callback(stop_token, [this, thread_id] {
+	std::stop_callback stop_callback(_stop_token, [this, thread_id] {
 		state = EState::Stopped;
 		OnStop();
 	});
@@ -37,6 +33,9 @@ void MThread::Thread_Run() {
 	OnStart();
 	
 	while (state == EState::Running) {
+		if (_stop_token.stop_requested()) {
+			return;
+		}
 		fps.Update();
 		OnUpdate();
 		fps.Sleep();

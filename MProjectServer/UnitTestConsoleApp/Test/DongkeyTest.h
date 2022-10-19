@@ -9,6 +9,8 @@ public:
 	// Cast Test
 	void TestCast();
 
+	void TestJThread();
+
 	static UnitTest* Suite();
 };
 

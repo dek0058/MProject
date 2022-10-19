@@ -34,7 +34,7 @@ public:
 	/**
 	 * \brief Start thread
 	 */
-	void Start();
+	void Start(std::stop_token _stop_token);
 	
 	/**
 	 * \brief Stop thread
@@ -55,7 +55,7 @@ protected:
 	virtual void OnStop() {}
 
 private:
-	void Thread_Run();
+	void Thread_Run(std::stop_token _stop_token);
 
 private:
 	std::jthread data;

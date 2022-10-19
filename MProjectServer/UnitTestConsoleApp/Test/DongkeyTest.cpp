@@ -73,9 +73,112 @@ void DongkeyTest::TestCast() {
 	c->Init();
 }
 
+
+
+namespace {
+
+class JThreadTest : public std::enable_shared_from_this<JThreadTest> {
+public:
+
+	JThreadTest() {
+		std::cout << "Constructor JThreadTest" << std::endl;
+	}
+
+	~JThreadTest() {
+		std::cout << "Destructor JThreadTest" << std::endl;
+	}
+
+	virtual void Start(std::stop_token _token) {
+		data = std::jthread(&JThreadTest::Thread_Run, this, _token);
+	}
+
+	void Thread_Run(std::stop_token _token) {
+
+		auto thread_id = std::this_thread::get_id();
+		std::stop_callback stop_callback(_token, [this, thread_id] {
+			OnStop();
+		});
+
+		//while (!_token.stop_requested()) {
+			OnUpdate();
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+		
+		//}
+		//_token.swap
+	}
+
+	virtual void OnUpdate() {
+		std::cout << "OnUpdate" << std::endl;
+	}
+
+	void OnStop() {
+		std::cout << "OnStop" << typeid(this).name() << std::endl;
+	}
+
+public:
+	std::jthread data;
+};
+
+class JThreadA : public JThreadTest {
+public:
+	JThreadA() {
+		std::cout << "Constructor JThreadA" << std::endl;
+	}
+
+	virtual void OnUpdate() override {
+		std::cout << "OnUpdate JThreadA" << std::endl;
+	}
+};
+
+class JThreadB : public JThreadTest {
+public:
+	JThreadB() {
+		std::cout << "Constructor JThreadB" << std::endl;
+	}
+
+	virtual void Start(std::stop_token _token) override {
+		a.Start(_token);
+		JThreadTest::Start(_token);
+	}
+
+	virtual void OnUpdate() override {
+		std::cout << "OnUpdate JThreadB" << std::endl;
+	}
+
+public:
+	JThreadA a;
+	
+};
+}
+
+
+void DongkeyTest::TestJThread() {
+	
+	std::cout << std::endl;
+
+	JThreadB b;
+
+	std::stop_source stop_source;
+	b.Start(stop_source.get_token());
+	
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+	//stop_source.request_stop();
+
+	std::cout << "is_stop:" << stop_source.stop_requested() << std::endl;
+	std::cout << "possible_stop:" << stop_source.stop_possible() << std::endl;
+	std::cout << "stop_request:" << stop_source.get_token().stop_requested() << std::endl;
+
+	b.data.join();
+	b.a.data.join();
+}
+
+
 UnitTest* DongkeyTest::Suite() {
 	UnitTestSuite* suite = new UnitTestSuite("DongkeyTest");
-	TUnitTest_AddTest(suite, DongkeyTest, TestCast);
+	//TUnitTest_AddTest(suite, DongkeyTest, TestCast);
+	TUnitTest_AddTest(suite, DongkeyTest, TestJThread);
 	return suite;
 }
 
