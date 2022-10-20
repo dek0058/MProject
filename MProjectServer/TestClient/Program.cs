@@ -7,6 +7,7 @@ namespace TestClient {
     using Utility;
     //using Protocol;
     using Network;
+    
 
     internal class Program {
         static public GameSocket socket;

@@ -39,7 +39,7 @@ public:
 	/**
 	 * \brief Stop thread
 	 */
-	void Stop();
+	virtual void Stop();
 
 	/**
 	 * \brief Is thread runnable

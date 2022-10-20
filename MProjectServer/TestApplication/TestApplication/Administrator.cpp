@@ -24,7 +24,7 @@ bool Administrator::Initialize() {
 	//StartServer();
 	//auto frame = mproject::UIManager::GetMutableInstance().Create<mproject::ui::TestFrame>(nullptr);
 
-	main_process->Start();
+	//main_process->Start();
 
 	return true;
 }
@@ -41,7 +41,7 @@ void Administrator::StartUI() {
 
 void Administrator::StartServer() {
 
-	engine->Start();
+	//engine->Start();
 
 }
 

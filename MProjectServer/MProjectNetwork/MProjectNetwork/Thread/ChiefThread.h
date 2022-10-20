@@ -33,6 +33,10 @@ public:
 
 	~ChiefThread();
 
+public:
+
+	virtual void Stop() override;
+
 protected:
 	virtual void OnStart() override;
 	virtual void OnUpdate() override;
@@ -43,8 +47,12 @@ protected:
 protected:
 	FString name;
 	int fps;
-	std::unique_ptr<logger::ILogger> logger;
+	
+	std::stop_source stop_source;
 	std::vector<std::shared_ptr<EliteThread>> sub_threads;
+	
+
+	std::unique_ptr<logger::ILogger> logger;
 };
 
 }	// network

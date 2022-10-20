@@ -16,10 +16,16 @@ ChiefThread::~ChiefThread() {
 	sub_threads.clear();
 }
 
+void ChiefThread::Stop() {
+	
+
+}
+
+
 void ChiefThread::OnStart() {
 	for (auto& elite_thread : sub_threads) {
 		if (elite_thread.get() != nullptr) {
-			elite_thread->Start();
+			elite_thread->Start(stop_source.get_token());
 		}
 	}
 }

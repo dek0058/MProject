@@ -32,7 +32,7 @@ void MEngine::OnStart() {
 	AddSubThread(acceptor);
 
 	try {
-		acceptor->Start();
+		acceptor->Start(stop_source.get_token());
 	}
 	catch (BaseException const& _exception) {
 		logger->WriteLog(mproject::logger::ELogLevel::Critical, _exception.Message());
