@@ -16,6 +16,5 @@ bool App::OnInit() {
 }
 
 int App::OnExit() {
-	mproject::Administrator::GetMutableInstance().Finalize();
-	return 0;
+	return mproject::Administrator::GetMutableInstance().Finalize();
 }

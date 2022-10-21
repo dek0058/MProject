@@ -13,14 +13,8 @@ ChiefThread::ChiefThread(FString _name, int _fps) :
 
 ChiefThread::~ChiefThread() {
 	OnStop();
-	sub_threads.clear();
+	// join.......
 }
-
-void ChiefThread::Stop() {
-	
-
-}
-
 
 void ChiefThread::OnStart() {
 	for (auto& elite_thread : sub_threads) {
@@ -36,11 +30,7 @@ void ChiefThread::OnUpdate() {
 }
 
 void ChiefThread::OnStop() {
-	for (auto& elite_thread : sub_threads) {
-		if (elite_thread.get() != nullptr) {
-			elite_thread->Stop();
-		}
-	}
+	stop_source.request_stop();
 }
 
 void ChiefThread::AddSubThread(std::shared_ptr<EliteThread> _sub_thread) {

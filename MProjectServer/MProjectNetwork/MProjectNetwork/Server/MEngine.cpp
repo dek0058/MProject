@@ -16,7 +16,6 @@ MEngine::MEngine(FString _name, int _fps, ushort _acceptor_port)
 }
 
 MEngine::~MEngine() {
-	OnStop();
 }
 
 void MEngine::OnStart() {
@@ -51,9 +50,7 @@ void MEngine::OnUpdate() {
 }
 
 void MEngine::OnStop() {
-
-	acceptor->Stop();
-
+	
 }
 
 }	// network

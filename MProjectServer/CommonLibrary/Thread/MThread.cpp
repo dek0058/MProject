@@ -9,17 +9,24 @@ MThread::MThread(int _fps) /* fps(_fps)*/ {
 
 MThread::~MThread() {
 	Stop();
+	if (data.joinable()) {
+		data.join();
+	}
 }
 
 void MThread::Start(std::stop_token _stop_token) {
-	data = std::jthread(&MThread::Thread_Run, this, _stop_token);
+	if (data.joinable()) {
+		return; // 아직 스레드가 돌아가는 중
+	}
+	if (state == EState::None || state == EState::Stopped) {
+		data = std::jthread(&MThread::Thread_Run, this, _stop_token);
+	}
 }
 
 void MThread::Stop() {
-	if (IsRunnable() == false) {
-		return;
+	if (IsRunnable() == true) {
+		state = EState::Stopping;
 	}
-	state = EState::Stopping;
 }
 
 void MThread::Thread_Run(std::stop_token _stop_token) {
@@ -38,6 +45,7 @@ void MThread::Thread_Run(std::stop_token _stop_token) {
 		}
 		fps.Update();
 		OnUpdate();
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		fps.Sleep();
 		// do something
 	}

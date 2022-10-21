@@ -3,7 +3,7 @@
  * \brief  
  * 
  * \author dek0058
- * \date   2022-10-15
+ * \date   2022-10-21
  *********************************************************************/
 
 #pragma once
@@ -29,25 +29,28 @@ public:
 	/**
 	 * \brief 메모리 해제
 	 */
-	void Finalize();
+	int Finalize();
 
-private:
-	/**
-	 * \brief UI 시작.
-	 *
-	 */
-	void StartUI();
-	
-	/**
-	 * \brief 서버 시작.
-	 */
-	void StartServer();
-	
 
+	/**
+	 * \brief 엔진 시작
+	 */
+	void StartEngine();
+
+	/**
+	 * \return Get server engine.
+	 */
+	std::weak_ptr<TestEngine> GetEngine() {
+		return engine;
+	}
+
+	
 private:
+
+
+	std::stop_source stop_source;
 
 	std::shared_ptr<MainProcess> main_process;
-
 	std::shared_ptr<TestEngine> engine;
 
 	uint server_port;

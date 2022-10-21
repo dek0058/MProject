@@ -149,7 +149,8 @@
     <ClCompile Include="TestApplication\Manager\UIManager.cpp" />
     <ClCompile Include="TestApplication\Server\TestEngine.cpp" />
     <ClCompile Include="TestApplication\UI\Frame\TestFrame.cpp" />
-    <ClCompile Include="UI\Frame\MainFrame.cpp" />
+    <ClCompile Include="TestApplication\UI\Parent\MWidget.cpp" />
+    <ClCompile Include="TestApplication\UI\Frame\MainFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLibrary\CommonLibrary.vcxproj">
@@ -169,8 +170,8 @@
     <ClInclude Include="TestApplication\ServerDefine.h" />
     <ClInclude Include="TestApplication\Server\TestEngine.h" />
     <ClInclude Include="TestApplication\UI\Frame\TestFrame.h" />
-    <ClInclude Include="TestApplication\UI\Interface\IWidget.h" />
-    <ClInclude Include="UI\Frame\MainFrame.h" />
+    <ClInclude Include="TestApplication\UI\Parent\MWidget.h" />
+    <ClInclude Include="TestApplication\UI\Frame\MainFrame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

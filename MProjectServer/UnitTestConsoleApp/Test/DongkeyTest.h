@@ -11,6 +11,7 @@ public:
 
 	void TestJThread();
 
+
 	static UnitTest* Suite();
 };
 

@@ -10,43 +10,33 @@ namespace mproject {
 
 bool Administrator::Initialize() {
 
-	main_process = std::make_shared<MainProcess>();
+	// UIManager 초기화 및 Main Form 생성
+	UIManager::GetMutableInstance().Start();
 
-	
+	main_process = std::make_shared<MainProcess>();
 
 	server_port = 7778;
 
 	engine = std::make_shared<TestEngine>(server_port);
 	logger::SpdLogger log(FString(pTEXT("Administrator")), FString(pTEXT("./Logs")));
 
+	main_process->Start(stop_source.get_token());
+
 	
-	//StartUI();
-	//StartServer();
-	//auto frame = mproject::UIManager::GetMutableInstance().Create<mproject::ui::TestFrame>(nullptr);
-
-	//main_process->Start();
-
 	return true;
 }
 
-void Administrator::Finalize() {
+int Administrator::Finalize() {
 
+	// 스레드 중단 요청
+	stop_source.request_stop();
 
+	return 0;
 }
 
-
-void Administrator::StartUI() {
-	UIManager::GetMutableInstance().Start();
+void Administrator::StartEngine() {
+	//engine->Start(stop_source.get_token());
 }
-
-void Administrator::StartServer() {
-
-	//engine->Start();
-
-}
-
-
-
 
 }	// mproject
 

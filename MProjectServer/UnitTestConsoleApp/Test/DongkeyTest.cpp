@@ -3,6 +3,7 @@
 #include "UnitTestCaller.h"
 
 #include "GlobalDefine.h"
+#include <future>
 
 DongkeyTest::DongkeyTest(std::string const& _name) : UnitTestCase(_name) {
 }
@@ -175,10 +176,11 @@ void DongkeyTest::TestJThread() {
 }
 
 
+
 UnitTest* DongkeyTest::Suite() {
 	UnitTestSuite* suite = new UnitTestSuite("DongkeyTest");
 	//TUnitTest_AddTest(suite, DongkeyTest, TestCast);
-	TUnitTest_AddTest(suite, DongkeyTest, TestJThread);
+	//TUnitTest_AddTest(suite, DongkeyTest, TestJThread);
 	return suite;
 }
 

@@ -8,13 +8,12 @@
 
 #pragma once
 #include "TestApplication/ServerDefine.h"
-#include "UI/Frame/MainFrame.h"
-#include "TestApplication/UI/Interface/IWidget.h"
+#include "TestApplication/UI/Frame/MainFrame.h"
 
 namespace mproject {
 namespace ui {
 
-class TestFrame : public MainFrame, IWidget {
+class TestFrame : public MainFrame {
 	
 public:
 	
@@ -23,6 +22,14 @@ public:
 public:
 
 	virtual void OnInitialize() override;
+
+private:
+	
+	void AddLog(FString const& _string);
+
+
+private:
+	wxString msg;
 
 };
 

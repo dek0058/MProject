@@ -24,7 +24,7 @@
     <ClCompile Include="TestApplication\Administrator.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="UI\Frame\MainFrame.cpp">
+    <ClCompile Include="TestApplication\UI\Frame\MainFrame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="TestApplication\UI\Frame\TestFrame.cpp">
@@ -36,6 +36,9 @@
     <ClCompile Include="TestApplication\Core\MainProcess.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="TestApplication\UI\Parent\MWidget.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestApplication\Server\TestEngine.h">
@@ -44,7 +47,7 @@
     <ClInclude Include="TestApplication\Administrator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="UI\Frame\MainFrame.h">
+    <ClInclude Include="TestApplication\UI\Frame\MainFrame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="TestApplication\UI\Frame\TestFrame.h">
@@ -53,7 +56,7 @@
     <ClInclude Include="TestApplication\Manager\UIManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\UI\Interface\IWidget.h">
+    <ClInclude Include="TestApplication\UI\Parent\MWidget.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="TestApplication\ServerDefine.h">

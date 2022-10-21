@@ -1,8 +1,11 @@
 ﻿#include "MainFrame.h"
 
-///////////////////////////////////////////////////////////////////////////
 
-MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name) : wxFrame(parent, id, title, pos, size, style, name)
+namespace mproject {
+namespace ui{
+
+MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name) 
+	: MWidget(parent, id, title, pos, size, style, name)
 {
 	this->SetSizeHints(wxSize(200, 100), wxDefaultSize);
 
@@ -25,3 +28,8 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title, con
 MainFrame::~MainFrame()
 {
 }
+
+
+}	// ui
+}	// mproject
+

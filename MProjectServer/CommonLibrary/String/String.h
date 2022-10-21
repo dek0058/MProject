@@ -50,4 +50,7 @@ struct FString {
 private:
 	// Fields
 	DefaultString str;
+
+public:
+	const static constinit size_t max_size = 2'048Ui64;	// byte
 };

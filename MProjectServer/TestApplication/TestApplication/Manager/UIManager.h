@@ -8,18 +8,19 @@
 
 #pragma once
 
-#include "TestApplication/ServerDefine.h"
-#include "Utility/TSingleton.h"
-#include "TestApplication/UI/Interface/IWidget.h"
-
 #include <wx/defs.h>
 
-class wxFrame;
+#include "TestApplication/ServerDefine.h"
+#include "Utility/TSingleton.h"
+#include "TestApplication/UI/Parent/MWidget.h"
+
 
 namespace mproject {
 
+using ParentWidget = ui::MWidget;
+
 template<typename T>
-concept Widget = std::is_base_of_v<ui::IWidget, T> && std::is_base_of_v<wxFrame, T>;
+concept Widget = std::is_base_of_v<ParentWidget, T>;
 
 class UIManager : public TSingleton<UIManager> {
 public:
@@ -34,41 +35,47 @@ public:
 
 	template<typename T, typename... Types>
 		requires Widget<T>
-	std::shared_ptr<T> Create(Types&&... _values) {
-		auto data = std::shared_ptr<wxFrame>(new T(std::forward<Types>(_values)...));
-		if (nullptr == data.get()) {
-			return std::shared_ptr<T>();
+	T* Create(Types&&... _values) {
+		auto data = new T(std::forward<Types>(_values)...);
+		if (nullptr == data) {
+			return nullptr;
 		}
-		m_frame_map.emplace(data->GetId(), data);
-		auto result = std::static_pointer_cast<T>(data);
-		result->OnInitialize();
-		return result;
+		data->OnInitialize();
+		frame_map.emplace(data->GetId(), data);
+		return data;
 	}
 
 	void Destroy(wxWindowID _id) {
-		auto iter = m_frame_map.find(_id);
-		if (iter == m_frame_map.end()) {
+		auto iter = frame_map.find(_id);
+		if (iter == frame_map.end()) {
 			return;
 		}
-		m_frame_map.erase(iter);
+		iter->second->OnFinalize();
+		frame_map.erase(iter);
 	}
 
 	template<typename T, typename... Types>
 		requires Widget<T>
-	std::shared_ptr<T> Find(wxWindowID _id) {
-		auto iter = m_frame_map.find(_id);
-		if (iter == m_frame_map.end()) {
-			return std::shared_ptr<T>();
+	T* Find(wxWindowID _id) {
+		auto iter = frame_map.find(_id);
+		if (iter == frame_map.end()) {
+			return nullptr;
 		}
-		auto result = std::static_pointer_cast<T>(iter->second);
-		return result;
+		return static_cast<T>(iter->second);
 	}
 
+	/**
+	 * \brief	최상단 위젯.
+	 */
+	ParentWidget* GetMainWidget() {
+		return main_widget;
+	}
 
 
 private:
 
-	hashmap<wxWindowID, std::shared_ptr<wxFrame>> m_frame_map;
+	hashmap<wxWindowID, ParentWidget*> frame_map;
+	ParentWidget* main_widget = nullptr;
 
 };
 

@@ -35,7 +35,6 @@ public:
 
 public:
 
-	virtual void Stop() override;
 
 protected:
 	virtual void OnStart() override;
