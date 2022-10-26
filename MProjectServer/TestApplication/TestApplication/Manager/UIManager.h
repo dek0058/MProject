@@ -51,6 +51,7 @@ public:
 			return;
 		}
 		iter->second->OnFinalize();
+		iter->second->Close(true);
 		frame_map.erase(iter);
 	}
 

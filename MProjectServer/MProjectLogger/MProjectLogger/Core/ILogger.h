@@ -6,9 +6,14 @@
 namespace mproject {
 namespace logger {
 	
+template<typename T>
+concept IsString = std::is_same_v<T, DefaultString> || std::is_same_v<T, FString>;
+
 class ILogger {
 public:
-	void WriteLog(ELogLevel _level, FString _msg) {
+	template<typename T>
+		requires IsString<T>
+	void WriteLog(ELogLevel _level, T _msg) {
 		OnWrite(_level, _msg);
 		msg.emplace_back(_level, _msg);
 	}

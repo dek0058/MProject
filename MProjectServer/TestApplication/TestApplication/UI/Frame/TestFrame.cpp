@@ -13,12 +13,11 @@ void TestFrame::OnInitialize() {
 	
 	Show();
 
-
 	AddLog(FString(pTEXT("Initialize TestFrame!")));
 	
-	AddLog(FString(pTEXT("Ready TestEngine!")));
-	
-	Administrator::GetMutableInstance().StartEngine();
+	//AddLog(FString(pTEXT("Ready TestEngine!")));
+	//
+	//Administrator::GetMutableInstance().StartEngine();
 	
 
 }

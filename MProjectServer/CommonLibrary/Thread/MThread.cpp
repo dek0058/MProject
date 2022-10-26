@@ -1,23 +1,22 @@
 ﻿#include "MThread.h"
 
 
-MThread::MThread() /*: fps(300)*/ {
+MThread::MThread() : fps(300) {
 }
 
-MThread::MThread(int _fps) /* fps(_fps)*/ {
+MThread::MThread(int _fps) : fps(_fps) {
 }
 
 MThread::~MThread() {
 	Stop();
-	if (data.joinable()) {
-		data.join();
+	if (state != EState::None && state != EState::Stopped) {
+		if (data.joinable()) {
+			data.join();
+		}
 	}
 }
 
 void MThread::Start(std::stop_token _stop_token) {
-	if (data.joinable()) {
-		return; // 아직 스레드가 돌아가는 중
-	}
 	if (state == EState::None || state == EState::Stopped) {
 		data = std::jthread(&MThread::Thread_Run, this, _stop_token);
 	}

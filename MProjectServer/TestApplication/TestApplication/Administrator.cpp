@@ -35,7 +35,7 @@ int Administrator::Finalize() {
 }
 
 void Administrator::StartEngine() {
-	//engine->Start(stop_source.get_token());
+	engine->Start(stop_source.get_token());
 }
 
 }	// mproject

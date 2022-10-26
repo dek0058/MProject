@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <atomic>
 #include <format>
+#include <optional>
 
 #include <thread>
 #include <mutex>

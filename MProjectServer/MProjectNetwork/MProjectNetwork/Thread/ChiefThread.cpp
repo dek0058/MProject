@@ -17,6 +17,11 @@ ChiefThread::~ChiefThread() {
 }
 
 void ChiefThread::OnStart() {
+	/*logger->WriteLog(
+		mproject::logger::ELogLevel::Info, 
+		std::format(pTEXT(""), name, pTEXT("S"))
+	);*/
+	
 	for (auto& elite_thread : sub_threads) {
 		if (elite_thread.get() != nullptr) {
 			elite_thread->Start(stop_source.get_token());

@@ -11,9 +11,7 @@
 #include <string>
 #include <locale>
 
-namespace {
 using DefaultString = std::wstring;
-}
 
 #define pTEXT(str) L##str
 
