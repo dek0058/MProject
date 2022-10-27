@@ -17,6 +17,13 @@ ChiefThread::~ChiefThread() {
 }
 
 void ChiefThread::OnStart() {
+
+
+
+	//auto a = FString::MakeFormatArgs(name, fps);
+
+	//auto msg = FString::Format(DefaultString(pTEXT("{}{}")), name, pTEXT(" OnStart"));
+
 	/*logger->WriteLog(
 		mproject::logger::ELogLevel::Info, 
 		std::format(pTEXT(""), name, pTEXT("S"))
