@@ -13,6 +13,12 @@
 
 namespace mproject {
 
+namespace logger
+{
+class ILogger;
+}	// logger
+
+
 class MainProcess;
 class TestEngine;
 
@@ -47,7 +53,7 @@ public:
 	
 private:
 
-
+	std::shared_ptr<logger::ILogger> logger;
 	std::stop_source stop_source;
 
 	std::shared_ptr<MainProcess> main_process;

@@ -6,9 +6,13 @@
 namespace mproject {
 namespace network {
 
-ChiefThread::ChiefThread(FString _name, int _fps) :
-	MThread(_fps), name(_name), fps(_fps) {
-	logger = std::make_unique<logger::SpdLogger>(name, FString(pTEXT("./Logs")));
+ChiefThread::ChiefThread(FString _name, int _fps) 
+	: MThread(_fps), name(_name), fps(_fps) {
+	logger = std::make_unique<logger::SpdLogger>(name, FString::Format(pTEXT("./Logs/{}.log"), name.Data()));
+}
+
+ChiefThread::ChiefThread(FString _name, int _fps, std::shared_ptr<logger::ILogger> _logger)
+	: MThread(_fps), name(_name), fps(_fps), logger(_logger) {
 }
 
 ChiefThread::~ChiefThread() {
@@ -17,17 +21,10 @@ ChiefThread::~ChiefThread() {
 }
 
 void ChiefThread::OnStart() {
-
-
-
-	//auto a = FString::MakeFormatArgs(name, fps);
-
-	//auto msg = FString::Format(DefaultString(pTEXT("{}{}")), name, pTEXT(" OnStart"));
-
-	/*logger->WriteLog(
+	logger->WriteLog(
 		mproject::logger::ELogLevel::Info, 
-		std::format(pTEXT(""), name, pTEXT("S"))
-	);*/
+		FString::Format(FString(pTEXT("{} Start")), name.Data())
+	);
 	
 	for (auto& elite_thread : sub_threads) {
 		if (elite_thread.get() != nullptr) {

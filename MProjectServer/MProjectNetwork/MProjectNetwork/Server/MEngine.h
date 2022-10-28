@@ -12,6 +12,12 @@
 
 
 namespace mproject {
+
+namespace logger
+{
+class ILogger;
+}	// logger
+
 namespace network {
 
 class IOService;
@@ -25,7 +31,7 @@ public:
 	/**
 	 * \param int _fps Frames per second
 	 */
-	MEngine(FString _name, int _fps, ushort _acceptor_port);
+	MEngine(FString _name, int _fps, ushort _acceptor_port, std::shared_ptr<logger::ILogger> _logger);
 
 	~MEngine();
 

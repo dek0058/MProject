@@ -13,10 +13,15 @@
 
 namespace mproject {
 
+namespace logger
+{
+class ILogger;
+}	// logger
+
 class TestEngine : public network::MEngine {
 
 public:
-	TestEngine(ushort _acceptor_port);
+	TestEngine(ushort _acceptor_port, std::shared_ptr<logger::ILogger> _logger);
 
 
 private:

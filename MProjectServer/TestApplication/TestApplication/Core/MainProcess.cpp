@@ -11,7 +11,7 @@ MainProcess::MainProcess(int _fps)
 }
 
 void MainProcess::OnStart() {
-	
+	Administrator::GetMutableInstance().StartEngine();
 }
 
 void MainProcess::OnUpdate() {

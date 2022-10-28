@@ -21,9 +21,7 @@ public:
 		path(_path),
 		max_size(1048576 * _max_size),
 		max_files(_max_files) {
-		
-		std::string file_path = std::format("{}/{}.log", _path.ToString(), _name.ToString());
-		logger = spdlog::rotating_logger_mt(name.ToString(), "./Logs/A.log", max_size, max_files);
+		logger = spdlog::rotating_logger_mt(name.ToString(), path.ToString(), max_size, max_files);
 #ifdef _DEBUG
 		logger->flush_on(spdlog::level::debug);
 #else

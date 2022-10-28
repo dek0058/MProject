@@ -58,7 +58,7 @@ private:
 	void Thread_Run(std::stop_token _stop_token);
 
 private:
-	std::jthread data;
+	std::optional<std::jthread> data;
 	EState state = EState::None;
 	FramesPerSecond fps;
 };

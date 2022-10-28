@@ -17,8 +17,8 @@ bool Administrator::Initialize() {
 
 	server_port = 7778;
 
-	engine = std::make_shared<TestEngine>(server_port);
-	logger::SpdLogger log(FString(pTEXT("Administrator")), FString(pTEXT("./Logs")));
+	logger = std::make_shared<logger::SpdLogger>(FString(pTEXT("TestApplication")), FString(pTEXT("./Logs/Administrator.log")));
+	engine = std::make_shared<TestEngine>(server_port, logger);
 
 	main_process->Start(stop_source.get_token());
 

@@ -2,15 +2,15 @@
 #include "Acceptor.h"
 #include "MProjectNetwork/Core/Session.h"
 #include "MProjectNetwork/Core/IOService.h"
-#include "MProjectLogger/Logger/SpdLogger.h"
+#include "MProjectLogger/Core/ILogger.h"
 #include "Exception/BaseException.h"
 
 namespace mproject {
 namespace network {
 
 
-MEngine::MEngine(FString _name, int _fps, ushort _acceptor_port)
-	: ChiefThread(_name, _fps), acceptor_port(_acceptor_port) {
+MEngine::MEngine(FString _name, int _fps, ushort _acceptor_port, std::shared_ptr<logger::ILogger> _logger)
+	: ChiefThread(_name, _fps, _logger), acceptor_port(_acceptor_port) {
 
 	IO_service = std::make_shared<IOService>();
 }
@@ -19,6 +19,7 @@ MEngine::~MEngine() {
 }
 
 void MEngine::OnStart() {
+	ChiefThread::OnStart();
 	size_t capacity = 0;
 
 	// TODO: Create sub thread

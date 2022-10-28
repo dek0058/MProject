@@ -10,7 +10,6 @@
 #include <memory_resource>
 #include <algorithm>
 #include <atomic>
-#include <format>
 #include <optional>
 
 #include <thread>
@@ -26,7 +25,7 @@
 #include <queue>
 #include <forward_list>
 
-#include "String/String.h"	// include string, locale, codecvt
+#include "String/String.h"	// include string, locale, format
 
 // variable define
 //typedef char				char;

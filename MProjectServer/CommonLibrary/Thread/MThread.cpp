@@ -9,10 +9,12 @@ MThread::MThread(int _fps) : fps(_fps) {
 
 MThread::~MThread() {
 	Stop();
-	if (state != EState::None && state != EState::Stopped) {
-		if (data.joinable()) {
-			data.join();
+	if (data)
+	{
+		if (data->joinable()) {
+			data->join();
 		}
+		data.reset();
 	}
 }
 
