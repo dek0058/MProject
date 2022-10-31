@@ -18,6 +18,10 @@ public:
 		msg.emplace_back(_level, _msg);
 	}
 
+	bool IsEmpty() const {
+		return msg.empty();
+	}
+
 	std::vector<std::tuple<ELogLevel, FString>> GetMessages() {
 		std::vector<std::tuple<ELogLevel, FString>> result(msg.begin(), msg.end());
 		msg.clear();

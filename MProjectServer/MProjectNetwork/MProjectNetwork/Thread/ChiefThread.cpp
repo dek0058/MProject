@@ -1,5 +1,6 @@
 ﻿#include "ChiefThread.h"
 #include "EliteThread.h"
+#include "String/StringFormat.h"
 #include "MProjectLogger/Logger/SpdLogger.h"
 #include "MProjectNetwork/NetworkDefine.h"
 
@@ -8,7 +9,7 @@ namespace network {
 
 ChiefThread::ChiefThread(FString _name, int _fps) 
 	: MThread(_fps), name(_name), fps(_fps) {
-	logger = std::make_unique<logger::SpdLogger>(name, FString::Format(pTEXT("./Logs/{}.log"), name.Data()));
+	logger = std::make_unique<logger::SpdLogger>(name, StringFormat::Format(pTEXT("./Logs/{}.log"), name.Data()));
 }
 
 ChiefThread::ChiefThread(FString _name, int _fps, std::shared_ptr<logger::ILogger> _logger)
@@ -23,7 +24,7 @@ ChiefThread::~ChiefThread() {
 void ChiefThread::OnStart() {
 	logger->WriteLog(
 		mproject::logger::ELogLevel::Info, 
-		FString::Format(FString(pTEXT("{} Start")), name.Data())
+		StringFormat::Format(FString(pTEXT("{} Start")), name.Data())
 	);
 	
 	for (auto& elite_thread : sub_threads) {

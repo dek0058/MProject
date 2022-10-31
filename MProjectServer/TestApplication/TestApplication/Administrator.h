@@ -27,13 +27,13 @@ public:
 
 	/**
 	 * \brief 메모리 초기화.
-	 * 
 	 * \return 성공 여부
 	 */
 	bool Initialize();
 	
 	/**
 	 * \brief 메모리 해제
+	 * \return 성공 값
 	 */
 	int Finalize();
 
@@ -50,6 +50,12 @@ public:
 		return engine;
 	}
 
+	/**
+	 * \return Get main logger.
+	 */
+	std::weak_ptr<logger::ILogger> GetLogger() {
+		return logger;
+	}
 	
 private:
 

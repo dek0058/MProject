@@ -34,6 +34,10 @@ protected:
 	wxTextCtrl* message_box;
 	wxTextCtrl* input_box;
 
+	// Virtual event handlers, override them in your derived class
+	virtual void OnTextEnter(wxCommandEvent& event) { event.Skip(); }
+	virtual void OnUpdateUI(wxUpdateUIEvent& event) { event.Skip(); }
+
 public:
 
 	MainFrame(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800, 500), long style = wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL, const wxString& name = wxT("Main"));

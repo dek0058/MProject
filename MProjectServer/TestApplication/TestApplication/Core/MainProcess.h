@@ -3,13 +3,14 @@
  * \brief  
  * 
  * \author dek0058
- * \date   2022-10-21
- * \version 0.2
+ * \date   2022-10-31
  *********************************************************************/
 
 #pragma once
 #include "TestApplication/ServerDefine.h"
 #include "Thread/MThread.h"
+
+
 
 namespace mproject {
 
@@ -26,7 +27,6 @@ protected:
 	virtual void OnUpdate() override;
 	virtual void OnStop() override;
 
-	
 };
 
 }	// mproject

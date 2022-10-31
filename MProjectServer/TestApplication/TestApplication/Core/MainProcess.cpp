@@ -3,6 +3,7 @@
 #include "TestApplication/Administrator.h"
 #include "TestApplication/Manager/UIManager.h"
 
+
 namespace mproject {
 
 MainProcess::MainProcess(int _fps) 
@@ -15,6 +16,7 @@ void MainProcess::OnStart() {
 }
 
 void MainProcess::OnUpdate() {
+	
 
 }
 

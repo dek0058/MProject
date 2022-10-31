@@ -23,10 +23,18 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title, con
 	this->Layout();
 
 	this->Centre(wxBOTH);
+
+	// Connect Events
+	message_box->Connect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MainFrame::OnUpdateUI), NULL, this);
+	input_box->Connect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(MainFrame::OnTextEnter), NULL, this);
 }
 
 MainFrame::~MainFrame()
 {
+	// Disconnect Events
+	message_box->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MainFrame::OnUpdateUI), NULL, this);
+	input_box->Disconnect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(MainFrame::OnTextEnter), NULL, this);
+
 }
 
 

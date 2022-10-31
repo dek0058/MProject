@@ -33,8 +33,7 @@ void MThread::Stop() {
 void MThread::Thread_Run(std::stop_token _stop_token) {
 	auto thread_id = std::this_thread::get_id();
 	std::stop_callback stop_callback(_stop_token, [this, thread_id] {
-		state = EState::Stopped;
-		OnStop();
+		Stop();
 	});
 
 	state = EState::Running;
@@ -42,13 +41,11 @@ void MThread::Thread_Run(std::stop_token _stop_token) {
 	
 	while (state == EState::Running) {
 		if (_stop_token.stop_requested()) {
-			return;
+			break;
 		}
 		fps.Update();
 		OnUpdate();
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		fps.Sleep();
-		// do something
 	}
 	state = EState::Stopped;
 	OnStop();

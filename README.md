@@ -48,5 +48,7 @@ MMORPG 서버를 지향하는 프로젝트입니다.
 
 ## Other
 
-spdlog:1.10.0(https://github.com/gabime/spdlog)
+### C++ Library
+<summary>spdlog:1.10.0(https://github.com/gabime/spdlog)</summary>
+<summary>magic_enum:0.8.1(https://github.com/Neargye/magic_enum)</summary>
 

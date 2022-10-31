@@ -3,7 +3,7 @@
  * \brief  
  * 
  * \author dek0058
- * \date   2022-10-17
+ * \date   2022-10-31
  *********************************************************************/
 
 #pragma once
@@ -24,12 +24,12 @@ concept Widget = std::is_base_of_v<ParentWidget, T>;
 
 class UIManager : public TSingleton<UIManager> {
 public:
+	UIManager();
 	~UIManager();
 
 public:
 	/**
 	 * \brief Default UI를 생성합니다.
-	 * 
 	 */
 	void Start();
 
@@ -74,7 +74,6 @@ public:
 
 
 private:
-
 	hashmap<wxWindowID, ParentWidget*> frame_map;
 	ParentWidget* main_widget = nullptr;
 

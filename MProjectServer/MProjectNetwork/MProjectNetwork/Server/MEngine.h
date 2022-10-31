@@ -4,8 +4,7 @@
  * \details Server core management class
  * 
  * \author dek0058
- * \date   2022-10-04
- * \version 0.3
+ * \date   2022-10-31
  *********************************************************************/
 #pragma once
 #include "MProjectNetwork/Thread/ChiefThread.h"
@@ -13,8 +12,7 @@
 
 namespace mproject {
 
-namespace logger
-{
+namespace logger {
 class ILogger;
 }	// logger
 

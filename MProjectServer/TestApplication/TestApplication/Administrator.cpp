@@ -10,18 +10,19 @@ namespace mproject {
 
 bool Administrator::Initialize() {
 
-	// UIManager 초기화 및 Main Form 생성
-	UIManager::GetMutableInstance().Start();
+	server_port = 7778;
+	
+	logger = std::make_shared<logger::SpdLogger>(FString(pTEXT("TestApplication")), FString(pTEXT("./Logs/Administrator.log")));
 
 	main_process = std::make_shared<MainProcess>();
-
-	server_port = 7778;
-
-	logger = std::make_shared<logger::SpdLogger>(FString(pTEXT("TestApplication")), FString(pTEXT("./Logs/Administrator.log")));
 	engine = std::make_shared<TestEngine>(server_port, logger);
 
-	main_process->Start(stop_source.get_token());
 
+	// UIManager 초기화 및 Main Form 생성
+	UIManager::GetMutableInstance().Start();
+	
+	// 메인 스레드 시작
+	main_process->Start(stop_source.get_token());
 	
 	return true;
 }

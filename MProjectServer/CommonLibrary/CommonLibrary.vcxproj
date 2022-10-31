@@ -194,10 +194,15 @@
     <ClInclude Include="flatbuffers\include\flatbuffers\stl_emulation.h" />
     <ClInclude Include="flatbuffers\include\flatbuffers\util.h" />
     <ClInclude Include="String\String.h" />
+    <ClInclude Include="String\StringEnum.h" />
+    <ClInclude Include="String\StringFormat.h" />
     <ClInclude Include="Thread\MThread.h" />
     <ClInclude Include="Utility\FramesPerSecond.h" />
     <ClInclude Include="GlobalDefine.h" />
     <ClInclude Include="GuardDefine.h" />
+    <ClInclude Include="Utility\magic_enum.hpp" />
+    <ClInclude Include="Utility\magic_enum_format.hpp" />
+    <ClInclude Include="Utility\magic_enum_fuse.hpp" />
     <ClInclude Include="Utility\MRandom.h" />
     <ClInclude Include="Utility\CircularBuffer.h" />
     <ClInclude Include="Utility\MemoryPool.h" />
