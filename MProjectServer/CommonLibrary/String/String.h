@@ -3,8 +3,7 @@
  * \brief  String primitive object type
  *
  * \author dek0058
- * \date   2022-10-14
- * \version 0.2
+ * \date   2022-11-01
  *********************************************************************/
 
 #pragma once
@@ -14,7 +13,10 @@
 
 using DefaultChar = wchar_t;
 using DefaultString = std::wstring;
+using DefaultStringView = std::wstring_view;
 
+template<typename T>
+concept DefaultStringType = std::is_same_v<T, DefaultChar> || std::is_same_v<T, DefaultString>;
 
 #define pTEXT(str) L##str
 
@@ -34,6 +36,10 @@ struct FString {
 	operator DefaultString() const { 
 		return str; 
 	}
+	
+	FString& operator=(DefaultChar const* _str) {
+		str = _str; return *this;
+	}
 	FString& operator=(DefaultString const& _str) {
 		str = _str; return *this; 
 	}
@@ -43,10 +49,40 @@ struct FString {
 	FString& operator=(FString&& _str) noexcept {
 		str = std::move(_str.str); return *this;
 	}
+	
+	FString& operator+=(DefaultChar const* _str) {
+		str += _str; return *this;
+	}
+	FString& operator+=(DefaultString const& _str) {
+		str += _str; return *this;
+	}
+	FString& operator+=(FString const& _str) {
+		str += _str.str; return *this;
+	}
+	FString& operator+=(FString&& _str) noexcept {
+		str += std::move(_str.str); return *this;
+	}
+
+	FString operator+(DefaultChar const* _str) const {
+		return FString(str + _str);
+	}
+	FString operator+(DefaultString const& _str) const {
+		return FString(str + _str);
+	}
+	FString operator+(FString const& _str) const {
+		return FString(str + _str.str);
+	}
+	FString operator+(FString&& _str) const noexcept {
+		return FString(str + std::move(_str.str));
+	}
+	
 
 // Methods
 	std::string ToString() const;
 	DefaultString Data() const {
+		return str;
+	}
+	DefaultStringView DataView() const {
 		return str;
 	}
 

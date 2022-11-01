@@ -22,8 +22,15 @@ public:
 	virtual void OnInitialize() {}
 	virtual void OnFinalize() {}
 
+	bool IsBeingDestroyed() const { 
+		return is_being_destroyed; 
+	}
+
 protected:
 	void OnDestroy(wxCloseEvent& _event);
+
+private:
+	bool is_being_destroyed = false;
 };
 	
 }	// ui

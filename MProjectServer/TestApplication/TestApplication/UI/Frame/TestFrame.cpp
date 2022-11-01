@@ -1,9 +1,10 @@
 ﻿#include "TestFrame.h"
-#include "String/StringEnum.h"
-#include "String/StringFormat.h"
+#include "String/StringUtility.h"
 #include "MProjectLogger/Core/ILogger.h"
 #include "TestApplication/Administrator.h"
 #include "TestApplication/Server/TestEngine.h"
+#include "TestApplication/Manager/CommandManager.h"
+#include "TestApplication/Command/Command.h"
 
 namespace mproject {
 namespace ui {
@@ -33,6 +34,22 @@ void TestFrame::OnTextEnter(wxCommandEvent& _event) {
 
 	AddLog(input_box->GetValue());
 	input_box->ChangeValue(wxString());
+
+	std::vector<FString> args; args.reserve(3);
+	for (auto arg : StringRange::Split(msg, pTEXT(" "))) {
+		args.push_back(FString(DefaultString(arg.begin(), arg.end())));
+	}
+	
+	if (args.empty()) {
+		return;
+	}
+
+	if (CommandManager::GetMutableInstance().Execute(std::make_optional<FCommand>(args))) {
+		AddLog(wxString(pTEXT("Command executed!")));
+	}
+	else {
+		AddLog(wxString(pTEXT("Command failure...")));
+	}
 }
 
 void TestFrame::OnUpdateUI(wxUpdateUIEvent& _event) {
@@ -49,10 +66,6 @@ void TestFrame::OnUpdateUI(wxUpdateUIEvent& _event) {
 	for (auto& [level, msg] : GetLogger()->GetMessages()) {
 		AddLog(StringFormat::Format(pTEXT("[{}]{}"), StringEnum::ToString<logger::ELogLevel>(level).Data(), msg.Data()));
 	}
-
-	// 테스트용
-	//GetLogger()->WriteLog(logger::ELogLevel::Info, FString(pTEXT("Test Log!")));
-
 }
 
 
@@ -62,9 +75,7 @@ void TestFrame::AddLog(FString const& _string) {
 
 void TestFrame::AddLog(wxString const& _string) {
 	message_box->ChangeValue(message_box->GetValue() + wxString(_string + pTEXT("\r\n")));
-	if (!message_box->CanScroll(wxVERTICAL)) {
-		message_box->ScrollLines(message_box->GetScrollRange(wxVERTICAL));
-	}
+	message_box->SetInsertionPointEnd();
 }
 
 std::shared_ptr<logger::ILogger> TestFrame::GetLogger() {

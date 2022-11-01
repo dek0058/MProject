@@ -50,8 +50,11 @@ public:
 		if (iter == frame_map.end()) {
 			return;
 		}
+		if (false == iter->second->IsBeingDestroyed()) {
+			iter->second->Close(false);
+			return;
+		}
 		iter->second->OnFinalize();
-		iter->second->Close(true);
 		frame_map.erase(iter);
 	}
 

@@ -120,6 +120,12 @@
     <ClInclude Include="String\StringFormat.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="String\StringRange.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="String\StringUtility.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\FramesPerSecond.cpp">

@@ -24,6 +24,7 @@
 #include <set>
 #include <queue>
 #include <forward_list>
+#include <span>
 
 #include "String/String.h"	// include string, locale, format
 

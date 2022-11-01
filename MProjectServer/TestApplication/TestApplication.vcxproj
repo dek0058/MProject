@@ -146,6 +146,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestApplication\Administrator.cpp" />
     <ClCompile Include="TestApplication\Core\MainProcess.cpp" />
+    <ClCompile Include="TestApplication\Manager\CommandManager.cpp" />
     <ClCompile Include="TestApplication\Manager\UIManager.cpp" />
     <ClCompile Include="TestApplication\Server\TestEngine.cpp" />
     <ClCompile Include="TestApplication\UI\Frame\TestFrame.cpp" />
@@ -165,7 +166,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestApplication\Administrator.h" />
+    <ClInclude Include="TestApplication\Command\Command.h" />
+    <ClInclude Include="TestApplication\Command\CommandCaller.h" />
     <ClInclude Include="TestApplication\Core\MainProcess.h" />
+    <ClInclude Include="TestApplication\Manager\CommandManager.h" />
     <ClInclude Include="TestApplication\Manager\UIManager.h" />
     <ClInclude Include="TestApplication\ServerDefine.h" />
     <ClInclude Include="TestApplication\Server\TestEngine.h" />

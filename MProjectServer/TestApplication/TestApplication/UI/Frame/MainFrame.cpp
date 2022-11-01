@@ -12,7 +12,7 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title, con
 	wxBoxSizer* main_sizer;
 	main_sizer = new wxBoxSizer(wxVERTICAL);
 
-	message_box = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH2);
+	message_box = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_AUTO_URL | wxTE_CHARWRAP | wxTE_LEFT | wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH2);
 	main_sizer->Add(message_box, 1, wxALL | wxEXPAND, 5);
 
 	input_box = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_NO_VSCROLL | wxTE_PROCESS_ENTER);
