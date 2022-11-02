@@ -42,6 +42,9 @@
     <ClCompile Include="TestApplication\Manager\CommandManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="TestApplication\Command\ServerCaller.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestApplication\Server\TestEngine.h">
@@ -75,6 +78,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="TestApplication\Command\CommandCaller.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TestApplication\Command\ServerCaller.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

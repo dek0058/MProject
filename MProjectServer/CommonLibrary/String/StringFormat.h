@@ -11,6 +11,8 @@
 #include "GuardDefine.h"
 
 #include <format>
+#include <iterator>
+#include <numeric>
 
 using Default_Fmt_it = std::back_insert_iterator<std::_Fmt_buffer<DefaultChar>>;
 using Default_Context = std::basic_format_context<Default_Fmt_it, DefaultChar>;
@@ -37,4 +39,25 @@ public:
 		return FString(std::vformat(_format.Data(), Format_Args<Types...> { (_values)... }));
 	}
 
+	template<typename T>
+		requires DefaultStringType<T>
+	_NODISCARD static FString Join(std::span<T> _list, T const& _delimiter) {
+		return FString(std::accumulate(std::next(_list.begin()), _list.end(), _list[0], [&_delimiter](T& _lhs, T& _rhs) {
+			return _lhs + _delimiter + _rhs;
+		}));
+	}
+	template<typename T>
+		requires DefaultStringType<T>
+	_NODISCARD static FString Join(std::span<T> _list, FString const& _delimiter) {
+		return FString(std::accumulate(std::next(_list.begin()), _list.end(), _list[0], [&_delimiter](T& _lhs, T& _rhs) {
+			return _lhs + _delimiter.Data() + _rhs;
+		}));
+	}
+	template<typename T>
+		requires DefaultStringType<T>
+	_NODISCARD static FString Join(std::span<FString> _list, T const& _delimiter) {
+		return std::accumulate(std::next(_list.begin()), _list.end(), _list[0], [&_delimiter](FString& _lhs, FString& _rhs) {
+			return _lhs.Data() + _delimiter + _rhs.Data();
+		});
+	}
 };

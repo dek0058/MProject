@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestApplication\Administrator.cpp" />
+    <ClCompile Include="TestApplication\Command\ServerCaller.cpp" />
     <ClCompile Include="TestApplication\Core\MainProcess.cpp" />
     <ClCompile Include="TestApplication\Manager\CommandManager.cpp" />
     <ClCompile Include="TestApplication\Manager\UIManager.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="TestApplication\Administrator.h" />
     <ClInclude Include="TestApplication\Command\Command.h" />
     <ClInclude Include="TestApplication\Command\CommandCaller.h" />
+    <ClInclude Include="TestApplication\Command\ServerCaller.h" />
     <ClInclude Include="TestApplication\Core\MainProcess.h" />
     <ClInclude Include="TestApplication\Manager\CommandManager.h" />
     <ClInclude Include="TestApplication\Manager\UIManager.h" />

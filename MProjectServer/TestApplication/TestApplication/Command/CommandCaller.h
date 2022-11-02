@@ -3,7 +3,7 @@
  * \brief  
  * 
  * \author dek0058
- * \date   2022-11-01
+ * \date   2022-11-02
  *********************************************************************/
 #pragma once
 
@@ -17,7 +17,6 @@ public:
 	virtual ~CommandCaller() = default;
 
 public:
-	
 	virtual bool Execute(std::optional<FCommand> _command) { return false; }
 };
 

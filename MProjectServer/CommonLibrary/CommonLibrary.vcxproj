@@ -196,6 +196,7 @@
     <ClInclude Include="String\String.h" />
     <ClInclude Include="String\StringEnum.h" />
     <ClInclude Include="String\StringFormat.h" />
+    <ClInclude Include="String\StringHash.h" />
     <ClInclude Include="String\StringRange.h" />
     <ClInclude Include="String\StringUtility.h" />
     <ClInclude Include="Thread\MThread.h" />

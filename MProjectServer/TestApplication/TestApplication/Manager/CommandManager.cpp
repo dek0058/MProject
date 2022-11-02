@@ -1,12 +1,15 @@
 ﻿#include "CommandManager.h"
 #include "TestApplication/Command/Command.h"
 #include "TestApplication/Command/CommandCaller.h"
+#include "TestApplication/Command/ServerCaller.h"
 
 namespace mproject {
 
 
 
 CommandManager::CommandManager() {
+
+	ServerCaller::Initialize();
 
 }
 

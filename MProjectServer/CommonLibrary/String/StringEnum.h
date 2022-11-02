@@ -21,19 +21,19 @@ public:
 
 	template<typename T>
 		requires std::is_enum_v<T>
-	static FString ToString(std::integral auto _enum) {
+	_NODISCARD static FString ToString(std::integral auto _enum) {
 		return FString(magic_enum::enum_name<T>(static_cast<T>(_enum)));
 	}
 
 	template<typename T>
 		requires std::is_enum_v<T>
-	static FString ToString(T _enum) {
+	_NODISCARD static FString ToString(T _enum) {
 		return FString(magic_enum::enum_name<T>(_enum));
 	}
 
 	template<typename T>
 		requires std::is_enum_v<T>
-	static T ToEnum(FString const& _string) {
+	_NODISCARD static T ToEnum(FString const& _string) {
 		return magic_enum::enum_cast<T>(_string.ToString()).value_or(static_cast<T>(0));
 	}
 

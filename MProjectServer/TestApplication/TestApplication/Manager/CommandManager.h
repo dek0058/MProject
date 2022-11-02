@@ -10,7 +10,7 @@
 
 #include "TestApplication/ServerDefine.h"
 #include "Utility/TSingleton.h"
-
+#include "String/StringHash.h"
 
 namespace mproject {
 
@@ -28,11 +28,12 @@ public:
 	
 	template<typename T>
 		requires std::derived_from<T, CommandCaller>
-	void RegisterCommand(StringKey _key) {
-		if (command_caller_map.contains(_key)) {
+	void RegisterCommand(FString _command) {
+		StringKey key = StringHash::Hash(_command);
+		if (command_caller_map.contains(key)) {
 			throw std::exception("Already registered command.");
 		}
-		command_caller_map[_key] = std::make_optional<T>();
+		command_caller_map[key] = std::make_optional<T>();
 	}
 
 	bool Execute(std::optional<FCommand> _command);
