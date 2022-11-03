@@ -19,19 +19,18 @@ class StringRange {
 
 	template<typename T>
 		requires DefaultStringType<T>
-	using SplitView = std::ranges::split_view<std::ranges::owning_view<T>, std::ranges::owning_view<T>>;
+	using SplitView = std::ranges::split_view<std::ranges::ref_view<T const>, std::ranges::owning_view<T>>;
 
 public:
-
-
+	
 	static SplitView<DefaultString> Split(const FString& str, const FString& delimiter) {
-		return str.Data() | std::views::split(delimiter.Data());
+		return str.data | std::views::split(delimiter.data);
 	}
 
 	template<typename T>
 		requires DefaultStringType<T>
 	static SplitView<T> Split(const FString& str, T delimiter) {
-		return str.Data() | std::views::split(delimiter);
+		return str.data | std::views::split(delimiter);
 	}
 
 };

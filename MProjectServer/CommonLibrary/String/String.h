@@ -3,13 +3,11 @@
  * \brief  String primitive object type
  *
  * \author dek0058
- * \date   2022-11-01
+ * \date   2022-11-03
  *********************************************************************/
 
 #pragma once
 #include <string>
-#include <locale>
-#include <format>
 
 using DefaultChar = wchar_t;
 using DefaultString = std::wstring;
@@ -27,68 +25,62 @@ struct FString {
 	FString(char const* _str);
 	FString(std::string const& _str);
 	FString(std::string_view const& _str);
-	FString(DefaultChar const* _str) : str(_str) {}
-	FString(DefaultString const& _str) : str(_str) {}
-	FString(FString const& _str) : str(_str.str) {}
-	FString(FString&& _str) noexcept : str(std::move(_str.str)) {}
+	FString(DefaultChar const* _str) : data(_str) {}
+	FString(DefaultString const& _str) : data(_str) {}
+	FString(FString const& _str) : data(_str.data) {}
+	FString(FString&& _str) noexcept : data(std::move(_str.data)) {}
 
 // Operators
 	operator DefaultString() const { 
-		return str; 
+		return data; 
 	}
 	
 	FString& operator=(DefaultChar const* _str) {
-		str = _str; return *this;
+		data = _str; return *this;
 	}
 	FString& operator=(DefaultString const& _str) {
-		str = _str; return *this; 
+		data = _str; return *this; 
 	}
 	FString& operator=(FString const& _str) {
-		str = _str.str; return *this;
+		data = _str.data; return *this;
 	}
 	FString& operator=(FString&& _str) noexcept {
-		str = std::move(_str.str); return *this;
+		data = std::move(_str.data); return *this;
 	}
 	
 	FString& operator+=(DefaultChar const* _str) {
-		str += _str; return *this;
+		data += _str; return *this;
 	}
 	FString& operator+=(DefaultString const& _str) {
-		str += _str; return *this;
+		data += _str; return *this;
 	}
 	FString& operator+=(FString const& _str) {
-		str += _str.str; return *this;
+		data += _str.data; return *this;
 	}
 	FString& operator+=(FString&& _str) noexcept {
-		str += std::move(_str.str); return *this;
+		data += std::move(_str.data); return *this;
 	}
 
 	FString operator+(DefaultChar const* _str) const {
-		return FString(str + _str);
+		return FString(data + _str);
 	}
 	FString operator+(DefaultString const& _str) const {
-		return FString(str + _str);
+		return FString(data + _str);
 	}
 	FString operator+(FString const& _str) const {
-		return FString(str + _str.str);
+		return FString(data + _str.data);
 	}
 	FString operator+(FString&& _str) const noexcept {
-		return FString(str + std::move(_str.str));
+		return FString(data + std::move(_str.data));
 	}
 	
 
 // Methods
 	std::string ToString() const;
-	DefaultString Data() const {
-		return str;
-	}
-	DefaultStringView DataView() const {
-		return str;
-	}
 
-private:
+public:
 // Fields
-	DefaultString str;
+	DefaultString data;
 
 public:
 	const static constinit size_t max_size = 2'048Ui64;	// byte

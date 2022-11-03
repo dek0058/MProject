@@ -28,12 +28,11 @@ public:
 	
 	template<typename T>
 		requires std::derived_from<T, CommandCaller>
-	void RegisterCommand(FString _command) {
-		StringKey key = StringHash::Hash(_command);
-		if (command_caller_map.contains(key)) {
+	void RegisterCommand(StringKey _key) {
+		if (command_caller_map.contains(_key)) {
 			throw std::exception("Already registered command.");
 		}
-		command_caller_map[key] = std::make_optional<T>();
+		command_caller_map[_key] = std::make_shared<T>();
 	}
 
 	bool Execute(std::optional<FCommand> _command);
@@ -44,7 +43,7 @@ private:
 
 private:
 
-	hashmap<StringKey, std::optional<CommandCaller>> command_caller_map;
+	hashmap<StringKey, std::shared_ptr<CommandCaller>> command_caller_map;
 
 };
 

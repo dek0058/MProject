@@ -16,6 +16,6 @@ class StringHash {
 public:
 
 	_NODISCARD static size_t Hash(const FString& str) {
-		return std::hash<DefaultString>{}(str.Data());
+		return std::hash<DefaultString>{}(str.data);
 	}
 };

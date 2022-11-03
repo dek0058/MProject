@@ -15,20 +15,15 @@ namespace mproject {
 
 struct FCommand {
 
-	FCommand(std::span<FString> _command) {
-		command = _command[0];
-		if (_command.size() > 1) {
-			arguments = std::vector<FString>(_command.begin() + 1, _command.end());
-		}
-	}
-
+	FCommand(std::span<FString> _command);
+	
 	template<typename T>
 		requires std::is_integral_v<T>
 	T Get(size_t _index) const {
 		if (_index >= arguments.size()) {
 			return T();
 		}
-		return std::stoi(arguments[_index].Data());
+		return std::stoi(arguments[_index].data);
 	}
 
 	template<typename T>
@@ -37,7 +32,7 @@ struct FCommand {
 		if (_index >= arguments.size()) {
 			return T();
 		}
-		return std::stof(arguments[_index].Data());
+		return std::stof(arguments[_index].data);
 	}
 
 	FString Get(size_t _index) const {
@@ -55,12 +50,9 @@ struct FCommand {
 		return result;
 	}
 
-	StringKey ToKey() const {
-		return 0;
-	}
-
 	FString command;
 	std::vector<FString> arguments;
+	StringKey key;
 };
 
 }	// mproject

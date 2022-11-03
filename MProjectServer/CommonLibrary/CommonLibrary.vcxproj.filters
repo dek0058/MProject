@@ -129,6 +129,9 @@
     <ClInclude Include="String\StringHash.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="String\StringAlgorithm.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\FramesPerSecond.cpp">
@@ -147,6 +150,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="String\String.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="String\StringAlgorithm.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -45,6 +45,9 @@
     <ClCompile Include="TestApplication\Command\ServerCaller.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="TestApplication\Command\Command.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestApplication\Server\TestEngine.h">

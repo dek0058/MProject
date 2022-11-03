@@ -194,6 +194,7 @@
     <ClInclude Include="flatbuffers\include\flatbuffers\stl_emulation.h" />
     <ClInclude Include="flatbuffers\include\flatbuffers\util.h" />
     <ClInclude Include="String\String.h" />
+    <ClInclude Include="String\StringAlgorithm.h" />
     <ClInclude Include="String\StringEnum.h" />
     <ClInclude Include="String\StringFormat.h" />
     <ClInclude Include="String\StringHash.h" />
@@ -217,6 +218,7 @@
   <ItemGroup>
     <ClCompile Include="Core\MObject.cpp" />
     <ClCompile Include="String\String.cpp" />
+    <ClCompile Include="String\StringAlgorithm.cpp" />
     <ClCompile Include="Thread\MThread.cpp" />
     <ClCompile Include="Utility\FramesPerSecond.cpp" />
     <ClCompile Include="Utility\MSHA256.cpp" />

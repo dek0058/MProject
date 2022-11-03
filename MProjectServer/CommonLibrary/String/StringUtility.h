@@ -7,6 +7,7 @@
  *********************************************************************/
 #pragma once
 
+#include "StringAlgorithm.h"
 #include "StringEnum.h"
 #include "StringFormat.h"
 #include "StringHash.h"

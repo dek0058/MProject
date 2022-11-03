@@ -11,19 +11,22 @@
 
 namespace mproject {
 
+class CommandManager;
+
 class ServerCaller {
 	DELETE_REFERENCE_CREATOR(ServerCaller)
 public:
-	static void Initialize();
+	static void Initialize(CommandManager* _command_manager);
+
+private:
+
+	class EngineStart final : public CommandCaller {
+	public:
+		virtual bool Execute(std::optional<FCommand> _command) override;
+	};
 };
 
 
-class CommandCaller_EngineStart final : public CommandCaller {
-	
-	
-public:
-	virtual bool Execute(std::optional<FCommand> _command) override;
 
-};
 
 }	// mproject

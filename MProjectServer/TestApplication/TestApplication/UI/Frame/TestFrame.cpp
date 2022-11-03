@@ -64,13 +64,13 @@ void TestFrame::OnUpdateUI(wxUpdateUIEvent& _event) {
 	}
 
 	for (auto& [level, msg] : GetLogger()->GetMessages()) {
-		AddLog(StringFormat::Format(pTEXT("[{}]{}"), StringEnum::ToString<logger::ELogLevel>(level).Data(), msg.Data()));
+		AddLog(StringFormat::Format(pTEXT("[{}]{}"), StringEnum::ToString<logger::ELogLevel>(level).data, msg.data));
 	}
 }
 
 
 void TestFrame::AddLog(FString const& _string) {
-	AddLog(wxString(_string.Data()));
+	AddLog(wxString(_string.data));
 }
 
 void TestFrame::AddLog(wxString const& _string) {

@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestApplication\Administrator.cpp" />
+    <ClCompile Include="TestApplication\Command\Command.cpp" />
     <ClCompile Include="TestApplication\Command\ServerCaller.cpp" />
     <ClCompile Include="TestApplication\Core\MainProcess.cpp" />
     <ClCompile Include="TestApplication\Manager\CommandManager.cpp" />
