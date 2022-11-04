@@ -20,7 +20,7 @@ public:
 
 private:
 
-	class EngineStart final : public CommandCaller {
+	class Engine final : public CommandCaller {
 	public:
 		virtual bool Execute(std::optional<FCommand> _command) override;
 	};

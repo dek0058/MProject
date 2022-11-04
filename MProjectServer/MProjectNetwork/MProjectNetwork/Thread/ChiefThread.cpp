@@ -41,6 +41,11 @@ void ChiefThread::OnUpdate() {
 
 void ChiefThread::OnStop() {
 	stop_source.request_stop();
+
+	logger->WriteLog(
+		mproject::logger::ELogLevel::Info,
+		StringFormat::Format(FString(pTEXT("{} Stop")), name.data)
+	);
 }
 
 void ChiefThread::AddSubThread(std::shared_ptr<EliteThread> _sub_thread) {

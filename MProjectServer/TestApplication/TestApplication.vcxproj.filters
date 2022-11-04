@@ -86,5 +86,8 @@
     <ClInclude Include="TestApplication\Command\ServerCaller.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="TestApplication\Command\CommandMacro.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,33 +1,35 @@
 ﻿#include "ServerCaller.h"
-#include "TestApplication/Manager/CommandManager.h"
-#include "String/StringHash.h"
-#include "String/StringAlgorithm.h"
-
-
-namespace {
-template<typename T>
-	requires std::derived_from<T, mproject::CommandCaller>
-void AddCommand(mproject::CommandManager* _command_manager, FString const& _str) {
-	_command_manager->RegisterCommand<T>(StringHash::Hash(StringAlgorithm::ToLowerCopy(_str)));
-}
-}
-#define ADD_COMMAND(manager, class_type) AddCommand<class_type>(_command_manager, pTEXT(#class_type));
-
+#include "CommandMacro.h"
+#include "TestApplication/Administrator.h"
+#include "TestApplication/Server/TestEngine.h"
 
 namespace mproject {
 
 void ServerCaller::Initialize(CommandManager* _command_manager) {
-	auto a = StringAlgorithm::ToLowerCopy(pTEXT("EngineStart"));
-	auto b = StringHash::Hash(a);
-
-	ADD_COMMAND(_command_manager, EngineStart);
+	ADD_COMMAND(_command_manager, Engine);
 }
 
 
-bool ServerCaller::EngineStart::Execute(std::optional<FCommand> _command) {
-
+bool ServerCaller::Engine::Execute(std::optional<FCommand> _command) {
+	if (!_command) {
+		return false;
+	}
 	
+	FString param = _command->Get(0);
+	if (param.Empty()) {
+		return false;
+	}
 
+	StringAlgorithm::ToLower(param);
+	if (param.Equals(pTEXT("on"))) {
+		Administrator::GetMutableInstance().StartEngine();
+	} else if (param.Equals(pTEXT("off"))) {
+		if (auto engine = Administrator::GetMutableInstance().GetEngine(); false == engine.expired()) {
+			engine.lock()->Stop();
+		}
+	} else {
+		return false;
+	}
 	return true;
 }
 

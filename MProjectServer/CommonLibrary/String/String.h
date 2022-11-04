@@ -77,6 +77,18 @@ struct FString {
 
 // Methods
 	std::string ToString() const;
+	
+	bool Empty() const {
+		return data.empty();
+	}
+
+	size_t Length() const {
+		return data.length();
+	}
+
+	bool Equals(FString const& _str) const {
+		return data.compare(_str) == 0;
+	}
 
 public:
 // Fields

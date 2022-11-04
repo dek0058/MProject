@@ -14,6 +14,11 @@
 
 namespace mproject {
 
+namespace logger
+{
+class ILogger;
+}	// logger
+
 class MainProcess : public MThread {
 public:
 	MainProcess(int _fps = 60);

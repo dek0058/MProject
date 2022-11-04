@@ -1,5 +1,7 @@
 ﻿#include "MainProcess.h"
 
+#include "MProjectLogger/Core/ILogger.h"
+
 #include "TestApplication/Administrator.h"
 #include "TestApplication/Manager/UIManager.h"
 
@@ -12,7 +14,9 @@ MainProcess::MainProcess(int _fps)
 }
 
 void MainProcess::OnStart() {
-	Administrator::GetMutableInstance().StartEngine();
+	if (auto logger = Administrator::GetMutableInstance().GetLogger();  false == logger.expired()) {
+		logger.lock()->WriteLog(logger::ELogLevel::Info, FString(pTEXT("MainProcess Start!")));
+	}
 }
 
 void MainProcess::OnUpdate() {

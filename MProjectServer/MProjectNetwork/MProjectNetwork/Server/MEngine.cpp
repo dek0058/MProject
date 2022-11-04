@@ -19,7 +19,7 @@ MEngine::~MEngine() {
 }
 
 void MEngine::OnStart() {
-	ChiefThread::OnStart();
+	__super::OnStart();
 	size_t capacity = 0;
 
 	// TODO: Create sub thread
@@ -43,15 +43,16 @@ void MEngine::OnStart() {
 }
 
 void MEngine::OnUpdate() {
+	__super::OnUpdate();
 	// TODO: 일 분배
-	
+
 	// TODO: Sub Thread 완료 대기
 
 	// TODO: 일 처리 완료
 }
 
 void MEngine::OnStop() {
-	
+	__super::OnStop();
 }
 
 }	// network

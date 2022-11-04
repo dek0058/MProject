@@ -170,6 +170,7 @@
     <ClInclude Include="TestApplication\Administrator.h" />
     <ClInclude Include="TestApplication\Command\Command.h" />
     <ClInclude Include="TestApplication\Command\CommandCaller.h" />
+    <ClInclude Include="TestApplication\Command\CommandMacro.h" />
     <ClInclude Include="TestApplication\Command\ServerCaller.h" />
     <ClInclude Include="TestApplication\Core\MainProcess.h" />
     <ClInclude Include="TestApplication\Manager\CommandManager.h" />
