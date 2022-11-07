@@ -1,7 +1,7 @@
 ﻿#include "CommandManager.h"
-#include "TestApplication/Command/Command.h"
-#include "TestApplication/Command/CommandCaller.h"
-#include "TestApplication/Command/ServerCaller.h"
+#include "Client/Command/Command.h"
+#include "Client/Command/CommandCaller.h"
+#include "Client/Command/ServerCaller.h"
 
 namespace mproject {
 

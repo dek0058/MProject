@@ -7,7 +7,7 @@
  *********************************************************************/
 
 #pragma once
-#include "TestApplication/ServerDefine.h"
+#include "Client/ServerDefine.h"
 #include "Thread/MThread.h"
 
 

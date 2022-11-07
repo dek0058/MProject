@@ -18,7 +18,7 @@
 #include <wx/settings.h>
 #include <wx/sizer.h>
 
-#include "TestApplication/UI/Parent/MWidget.h"
+#include "Client/UI/Parent/MWidget.h"
 
 namespace mproject {
 namespace ui {

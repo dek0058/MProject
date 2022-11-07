@@ -1,5 +1,5 @@
 ﻿#include "MWidget.h"
-#include "TestApplication/Manager/UIManager.h"
+#include "Client/Manager/UIManager.h"
 
 
 namespace mproject {

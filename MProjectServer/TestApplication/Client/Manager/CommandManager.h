@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "TestApplication/ServerDefine.h"
+#include "Client/ServerDefine.h"
 #include "Utility/TSingleton.h"
 #include "String/StringHash.h"
 

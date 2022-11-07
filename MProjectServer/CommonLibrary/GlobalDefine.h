@@ -23,6 +23,7 @@
 #include <mutex>
 #include <functional>
 #include <exception>
+#include <coroutine>
 
 #include <vector>
 #include <array>

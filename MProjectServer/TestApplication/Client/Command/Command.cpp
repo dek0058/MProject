@@ -5,7 +5,10 @@
 
 namespace mproject {
 
-FCommand::FCommand(std::span<FString> _command) {
+FCommand::FCommand(std::span<FString> _command) : key(0) {
+	if (_command.empty()) {
+		return;
+	}
 	command = StringAlgorithm::ToLowerCopy(_command[0]);
 	key = StringHash::Hash(command);
 	if (_command.size() > 1) {

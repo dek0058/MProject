@@ -1,7 +1,7 @@
 ﻿#include "ServerCaller.h"
 #include "CommandMacro.h"
-#include "TestApplication/Administrator.h"
-#include "TestApplication/Server/TestEngine.h"
+#include "Client/Administrator.h"
+#include "Client/Server/TestEngine.h"
 
 namespace mproject {
 

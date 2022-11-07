@@ -2,8 +2,8 @@
 
 #include "MProjectLogger/Core/ILogger.h"
 
-#include "TestApplication/Administrator.h"
-#include "TestApplication/Manager/UIManager.h"
+#include "Client/Administrator.h"
+#include "Client/Manager/UIManager.h"
 
 
 namespace mproject {

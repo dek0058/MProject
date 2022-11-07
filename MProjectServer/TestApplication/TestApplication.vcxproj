@@ -143,17 +143,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Client\Administrator.cpp" />
+    <ClCompile Include="Client\Command\Command.cpp" />
+    <ClCompile Include="Client\Command\ServerCaller.cpp" />
+    <ClCompile Include="Client\Core\MainProcess.cpp" />
+    <ClCompile Include="Client\Manager\CommandManager.cpp" />
+    <ClCompile Include="Client\Manager\UIManager.cpp" />
+    <ClCompile Include="Client\Server\TestEngine.cpp" />
+    <ClCompile Include="Client\UI\Frame\MainFrame.cpp" />
+    <ClCompile Include="Client\UI\Frame\TestFrame.cpp" />
+    <ClCompile Include="Client\UI\Parent\MWidget.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="TestApplication\Administrator.cpp" />
-    <ClCompile Include="TestApplication\Command\Command.cpp" />
-    <ClCompile Include="TestApplication\Command\ServerCaller.cpp" />
-    <ClCompile Include="TestApplication\Core\MainProcess.cpp" />
-    <ClCompile Include="TestApplication\Manager\CommandManager.cpp" />
-    <ClCompile Include="TestApplication\Manager\UIManager.cpp" />
-    <ClCompile Include="TestApplication\Server\TestEngine.cpp" />
-    <ClCompile Include="TestApplication\UI\Frame\TestFrame.cpp" />
-    <ClCompile Include="TestApplication\UI\Parent\MWidget.cpp" />
-    <ClCompile Include="TestApplication\UI\Frame\MainFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLibrary\CommonLibrary.vcxproj">
@@ -167,19 +167,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TestApplication\Administrator.h" />
-    <ClInclude Include="TestApplication\Command\Command.h" />
-    <ClInclude Include="TestApplication\Command\CommandCaller.h" />
-    <ClInclude Include="TestApplication\Command\CommandMacro.h" />
-    <ClInclude Include="TestApplication\Command\ServerCaller.h" />
-    <ClInclude Include="TestApplication\Core\MainProcess.h" />
-    <ClInclude Include="TestApplication\Manager\CommandManager.h" />
-    <ClInclude Include="TestApplication\Manager\UIManager.h" />
-    <ClInclude Include="TestApplication\ServerDefine.h" />
-    <ClInclude Include="TestApplication\Server\TestEngine.h" />
-    <ClInclude Include="TestApplication\UI\Frame\TestFrame.h" />
-    <ClInclude Include="TestApplication\UI\Parent\MWidget.h" />
-    <ClInclude Include="TestApplication\UI\Frame\MainFrame.h" />
+    <ClInclude Include="Client\Administrator.h" />
+    <ClInclude Include="Client\Command\Command.h" />
+    <ClInclude Include="Client\Command\CommandCaller.h" />
+    <ClInclude Include="Client\Command\CommandMacro.h" />
+    <ClInclude Include="Client\Command\ServerCaller.h" />
+    <ClInclude Include="Client\Core\MainProcess.h" />
+    <ClInclude Include="Client\Manager\CommandManager.h" />
+    <ClInclude Include="Client\Manager\UIManager.h" />
+    <ClInclude Include="Client\ServerDefine.h" />
+    <ClInclude Include="Client\Server\TestEngine.h" />
+    <ClInclude Include="Client\UI\Frame\MainFrame.h" />
+    <ClInclude Include="Client\UI\Frame\TestFrame.h" />
+    <ClInclude Include="Client\UI\Parent\MWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,9 +10,9 @@
 
 #include <wx/defs.h>
 
-#include "TestApplication/ServerDefine.h"
+#include "Client/ServerDefine.h"
 #include "Utility/TSingleton.h"
-#include "TestApplication/UI/Parent/MWidget.h"
+#include "Client/UI/Parent/MWidget.h"
 
 
 namespace mproject {

@@ -1,5 +1,5 @@
 ﻿#include <wx/wx.h>
-#include "TestApplication/Administrator.h"
+#include "Client/Administrator.h"
 
 class App : public wxApp {
 public:

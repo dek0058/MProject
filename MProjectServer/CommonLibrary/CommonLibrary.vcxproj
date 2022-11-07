@@ -200,6 +200,7 @@
     <ClInclude Include="String\StringHash.h" />
     <ClInclude Include="String\StringRange.h" />
     <ClInclude Include="String\StringUtility.h" />
+    <ClInclude Include="Thread\MTask.h" />
     <ClInclude Include="Thread\MThread.h" />
     <ClInclude Include="Utility\FramesPerSecond.h" />
     <ClInclude Include="GlobalDefine.h" />

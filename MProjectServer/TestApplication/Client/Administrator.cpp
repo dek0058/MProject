@@ -1,8 +1,8 @@
 ﻿#include "Administrator.h"
 
-#include "TestApplication/Manager/UIManager.h"
-#include "TestApplication/Core/MainProcess.h"
-#include "TestApplication/Server/TestEngine.h"
+#include "Client/Manager/UIManager.h"
+#include "Client/Core/MainProcess.h"
+#include "Client/Server/TestEngine.h"
 
 #include "MProjectLogger/Logger/SpdLogger.h"
 

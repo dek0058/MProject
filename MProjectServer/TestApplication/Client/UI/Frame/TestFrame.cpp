@@ -1,10 +1,9 @@
 ﻿#include "TestFrame.h"
 #include "String/StringUtility.h"
 #include "MProjectLogger/Core/ILogger.h"
-#include "TestApplication/Administrator.h"
-#include "TestApplication/Server/TestEngine.h"
-#include "TestApplication/Manager/CommandManager.h"
-#include "TestApplication/Command/Command.h"
+#include "Client/Administrator.h"
+#include "Client/Manager/CommandManager.h"
+#include "Client/Command/Command.h"
 
 namespace mproject {
 namespace ui {

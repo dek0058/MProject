@@ -7,8 +7,8 @@
  *********************************************************************/
 
 #pragma once
-#include "TestApplication/ServerDefine.h"
-#include "TestApplication/UI/Frame/MainFrame.h"
+#include "Client/ServerDefine.h"
+#include "Client/UI/Frame/MainFrame.h"
 
 namespace mproject {
 

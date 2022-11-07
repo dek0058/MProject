@@ -2,7 +2,7 @@
 
 #include <wx/event.h>
 
-#include "TestApplication/UI/Frame/TestFrame.h"
+#include "Client/UI/Frame/TestFrame.h"
 
 
 namespace {

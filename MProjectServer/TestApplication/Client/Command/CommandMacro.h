@@ -2,7 +2,7 @@
 #include "String/StringHash.h"
 #include "String/StringAlgorithm.h"
 #include "CommandCaller.h"
-#include "TestApplication/Manager/CommandManager.h"
+#include "Client/Manager/CommandManager.h"
 
 
 #define ADD_COMMAND(manager, class_type) AddCommand<class_type>(_command_manager, pTEXT(#class_type));

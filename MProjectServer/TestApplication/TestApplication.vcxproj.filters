@@ -18,75 +18,75 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TestApplication\Server\TestEngine.cpp">
+    <ClCompile Include="Client\Command\Command.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TestApplication\Administrator.cpp">
+    <ClCompile Include="Client\Command\ServerCaller.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TestApplication\UI\Frame\MainFrame.cpp">
+    <ClCompile Include="Client\Core\MainProcess.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TestApplication\UI\Frame\TestFrame.cpp">
+    <ClCompile Include="Client\Manager\CommandManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TestApplication\Manager\UIManager.cpp">
+    <ClCompile Include="Client\Manager\UIManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TestApplication\Core\MainProcess.cpp">
+    <ClCompile Include="Client\Server\TestEngine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TestApplication\UI\Parent\MWidget.cpp">
+    <ClCompile Include="Client\UI\Frame\MainFrame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TestApplication\Manager\CommandManager.cpp">
+    <ClCompile Include="Client\UI\Frame\TestFrame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TestApplication\Command\ServerCaller.cpp">
+    <ClCompile Include="Client\UI\Parent\MWidget.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TestApplication\Command\Command.cpp">
+    <ClCompile Include="Client\Administrator.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TestApplication\Server\TestEngine.h">
+    <ClInclude Include="Client\Command\Command.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\Administrator.h">
+    <ClInclude Include="Client\Command\CommandCaller.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\UI\Frame\MainFrame.h">
+    <ClInclude Include="Client\Command\CommandMacro.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\UI\Frame\TestFrame.h">
+    <ClInclude Include="Client\Command\ServerCaller.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\Manager\UIManager.h">
+    <ClInclude Include="Client\Core\MainProcess.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\UI\Parent\MWidget.h">
+    <ClInclude Include="Client\Manager\CommandManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\ServerDefine.h">
+    <ClInclude Include="Client\Manager\UIManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\Core\MainProcess.h">
+    <ClInclude Include="Client\Server\TestEngine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\Manager\CommandManager.h">
+    <ClInclude Include="Client\UI\Frame\MainFrame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\Command\Command.h">
+    <ClInclude Include="Client\UI\Frame\TestFrame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\Command\CommandCaller.h">
+    <ClInclude Include="Client\UI\Parent\MWidget.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\Command\ServerCaller.h">
+    <ClInclude Include="Client\Administrator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestApplication\Command\CommandMacro.h">
+    <ClInclude Include="Client\ServerDefine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
