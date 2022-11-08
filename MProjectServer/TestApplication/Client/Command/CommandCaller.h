@@ -17,7 +17,7 @@ public:
 	virtual ~CommandCaller() = default;
 
 public:
-	virtual bool Execute(std::optional<FCommand> _command) { return false; }
+	virtual void Execute(std::optional<FCommand> _command) { }
 };
 
 };	// mproject

@@ -132,7 +132,7 @@
     <ClInclude Include="String\StringAlgorithm.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Thread\MTask.h">
+    <ClInclude Include="Thread\TaskManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -156,6 +156,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="String\StringAlgorithm.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\TaskManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

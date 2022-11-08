@@ -27,7 +27,7 @@ void TestFrame::OnInitialize() {
 }
 
 void TestFrame::OnTextEnter(wxCommandEvent& _event) {
-	MainFrame::OnTextEnter(_event);
+	__super::OnTextEnter(_event);
 
 	FString msg = FString(input_box->GetValue().c_str().AsWChar());
 
@@ -43,16 +43,11 @@ void TestFrame::OnTextEnter(wxCommandEvent& _event) {
 		return;
 	}
 
-	if (CommandManager::GetMutableInstance().Execute(std::make_optional<FCommand>(args))) {
-		AddLog(wxString(pTEXT("Command executed!")));
-	}
-	else {
-		AddLog(wxString(pTEXT("Command failure...")));
-	}
+	CommandManager::GetMutableInstance().Execute(std::make_optional<FCommand>(args));
 }
 
 void TestFrame::OnUpdateUI(wxUpdateUIEvent& _event) {
-	MainFrame::OnUpdateUI(_event);
+	__super::OnUpdateUI(_event);
 
 	if (true == logger.expired()) {
 		return;

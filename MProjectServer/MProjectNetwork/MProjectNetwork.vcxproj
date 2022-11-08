@@ -203,6 +203,7 @@
     <ClInclude Include="flatbuffers\verifier.h" />
     <ClInclude Include="MProjectNetwork\Core\IOService.h" />
     <ClInclude Include="MProjectNetwork\Core\Session.h" />
+    <ClInclude Include="MProjectNetwork\Core\Socket.h" />
     <ClInclude Include="MProjectNetwork\NetworkDefine.h" />
     <ClInclude Include="MProjectNetwork\Server\Acceptor.h" />
     <ClInclude Include="MProjectNetwork\Server\MEngine.h" />
@@ -211,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MProjectNetwork\Core\IOService.cpp" />
+    <ClCompile Include="MProjectNetwork\Core\Socket.cpp" />
     <ClCompile Include="MProjectNetwork\Server\Acceptor.cpp" />
     <ClCompile Include="MProjectNetwork\Server\MEngine.cpp" />
     <ClCompile Include="MProjectNetwork\Thread\ChiefThread.cpp" />

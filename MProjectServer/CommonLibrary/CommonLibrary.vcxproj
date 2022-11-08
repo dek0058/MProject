@@ -200,8 +200,8 @@
     <ClInclude Include="String\StringHash.h" />
     <ClInclude Include="String\StringRange.h" />
     <ClInclude Include="String\StringUtility.h" />
-    <ClInclude Include="Thread\MTask.h" />
     <ClInclude Include="Thread\MThread.h" />
+    <ClInclude Include="Thread\TaskManager.h" />
     <ClInclude Include="Utility\FramesPerSecond.h" />
     <ClInclude Include="GlobalDefine.h" />
     <ClInclude Include="GuardDefine.h" />
@@ -221,6 +221,7 @@
     <ClCompile Include="String\String.cpp" />
     <ClCompile Include="String\StringAlgorithm.cpp" />
     <ClCompile Include="Thread\MThread.cpp" />
+    <ClCompile Include="Thread\TaskManager.cpp" />
     <ClCompile Include="Utility\FramesPerSecond.cpp" />
     <ClCompile Include="Utility\MSHA256.cpp" />
     <ClCompile Include="Utility\UniversalToolkit.cpp" />

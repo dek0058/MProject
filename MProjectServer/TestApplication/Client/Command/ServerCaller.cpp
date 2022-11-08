@@ -10,14 +10,14 @@ void ServerCaller::Initialize(CommandManager* _command_manager) {
 }
 
 
-bool ServerCaller::Engine::Execute(std::optional<FCommand> _command) {
+void ServerCaller::Engine::Execute(std::optional<FCommand> _command) {
 	if (!_command) {
-		return false;
+		return;
 	}
 	
 	FString param = _command->Get(0);
 	if (param.Empty()) {
-		return false;
+		return;
 	}
 
 	StringAlgorithm::ToLower(param);
@@ -28,9 +28,9 @@ bool ServerCaller::Engine::Execute(std::optional<FCommand> _command) {
 			engine.lock()->Stop();
 		}
 	} else {
-		return false;
+		return;
 	}
-	return true;
+	return;
 }
 
 }	// mproject

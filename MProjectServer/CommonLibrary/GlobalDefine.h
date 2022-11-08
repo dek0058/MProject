@@ -12,6 +12,7 @@
 #include <sdkddkver.h>
 #include <iostream>
 #include <fstream>
+#include <chrono>
 
 #include <memory>
 #include <memory_resource>
@@ -20,6 +21,7 @@
 #include <optional>
 
 #include <thread>
+#include <future>
 #include <mutex>
 #include <functional>
 #include <exception>

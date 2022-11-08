@@ -42,6 +42,8 @@ private:
 	std::weak_ptr<MEngine> server;
 	std::unique_ptr<boost::asio::ip::tcp::acceptor> acceptor;
 	boost::asio::ip::tcp::endpoint endpoint;
+
+	std::atomic_bool is_accepting = false;
 };
 
 }	// network

@@ -1,5 +1,7 @@
 ﻿#include "MainProcess.h"
 
+#include "Thread/TaskManager.h"
+
 #include "MProjectLogger/Core/ILogger.h"
 
 #include "Client/Administrator.h"
@@ -20,8 +22,7 @@ void MainProcess::OnStart() {
 }
 
 void MainProcess::OnUpdate() {
-	
-
+	TaskManager::GetMutableInstance().Execute();
 }
 
 void MainProcess::OnStop() {

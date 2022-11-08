@@ -35,11 +35,15 @@ public:
 		command_caller_map[_key] = std::make_shared<T>();
 	}
 
-	bool Execute(std::optional<FCommand> _command);
+	void Execute(std::optional<FCommand> _command);
 	
 	
-private:
-
+	std::shared_ptr<CommandCaller> GetCommandCaller(StringKey _key) {
+		if (command_caller_map.contains(_key)) {
+			return command_caller_map[_key];
+		}
+		return nullptr;
+	}
 
 private:
 

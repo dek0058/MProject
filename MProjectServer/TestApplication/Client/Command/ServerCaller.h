@@ -22,7 +22,7 @@ private:
 
 	class Engine final : public CommandCaller {
 	public:
-		virtual bool Execute(std::optional<FCommand> _command) override;
+		virtual void Execute(std::optional<FCommand> _command) override;
 	};
 };
 
