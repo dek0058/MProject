@@ -3,7 +3,7 @@
  * \brief  reliable udp socket
  * 
  * \author dek0058
- * \date   2022-11-08
+ * \date   2022-11-09
  *********************************************************************/
 #pragma once
 #include "MProjectNetwork/NetworkDefine.h"
@@ -30,9 +30,9 @@ private:
 	bool listening;
 
 	std::weak_ptr<MEngine> server;
-	boost::asio::ip::udp::socket socket;
-	boost::asio::ip::udp::endpoint remote_endpoint;
-	boost::asio::deadline_timer timer;
+	std::optional<boost::asio::ip::udp::socket> socket;
+	std::optional<boost::asio::ip::udp::endpoint> remote_endpoint;
+	std::optional<boost::asio::deadline_timer> timer;
 
 	std::vector<byte> recv_buffer;
 
