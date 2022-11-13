@@ -18,15 +18,20 @@ class Socket {
 	
 public:
 
-	Socket(std::shared_ptr<MEngine> _server, boost::asio::ip::udp::endpoint _endpoint, size_t _recv_buffer_size);
+	Socket(
+		std::shared_ptr<MEngine> _server, 
+		boost::asio::ip::udp::endpoint _endpoint, 
+		size_t _recv_buffer_size,
+		uint _heartbeat_second = 5);
 
 private:
 
-	void OnKeepAliveCheck();
-	void OnKeepAlive();
+	void OnHeartBeat();
+	void HeartBeat();
 
 private:
 
+	uint heartbeat_second;
 	bool listening;
 
 	std::weak_ptr<MEngine> server;
