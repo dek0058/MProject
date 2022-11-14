@@ -35,7 +35,7 @@ public:
 
 public:
 
-	std::weak_ptr<IOService> GetIOService() {
+	std::shared_ptr<IOService> GetIOService() {
 		return IO_service;
 	}
 

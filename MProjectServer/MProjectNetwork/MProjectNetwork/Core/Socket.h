@@ -9,20 +9,44 @@
 #include "MProjectNetwork/NetworkDefine.h"
 #include "boost/asio.hpp"
 
+#include "Peer.h"
+
 namespace mproject {
 namespace network {
 
 class MEngine;
+class IOService;
 
 class Socket {
-	
+	using UDP_Scoket = boost::asio::ip::udp::socket;
+	using UDP = boost::asio::ip::udp;
+	using EndPoint = UDP::endpoint;
+
 public:
 
 	Socket(
 		std::shared_ptr<MEngine> _server, 
-		boost::asio::ip::udp::endpoint _endpoint, 
+		EndPoint _endpoint,
 		size_t _recv_buffer_size,
 		uint _heartbeat_second = 5);
+
+public:
+
+	void Open(UDP& _ip_protocol) {
+		if (socket) {
+			socket->open(_ip_protocol);
+		}
+	}
+
+	void Close() noexcept;
+
+	void Connect(EndPoint& _endpoint);
+
+	void Bind(EndPoint& _end_point) noexcept {
+		if (socket) {
+			socket->bind(_end_point);
+		}
+	}
 
 private:
 
@@ -35,8 +59,10 @@ private:
 	bool listening;
 
 	std::weak_ptr<MEngine> server;
-	std::optional<boost::asio::ip::udp::socket> socket;
-	std::optional<boost::asio::ip::udp::endpoint> remote_endpoint;
+	std::weak_ptr<IOService> IO_service;
+
+	std::optional<UDP_Scoket> socket;
+	std::optional<EndPoint> remote_endpoint;
 	std::optional<boost::asio::deadline_timer> timer;
 
 	std::vector<byte> recv_buffer;
