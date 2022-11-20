@@ -7,9 +7,10 @@
  *********************************************************************/
 #pragma once
 #include "MProjectNetwork/NetworkDefine.h"
-#include "boost/asio.hpp"
+#include <boost/asio.hpp>
 
 #include "Peer.h"
+#include "Utility/CircularBuffer.h"
 
 namespace mproject {
 namespace network {
@@ -27,7 +28,8 @@ public:
 	Socket(
 		std::shared_ptr<MEngine> _server, 
 		EndPoint _endpoint,
-		size_t _recv_buffer_size,
+		size_t _receive_packet_capacity,
+		size_t _max_packet_size,
 		uint _heartbeat_second = 5);
 
 public:
@@ -50,11 +52,16 @@ public:
 
 private:
 
+	void Receive();
+	void OnRecive();
+
 	void OnHeartBeat();
 	void HeartBeat();
 
 private:
 
+	size_t receive_packet_capacity;
+	size_t max_packet_size;
 	uint heartbeat_second;
 	bool listening;
 
@@ -65,7 +72,7 @@ private:
 	std::optional<EndPoint> remote_endpoint;
 	std::optional<boost::asio::deadline_timer> timer;
 
-	std::vector<byte> recv_buffer;
+	CircularBuffer_A sync_buffer;
 
 };
 

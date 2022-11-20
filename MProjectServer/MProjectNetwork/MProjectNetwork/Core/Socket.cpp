@@ -10,12 +10,15 @@ namespace network {
 Socket::Socket(
 	std::shared_ptr<MEngine> _server, 
 	EndPoint _endpoint,
-	size_t _recv_buffer_size,
+	size_t _receive_packet_capacity,
+	size_t _max_packet_size,
 	uint _heartbeat_second /* = 5*/)
 	: server(_server)
+	, receive_packet_capacity(_receive_packet_capacity)
+	, max_packet_size(_max_packet_size)
 	, listening(true)
 	, remote_endpoint(_endpoint)
-	, recv_buffer(_recv_buffer_size)
+	, sync_buffer(receive_packet_capacity)
 	, heartbeat_second(_heartbeat_second) {
 
 	if (true == server.expired())
@@ -49,6 +52,26 @@ void Socket::Close() noexcept {
 void Socket::Connect(EndPoint& _endpoint) {
 	
 }
+
+void Socket::Receive() {
+
+	if (receive_packet_capacity > sync_buffer.FreeSize())
+	{
+		// TODO:공간 없음 대기
+	}
+	
+	//auto buffer = 
+
+	//socket->async_receive_from(
+	//	boost::asio::buffer
+	//)
+	
+}
+
+void Socket::OnRecive() {
+
+}
+
 
 void Socket::OnHeartBeat() {
 	
