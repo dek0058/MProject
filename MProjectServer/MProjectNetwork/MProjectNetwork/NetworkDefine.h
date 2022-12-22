@@ -31,6 +31,7 @@ enum class ESequenceType : byte {
 	개발전용 고정 값
 */
 
+/** 연결 스레드 개수 */
 constexpr uint Connect_Thread_Count = 4;
 
 }	// network

@@ -7,7 +7,7 @@ namespace TestClient {
     using Utility;
     //using Protocol;
     using Network;
-    
+    using System.Collections.Generic;
 
     internal class Program {
         static public GameSocket socket;
@@ -31,9 +31,7 @@ namespace TestClient {
                 // TODO
             }
         }
-        
-        
-        
+
 
 
         static void Main(string[] args) {

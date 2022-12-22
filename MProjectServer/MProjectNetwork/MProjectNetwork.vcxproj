@@ -202,6 +202,7 @@
     <ClInclude Include="flatbuffers\vector_downward.h" />
     <ClInclude Include="flatbuffers\verifier.h" />
     <ClInclude Include="MProjectNetwork\Core\IOService.h" />
+    <ClInclude Include="MProjectNetwork\Core\Packet.h" />
     <ClInclude Include="MProjectNetwork\Core\Peer.h" />
     <ClInclude Include="MProjectNetwork\Core\Session.h" />
     <ClInclude Include="MProjectNetwork\Core\Socket.h" />

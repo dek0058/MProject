@@ -16,31 +16,32 @@ namespace mproject {
 namespace network {
 
 struct FPeer {
-		
+private:
 	using UUID = boost::uuids::uuid;
 	using EndPoint = boost::asio::ip::udp::endpoint;
+public:
 
 	UUID uuid;
 	EndPoint endpoint;
-	std::chrono::seconds _last_packet_timestamp;
+	std::chrono::seconds last_packet_timestamp;
 
 
 	FPeer() {
 		uuid = boost::uuids::nil_uuid();
 		endpoint = EndPoint();
-		_last_packet_timestamp = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch());
+		last_packet_timestamp = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch());
 	}
 	
 	FPeer(EndPoint _endpoint, UUID _uuid) 
 		: endpoint(_endpoint)
 		, uuid(_uuid) {
-		_last_packet_timestamp = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch());
+		last_packet_timestamp = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch());
 	}
 	
 	FPeer(EndPoint _endpoint, UUID _uuid, std::chrono::seconds _timestamp) 
 		: endpoint(_endpoint)
 		, uuid(_uuid)
-		, _last_packet_timestamp(_timestamp) {
+		, last_packet_timestamp(_timestamp) {
 	}
 
 };
