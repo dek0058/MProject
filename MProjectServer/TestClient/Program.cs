@@ -1,116 +1,68 @@
-﻿using System;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
+﻿
 
-namespace TestClient {
-    using Utility;
-    //using Protocol;
-    using Network;
-    using System.Collections.Generic;
 
+using mproject.network;
+using mproject.utility;
+using System;
+using System.Data;
+
+namespace mproject {
+
+    
+    
     internal class Program {
-        static public GameSocket socket;
 
-        
-        class ObjectA {
-        
-            public virtual void Print(int id, string msg, int[] arr) {
-                // TODO
-            }
+        public static int Main ( string[] args ) {
 
-            public void Print(Action<int, string, int[]> action) {
-                // TODO
-            }
+            /*
+            1000895125765816517867138112231141842305701291248425
+Lenth:24
+100089512576581651786713811223114184230570
 
-        }
+            1291248425=424967297
+Lenth:20
+1_4c193359-a53a-43b2-8a70-e70eb8e63900 
+             
+            */
 
+            Guid guid = Guid.NewGuid ( );
 
-        class ObjectB : ObjectA {
-            public override void Print ( int id, string msg, int[] arr ) {
-                // TODO
-            }
-        }
+            {
+                PacketMessage<FHeader> message = new ( guid, PacketMessageType.DISCONNECTION_TYPE );
 
+                var datas = message.Bytes;
 
-
-        static void Main(string[] args) {
-
-
-            IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
-            socket = new GameSocket(address, 3333, GlobalDefine.PACKET_MAX_SIZE);
-            try {
-                ConsoleKeyInfo cki;
-                socket.Accept();
-                bool loop = true;
-                while (loop) {
-
-                    cki = Console.ReadKey(true);
-
-                    
-                    switch(cki.Key) {
-                        case ConsoleKey.LeftArrow: {
-                            loop = false;
-                        } break;
-                        case ConsoleKey.RightArrow: {
-                           // socket.SendPacket(TestProtocol.CreatePacket(10, 5, 3));
-                        }
-                        break;
-                    }
-
-                    Thread.Sleep(10);
+                foreach ( var item in datas ) {
+                    Console.WriteLine ( item );
                 }
-            
-            } catch (SocketException _exception) {
-                Console.WriteLine(_exception.ToString());
-            } finally {
-                socket.Disconnect();
+                Console.WriteLine ( $"\nLenth:{datas.Length}" );
+
+                FHeader temp = ConvertUtility.ToObject<FHeader> ( datas.Slice ( 0, 20 ).ToArray ( ) );
+                Console.WriteLine ( $"{temp.Protocol_ID}_{temp.UUID}" );
+
+                uint message_type = BitConverter.ToUInt32 ( datas.ToArray(), 20 );
+                Console.WriteLine ( $"{message_type}" );
+
             }
 
-            //Protocol.TestProtocol testProtocol;
+            {
+                FHeader header = new ( guid );
 
+                byte[] datas = ConvertUtility.ToBytes ( header );
+                foreach ( var item in datas ) {
+                    Console.Write ( item );
+                }
+                Console.WriteLine ( $"\nLenth:{datas.Length}" );
 
-            //Console.WriteLine(UniversalToolkit.Digest2Hex(MSHA256.GenerateHashcode("TestProtocol")));
+                FHeader temp = ConvertUtility.ToObject<FHeader> ( datas );
 
+                Console.WriteLine ( $"{temp.Protocol_ID}_{temp.UUID}" );
+            }
+           
+
+           
+
+            return 0;
         }
     }
 }
-
-
-/*
-IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
-            Console.WriteLine(address.ToString());
-            IPEndPoint ip_end_point = new IPEndPoint(address, 3333);
-
-            TcpClient client = new TcpClient();
-
-            Console.WriteLine("Conneting server...");
-            try
-            {
-                client.ConnectAsync("127.0.0.1", 3333);
-
-                while(true)
-                {
-                    String msg = Console.ReadLine();
-                    if (msg == "exit")
-                    {
-                        break;
-                    }
-                    NetworkStream stream = client.GetStream();
-                    byte[] send = System.Text.Encoding.ASCII.GetBytes(msg);
-                    stream.Write(send, 0, send.Length);
-                    
-                    byte[] recv = new byte[1024];
-                    stream.ReadAsync(recv, 0, recv.Length);
-                    Thread.Sleep(10);
-                    Console.WriteLine(System.Text.Encoding.ASCII.GetString(recv));
-                    Console.WriteLine("-echo-");
-                }
-            }
-            catch (SocketException _exception) {
-                Console.WriteLine(_exception.ToString());
-            } finally { 
-
-            }
-            client.Close(); 
-*/

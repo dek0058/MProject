@@ -35,12 +35,12 @@ class Socket {
 public:
 
 	Socket(
-		std::shared_ptr<MEngine> _server, 
 		boost::asio::io_service& _IO_service,
 		EndPoint _endpoint,
 		size_t _receive_packet_capacity,
 		size_t _max_packet_size,
-		uint _heartbeat_second = 5);
+		uint _heartbeat_second = 5
+	);
 
 public:
 
@@ -89,8 +89,8 @@ public:
 
 private:
 
-	void Receive();
 	void OnRecive(boost::system::error_code const& _error_code, size_t _bytes_transferred);
+	void Receive();
 
 	void OnHeartBeat();
 	void HeartBeat();
@@ -102,9 +102,6 @@ private:
 	uint heartbeat_second;
 	bool listening;
 
-	std::weak_ptr<MEngine> server;
-	std::weak_ptr<IOService> IO_service;
-
 	std::optional<UDP_Scoket> socket;
 	std::optional<boost::asio::io_service::strand> strand;
 	std::optional<EndPoint> remote_endpoint;
@@ -113,7 +110,7 @@ private:
 	FPeer self;
 	CircularBuffer_A sync_buffer;
 	std::vector<byte> receive_buffer;
-	std::list<FPeer> peers;
+	std::vector<FPeer> peers;
 
 	ReceiveHandlerType receive_handler;
 	ConnectionHandlerType connection_handler;

@@ -50,9 +50,9 @@ namespace TestClient.Network {
         }
 
         public override void ReceivePacket(FPacket _packet) {
-            foreach (var (tag, hash_code) in protocol_message.Deserialize(_packet)) {
-                Program.socket.HandlerManager.RegisterHandler(tag, hash_code);
-            }
+            //foreach (var (tag, hash_code) in protocol_message.Deserialize(_packet)) {
+            //    Program.socket.HandlerManager.RegisterHandler(tag, hash_code);
+            //}
         }
     }
 }

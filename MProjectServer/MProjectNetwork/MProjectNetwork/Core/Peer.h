@@ -10,6 +10,7 @@
 #include "MProjectNetwork/NetworkDefine.h"
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/nil_generator.hpp>
+#include <boost/uuid/random_generator.hpp>
 #include <boost/asio/ip/udp.hpp>
 
 namespace mproject {
@@ -26,23 +27,28 @@ public:
 	std::chrono::seconds last_packet_timestamp;
 
 
-	FPeer() {
-		uuid = boost::uuids::nil_uuid();
-		endpoint = EndPoint();
-		last_packet_timestamp = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch());
-	}
+	FPeer() 
+	: uuid(boost::uuids::nil_uuid())
+	, last_packet_timestamp(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()))
+	{}
+
+	FPeer(EndPoint _endpoint)
+		: endpoint(EndPoint())
+		, uuid(boost::uuids::random_generator_mt19937{}())
+		, last_packet_timestamp(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch())) 
+	{}
 	
 	FPeer(EndPoint _endpoint, UUID _uuid) 
 		: endpoint(_endpoint)
-		, uuid(_uuid) {
-		last_packet_timestamp = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch());
-	}
+		, uuid(_uuid)
+		, last_packet_timestamp(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()))
+	{}
 	
 	FPeer(EndPoint _endpoint, UUID _uuid, std::chrono::seconds _timestamp) 
 		: endpoint(_endpoint)
 		, uuid(_uuid)
-		, last_packet_timestamp(_timestamp) {
-	}
+		, last_packet_timestamp(_timestamp)
+	{}
 
 };
 
