@@ -26,9 +26,12 @@ Socket<Header>::Socket(
 	, heartbeat_second(_heartbeat_second) {
 
 	receive_buffer.reserve(max_packet_size);
+}
 
-	HeartBeat();
-	Receive();
+template <typename Header>
+	requires std::derived_from<Header, FHeader>
+Socket<Header>::~Socket() {
+	// TODO:
 }
 
 template <typename Header>
@@ -50,8 +53,7 @@ void Socket<Header>::Connect(EndPoint& _endpoint) {
 	
 	listening = true;
 
-	HeartBeat();
-	Receive();
+	Start();
 }
 
 template <typename Header>

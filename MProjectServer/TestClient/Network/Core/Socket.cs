@@ -1,14 +1,15 @@
-﻿using mproject.utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Threading;
-using TestClient.Network;
+using System.Threading.Tasks;
 
 namespace mproject {
+    using System.Threading;
+    using utility;
+
     namespace network {
 
 
@@ -16,13 +17,14 @@ namespace mproject {
 
             private ulong receive_packet_capacity;
             private ulong max_packet_size;
-            private uint heartbeat_second;
+            private TimeSpan heartbeat_timespan;
             private bool listening;
 
             private Socket socket;
             private EndPoint remote_endpoint;
-            private System.Threading.Timer timer;
-            
+            private Task deadline_timer;
+            private CancellationTokenSource deadline_timer_token;
+
             private FPeer self;
             private byte[] receive_buffer;
             private List<FPeer> peers;
@@ -35,17 +37,27 @@ namespace mproject {
             private ReceiveHandlerType receive_handler;
             private ConnectionHandlerType connection_handler;
             private DisconnectionHandlerType disconnection_handler;
-            private TimeoutHandlerType timeout_handler;
 
 
             public Socket (
-                EndPoint _endpoint,
                 ulong _receive_packet_capacity,
                 ulong _max_packet_size,
-                uint _heartbeat_second = 5
+                TimeSpan _heartbeat_timespan
             ) {
+                receive_packet_capacity = _receive_packet_capacity;
+                max_packet_size = _max_packet_size;
+                heartbeat_timespan = _heartbeat_timespan;
 
+                self = new ( new IPEndPoint ( IPAddress.Loopback, 0 ) );
+                Open ( AddressFamily.InterNetworkV6 );
+            }
 
+            public void Dispose ( ) {
+                if ( deadline_timer_token != null ) {
+                    deadline_timer_token.Cancel ( );
+                    deadline_timer.Wait ( );
+                    deadline_timer_token.Dispose ( );
+                }
             }
 
             public void Open ( AddressFamily _address_family ) {
@@ -79,15 +91,13 @@ namespace mproject {
                 socket.SendTo ( _buffer_span, SocketFlags.None, _endpoint );
             }
 
-            public void AsyncSendToAll ( ReadOnlySpan<byte> _buffer_span) {
-                for(int i = 0; i < peers.Count; ++i ) {
+            public void AsyncSendToAll ( ReadOnlySpan<byte> _buffer_span ) {
+                for ( int i = 0; i < peers.Count; ++i ) {
                     AsyncSendTo ( _buffer_span, peers[i].endpoint );
                 }
             }
 
             ref readonly FPeer Self { get => ref self; }
-
-
 
             private void OnReceive ( IAsyncResult _result ) {
                 if ( !_result.IsCompleted ) {
@@ -120,11 +130,11 @@ namespace mproject {
                     }
 
                     bool is_a_user_message = true;
-                    if(recv - Marshal.SizeOf<THeader>() == sizeof ( uint ) ) {
+                    if ( recv - Marshal.SizeOf<THeader> ( ) == sizeof ( uint ) ) {
                         uint message = BitConverter.ToUInt32 ( packet.Buffer );
-                        if( message == PacketMessageType.CONNECTION_TYPE || message == PacketMessageType.KEEP_ALIVE_TYPE) {
+                        if ( message == PacketMessageType.CONNECTION_TYPE || message == PacketMessageType.KEEP_ALIVE_TYPE ) {
                             is_a_user_message = false;
-                        } else if(message == PacketMessageType.DISCONNECTION_TYPE) {
+                        } else if ( message == PacketMessageType.DISCONNECTION_TYPE ) {
                             is_a_user_message = false;
                             disconnection_handler?.Invoke ( peer.Value );
 
@@ -134,14 +144,14 @@ namespace mproject {
                         }
                     }
 
-                    if(is_a_user_message && receive_buffer != null) {
-                        receive_handler ( packet, recv, peer.Value );    
+                    if ( is_a_user_message && receive_buffer != null ) {
+                        receive_handler ( packet, recv, peer.Value );
                     }
-                } catch(Exception) {
-                    
+                } catch ( Exception _exception ) {
+
                 }
 
-                if(listening) {
+                if ( listening ) {
                     Receive ( );
                 }
 
@@ -150,21 +160,39 @@ namespace mproject {
             private void Receive ( ) {
                 try {
                     var result = socket.BeginReceiveFrom ( receive_buffer, 0, receive_buffer.Length, SocketFlags.None, ref remote_endpoint, new AsyncCallback ( OnReceive ), null );
-                } catch(Exception) {
-                    
+                } catch ( Exception _exception ) {
+
                 }
             }
 
-            private void OnHeartBeat( IAsyncResult _result ) {
-                
-            }
+            private void HeartBeat ( ) {
+                if( deadline_timer_token != null) {
+                    deadline_timer_token.Cancel ( );
+                    deadline_timer.Wait ( );
+                    deadline_timer_token.Dispose ( );
+                }
+                deadline_timer_token = new CancellationTokenSource ( );
+                deadline_timer = Task.Factory.StartNew ( async ( ) => {
+                    while ( listening ) {
+                        if ( deadline_timer_token.Token.IsCancellationRequested ) {
+                            return;
+                        }
 
-            private void HeartBeat() {
-                
-            }
+                        peers.RemoveAll ( ( FPeer _peer ) => {
+                            if ( _peer.last_packet_timestamp + heartbeat_timespan < DateTime.Now ) {
+                                disconnection_handler?.Invoke ( _peer );
+                                return true;
+                            }
+                            return false;
+                        } );
 
+                        PacketMessage<THeader> message = new ( Self.guid, PacketMessageType.KEEP_ALIVE_TYPE );
+                        AsyncSendToAll ( message.Bytes );
+
+                        await Task.Delay ( heartbeat_timespan );
+                    }
+                }, deadline_timer_token.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default );
+            }
         }
-
-
     }   // network
 }       // mproject

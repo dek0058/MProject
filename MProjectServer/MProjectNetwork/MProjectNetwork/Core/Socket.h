@@ -1,7 +1,7 @@
 ﻿/*****************************************************************//**
  * \file   Socket.h
  * \brief  reliable udp socket
- * 
+ *
  * \author dek0058
  * \date   2022-11-09
  *********************************************************************/
@@ -42,7 +42,14 @@ public:
 		uint _heartbeat_second = 5
 	);
 
+	~Socket();
+
 public:
+
+	void Start() {
+		HeartBeat();
+		Receive();
+	}
 
 	void Open(UDP& _ip_protocol) {
 		if (socket) {
@@ -59,7 +66,7 @@ public:
 			socket->bind(_end_point);
 		}
 	}
-	
+
 	void AsyncSendTo(void* _buffer, size_t _buffer_size, EndPoint& _end_point) {
 		if (socket) {
 			socket->async_send_to(
@@ -85,6 +92,22 @@ public:
 
 	FPeer const& Self() const {
 		return self;
+	}
+
+	void SetReceiveHandler(ReceiveHandlerType const& _handler) {
+		receive_handler = _handler;
+	}
+
+	void SetConnectionHandler(ConnectionHandlerType const& _handler) {
+		connection_handler = _handler;
+	}
+
+	void SetDisconnectionHandler(DisconnectionHandlerType const& _handler) {
+		disconnection_handler = _handler;
+	}
+
+	void SetTimeoutHandler(TimeoutHandlerType const& _handler) {
+		timeout_handler = _handler;
 	}
 
 private:

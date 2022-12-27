@@ -14,17 +14,6 @@ namespace mproject {
 
         public static int Main ( string[] args ) {
 
-            /*
-            1000895125765816517867138112231141842305701291248425
-Lenth:24
-100089512576581651786713811223114184230570
-
-            1291248425=424967297
-Lenth:20
-1_4c193359-a53a-43b2-8a70-e70eb8e63900 
-             
-            */
-
             Guid guid = Guid.NewGuid ( );
 
             {

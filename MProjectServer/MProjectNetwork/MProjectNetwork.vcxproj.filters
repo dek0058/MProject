@@ -155,5 +155,8 @@
     <ClCompile Include="MProjectNetwork\Core\Socket.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="MProjectNetwork\Core\Session.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
