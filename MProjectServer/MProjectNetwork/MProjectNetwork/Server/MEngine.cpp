@@ -9,8 +9,20 @@ namespace mproject {
 namespace network {
 
 
-MEngine::MEngine(FString _name, int _fps, ushort _acceptor_port, std::shared_ptr<logger::ILogger> _logger)
-	: ChiefThread(_name, _fps, _logger), acceptor_port(_acceptor_port) {
+MEngine::MEngine(
+	FString _name,
+	int _fps,
+	std::shared_ptr<logger::ILogger> _logger,
+	ushort _acceptor_port,
+	size_t _session_count,
+	size_t _receive_packet_capacity,
+	size_t _max_packet_size
+)
+	: ChiefThread(_name, _fps, _logger)
+	, acceptor_port(_acceptor_port) 
+	, session_pool(_session_count)
+	, receive_packet_capacity(_receive_packet_capacity)
+	, max_packet_size(_max_packet_size) {
 
 	IO_service = std::make_shared<IOService>();
 }
@@ -53,6 +65,14 @@ void MEngine::OnUpdate() {
 
 void MEngine::OnStop() {
 	__super::OnStop();
+}
+
+Session* MEngine::GetSession() {
+	return (new (session_pool.Get()) (Session)(IO_service->Get(), receive_packet_capacity, max_packet_size));
+}
+
+void MEngine::ReleaseSession(Session* _session) {
+	session_pool.Release(_session);
 }
 
 }	// network

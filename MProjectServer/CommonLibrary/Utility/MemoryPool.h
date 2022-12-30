@@ -4,7 +4,7 @@
 #include <mutex>
 #include <atomic>
 
-#define MEMORY_POOL_PREALLOC 1024
+constexpr auto MEMORY_POOL_PREALLOC = 1024;
 
 template<typename T, typename M = std::_Mutex_base>
 class MemoryPool {

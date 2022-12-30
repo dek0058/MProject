@@ -10,22 +10,43 @@ template <typename Header>
 	requires std::derived_from<Header, FHeader>
 Socket<Header>::Socket(
 	boost::asio::io_service& _IO_service,
-	EndPoint _endpoint,
+	//EndPoint _endpoint,
+	size_t _receive_packet_capacity,
+	size_t _max_packet_size,
+	uint _heartbeat_second /* = 5*/)
+	: /*socket(_IO_service)
+	, strand(_IO_service)*/
+	//, timer(_IO_service)
+	//, self(_endpoint)
+	 receive_packet_capacity(_receive_packet_capacity)
+	, max_packet_size(_max_packet_size)
+	, listening(false)
+	//, remote_endpoint(_endpoint)
+	//, sync_buffer(receive_packet_capacity)
+	, heartbeat_second(_heartbeat_second) {
+
+	//receive_buffer.reserve(max_packet_size);
+}
+#if false
+
+template <typename Header>
+	requires std::derived_from<Header, FHeader>
+Socket<Header>::Socket(
+	boost::asio::io_service& _IO_service,
 	size_t _receive_packet_capacity,
 	size_t _max_packet_size,
 	uint _heartbeat_second /* = 5*/)
 	: socket(_IO_service)
 	, strand(_IO_service)
 	, timer(_IO_service)
-	, self(_endpoint)
+	//, self(EndPoint(boost::asio::ip::address_v6::loopback(), 0))
 	, receive_packet_capacity(_receive_packet_capacity)
 	, max_packet_size(_max_packet_size)
-	, listening(true)
-	, remote_endpoint(_endpoint)
+	, listening(false)
 	, sync_buffer(receive_packet_capacity)
 	, heartbeat_second(_heartbeat_second) {
-
 	receive_buffer.reserve(max_packet_size);
+	//remote_endpoint.reset();
 }
 
 template <typename Header>
@@ -33,25 +54,27 @@ template <typename Header>
 Socket<Header>::~Socket() {
 	// TODO:
 }
+#endif
 
 template <typename Header>
 	requires std::derived_from<Header, FHeader>
 void Socket<Header>::Close() noexcept {
-	PacketMessage<Header> message(Self().uuid, packet_message::DISCONNECTION_TYPE);
-	AsyncSendToAll(reinterpret_cast<void*>(&message), sizeof(message));
-
-	listening = false;
+	//PacketMessage<Header> message(Self().uuid, packet_message::DISCONNECTION_TYPE);
+	//AsyncSendToAll(reinterpret_cast<void*>(&message), sizeof(message));
+	//
+	//listening = false;
 }
 
 template <typename Header>
 	requires std::derived_from<Header, FHeader>
 void Socket<Header>::Connect(EndPoint& _endpoint) {
-	socket->open(remote_endpoint->protocol());
+	//remote_endpoint = _endpoint;
+	//socket->open(remote_endpoint->protocol());
 	
-	PacketMessage<Header> message(Self().uuid, packet_message::CONNECTION_TYPE);
-	AsyncSendTo(reinterpret_cast<void*>(&message), sizeof(message), remote_endpoint);
-	
-	listening = true;
+	//PacketMessage<Header> message(Self().uuid, packet_message::CONNECTION_TYPE);
+	//AsyncSendTo(reinterpret_cast<void*>(&message), sizeof(message), remote_endpoint);
+	//
+	//listening = true;
 
 	Start();
 }
@@ -65,32 +88,32 @@ void Socket<Header>::OnRecive(boost::system::error_code const& _error_code, size
 	}
 	
 	try {
-		Packet<Header> packet(receive_buffer);
+		//Packet<Header> packet(receive_buffer);
 
-		std::vector<FPeer>::iterator peer_iter = std::find_if(peers.begin(), peers.end(), [this, &packet](FPeer& _peer) -> bool {
-			if (_peer.uuid == packet.GetHeader().uuid) {
-				_peer.last_packet_timestamp = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch());
-				return true;
-			}
-			return false;
-		});
+		//std::vector<FPeer>::iterator peer_iter = std::find_if(peers.begin(), peers.end(), [this, &packet](FPeer& _peer) -> bool {
+		//	if (_peer.uuid == packet.GetHeader().uuid) {
+		//		_peer.last_packet_timestamp = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch());
+		//		return true;
+		//	}
+		//	return false;
+		//});
 
-		if (peer_iter == peers.end()) {
-			peers.emplace_back(
-				remote_endpoint,
-				packet.GetHeader().uuid,
-				std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch())
-			);
-			peer_iter = peers.end() - 1;
+		//if (peer_iter == peers.end()) {
+		//	/*peers.emplace_back(
+		//		remote_endpoint,
+		//		packet.GetHeader().uuid,
+		//		std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch())
+		//	);*/
+		//	peer_iter = peers.end() - 1;
 
-			if (connection_handler) {
-				connection_handler(*peer_iter);
-				PacketMessage<Header> message(Self().uuid, packet_message::CONNECTION_TYPE);
-				AsyncSendTo(reinterpret_cast<void*>(&message), sizeof(message), peer_iter->endpoint);
-			}
-		}
+		//	if (connection_handler) {
+		//		connection_handler(*peer_iter);
+		//		//PacketMessage<Header> message(Self().uuid, packet_message::CONNECTION_TYPE);
+		//		//AsyncSendTo(reinterpret_cast<void*>(&message), sizeof(message), peer_iter->endpoint);
+		//	}
+		//}
 
-		bool is_a_user_message = true;
+		/*bool is_a_user_message = true;
 		if (_bytes_transferred - sizeof(Header) == sizeof(packet_message::type))
 		{
 			packet_message::type message = *reinterpret_cast<packet_message::type*>(packet.GetBuffer().data());
@@ -113,7 +136,7 @@ void Socket<Header>::OnRecive(boost::system::error_code const& _error_code, size
 		
 		if (is_a_user_message && receive_handler) {
 			receive_handler(packet, _bytes_transferred, *peer_iter);
-		}
+		}*/
 	}
 	catch (std::exception const& _e) {
 		// TODO: bad packet
@@ -127,16 +150,20 @@ void Socket<Header>::OnRecive(boost::system::error_code const& _error_code, size
 template <typename Header>
 	requires std::derived_from<Header, FHeader>
 void Socket<Header>::Receive() {
-	socket->async_receive_from(
-		boost::asio::buffer(receive_buffer),
-		remote_endpoint.value(),
-		boost::asio::bind_executor(
-			strand.value(),
-			[this](boost::system::error_code const& _error_code, size_t _bytes_transferred) {
-				OnRecive(_error_code, _bytes_transferred);
-			}
-		)
-	);
+	//if (!remote_endpoint) {
+	//	return;	// TODO:
+	//}
+	//
+	//socket->async_receive_from(
+	//	boost::asio::buffer(receive_buffer),
+	//	remote_endpoint.value(),
+	//	boost::asio::bind_executor(
+	//		strand.value(),
+	//		[this](boost::system::error_code const& _error_code, size_t _bytes_transferred) {
+	//			OnRecive(_error_code, _bytes_transferred);
+	//		}
+	//	)
+	//);
 }
 
 template <typename Header>
@@ -145,7 +172,7 @@ void Socket<Header>::OnHeartBeat() {
 	std::chrono::seconds now = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch());
 	std::chrono::seconds timeout = std::chrono::seconds(heartbeat_second);
 	
-	peers.erase(
+	/*peers.erase(
 		std::remove_if(peers.begin(), peers.end(), [this, &now, &timeout](FPeer const& _peer) -> bool {
 			if (_peer.last_packet_timestamp + timeout < now) {
 				if (disconnection_handler) {
@@ -156,12 +183,12 @@ void Socket<Header>::OnHeartBeat() {
 			return false;
 		}),
 		peers.end()
-	);
+	);*/
 
 	if (listening) {
-		PacketMessage<Header> message(Self().uuid, packet_message::KEEP_ALIVE_TYPE);
-		AsyncSendToAll(reinterpret_cast<void*>(*message), sizeof(message));
-		HeartBeat();
+		//PacketMessage<Header> message(Self().uuid, packet_message::KEEP_ALIVE_TYPE);
+		//AsyncSendToAll(reinterpret_cast<void*>(*message), sizeof(message));
+		//HeartBeat();
 	}
 
 }
@@ -169,17 +196,16 @@ void Socket<Header>::OnHeartBeat() {
 template <typename Header>
 	requires std::derived_from<Header, FHeader>
 void Socket<Header>::HeartBeat() {
-	timer->expires_from_now(boost::posix_time::seconds(heartbeat_second));
-	timer->async_wait([this](boost::system::error_code const& _error_code) {
-		if (_error_code != boost::system::errc::success)
-		{
-			// TODO:연결 끊기
-			return;
-		}
-
-		OnHeartBeat();
-	});
+	//timer->expires_from_now(boost::posix_time::seconds(heartbeat_second));
+	//timer->async_wait([this](boost::system::error_code const& _error_code) {
+	//	if (_error_code != boost::system::errc::success)
+	//	{
+	//		// TODO:연결 끊기
+	//		return;
+	//	}
+	//
+	//	OnHeartBeat();
+	//});
 }
-
 }	// network
 }	// mproject

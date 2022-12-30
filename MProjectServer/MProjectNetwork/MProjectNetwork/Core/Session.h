@@ -10,21 +10,33 @@
 #include "MProjectNetwork/NetworkDefine.h"
 #include "Socket.h"
 
-#include <boost/asio.hpp>
-
 namespace mproject {
 namespace network {
 
+class IOService;
 
 class Session : std::enable_shared_from_this<Session> {
 protected:
 	using Header = FHeader;
 
 public:
-	Session();
+	Session(
+		boost::asio::io_service& _IO_service,
+		EndPoint _endpoint,
+		size_t _receive_packet_capacity,
+		size_t _max_packet_size
+	);
+	
+	Session(
+		boost::asio::io_service& _IO_service,
+		size_t _receive_packet_capacity,
+		size_t _max_packet_size
+	);
 
 private:
 
+	void BindHandler();
+	
 	void OnReceiveHandler(Packet<Header> const& _packet, size_t _bytes_transferred, FPeer const& _peer);
 	void OnConnectionHandler(FPeer const& _peer);
 	void OnDisconnectionHandler(FPeer const& _peer);
@@ -34,7 +46,7 @@ private:
 
 	SessionKey session_key;
 
-	std::optional<Socket<Header>> socket;
+	//Socket<Header> socket;
 
 };
 
