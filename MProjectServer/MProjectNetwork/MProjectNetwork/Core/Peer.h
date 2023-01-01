@@ -19,7 +19,6 @@ namespace network {
 struct FPeer {
 private:
 	using UUID = boost::uuids::uuid;
-	using EndPoint = boost::asio::ip::udp::endpoint;
 public:
 
 	UUID uuid;

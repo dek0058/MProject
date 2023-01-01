@@ -3,6 +3,7 @@
 #include "GlobalDefine.h"
 #include "GuardDefine.h"
 
+#include <boost/asio.hpp>
 
 
 namespace mproject {
@@ -11,6 +12,10 @@ namespace network {
 /*
 	네트워크 관련 정의
 */
+
+using UDP = boost::asio::ip::udp;
+using EndPoint = UDP::endpoint;
+
 
 using SessionKey = int;
 

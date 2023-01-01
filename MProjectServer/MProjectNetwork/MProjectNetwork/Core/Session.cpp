@@ -12,8 +12,8 @@ Session::Session(
 	: //socket(_IO_service, _endpoint, _receive_packet_capacity, _max_packet_size)
 	session_key(0)
 {
-	Socket<FHeader> socket(_IO_service, _receive_packet_capacity, _max_packet_size);
-
+	Socket<FHeader> socket(_IO_service, 0, 0, 0);
+	
 	BindHandler();
 }
 

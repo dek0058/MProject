@@ -215,7 +215,6 @@
   <ItemGroup>
     <ClCompile Include="MProjectNetwork\Core\IOService.cpp" />
     <ClCompile Include="MProjectNetwork\Core\Session.cpp" />
-    <ClCompile Include="MProjectNetwork\Core\Socket.cpp" />
     <ClCompile Include="MProjectNetwork\Server\Acceptor.cpp" />
     <ClCompile Include="MProjectNetwork\Server\MEngine.cpp" />
     <ClCompile Include="MProjectNetwork\Thread\ChiefThread.cpp" />
