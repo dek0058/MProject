@@ -7,12 +7,14 @@
 namespace mproject {
 namespace network {
 
+using ELogLevel = logger::ELogLevel;
+
 ChiefThread::ChiefThread(FString _name, int _fps) 
 	: MThread(_fps), name(_name), fps(_fps) {
 	logger = std::make_unique<logger::SpdLogger>(name, StringFormat::Format(pTEXT("./Logs/{}.log"), name.data));
 }
 
-ChiefThread::ChiefThread(FString _name, int _fps, std::shared_ptr<logger::ILogger> _logger)
+ChiefThread::ChiefThread(FString _name, int _fps, std::shared_ptr<Logger> _logger)
 	: MThread(_fps), name(_name), fps(_fps), logger(_logger) {
 }
 
@@ -22,8 +24,8 @@ ChiefThread::~ChiefThread() {
 }
 
 void ChiefThread::OnStart() {
-	logger->WriteLog(
-		mproject::logger::ELogLevel::Info, 
+	GetLogger()->WriteLog(
+		ELogLevel::Info, 
 		StringFormat::Format(FString(pTEXT("{} Start")), name.data)
 	);
 	
@@ -42,8 +44,8 @@ void ChiefThread::OnUpdate() {
 void ChiefThread::OnStop() {
 	stop_source.request_stop();
 
-	logger->WriteLog(
-		mproject::logger::ELogLevel::Info,
+	GetLogger()->WriteLog(
+		ELogLevel::Info,
 		StringFormat::Format(FString(pTEXT("{} Stop")), name.data)
 	);
 }

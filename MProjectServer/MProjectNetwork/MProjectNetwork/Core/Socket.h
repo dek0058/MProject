@@ -37,7 +37,7 @@ public:
 		EndPoint _endpoint,
 		size_t _receive_packet_capacity,
 		size_t _max_packet_size,
-		uint _heartbeat_second /* = 5*/
+		decimal _heartbeat_second
 	)
 		: socket(_IO_service)
 		, strand(_IO_service)
@@ -48,7 +48,7 @@ public:
 		, listening(false)
 		, remote_endpoint(_endpoint)
 		, sync_buffer(receive_packet_capacity)
-		, heartbeat_second(_heartbeat_second) 
+		, heartbeat_second(_heartbeat_second)
 	{
 		receive_buffer.reserve(max_packet_size);
 	}
@@ -58,7 +58,7 @@ public:
 		boost::asio::io_service& _IO_service,
 		size_t _receive_packet_capacity,
 		size_t _max_packet_size,
-		uint _heartbeat_second /* = 5*/)
+		decimal _heartbeat_second)
 		: socket(_IO_service)
 		, strand(_IO_service)
 		, timer(_IO_service)
@@ -86,9 +86,7 @@ public:
 	}
 
 	void Open(UDP& _ip_protocol) {
-		if (socket) {
-			socket->open(_ip_protocol);
-		}
+		socket.open(_ip_protocol);
 	}
 
 	void Close() noexcept {
@@ -100,7 +98,7 @@ public:
 
 	void Connect(EndPoint& _endpoint) {
 		remote_endpoint = _endpoint;
-		socket->open(remote_endpoint->protocol());
+		Open(remote_endpoint->protocol());
 
 		PacketMessage<Header> message(Self().uuid, packet_message::CONNECTION_TYPE);
 		AsyncSendTo(reinterpret_cast<void*>(&message), sizeof(message), remote_endpoint);
@@ -111,26 +109,22 @@ public:
 	}
 
 	void Bind(EndPoint& _end_point) noexcept {
-		if (socket) {
-			socket->bind(_end_point);
-		}
+		socket.bind(_end_point);
 	}
 
 	void AsyncSendTo(void* _buffer, size_t _buffer_size, EndPoint& _end_point) {
-		if (socket) {
-			socket->async_send_to(
-				boost::asio::buffer(_buffer, _buffer_size),
-				_end_point,
-				boost::asio::bind_executor(
-					strand.value(),
-					[this](boost::system::error_code const& _error, size_t _bytes_transferred) {
-						if (_error != boost::system::errc::success) {
-							// TODO: 에러
-						}
+		socket.async_send_to(
+			boost::asio::buffer(_buffer, _buffer_size),
+			_end_point,
+			boost::asio::bind_executor(
+				strand,
+				[this](boost::system::error_code const& _error, size_t _bytes_transferred) {
+					if (_error != boost::system::errc::success) {
+						// TODO: 에러
 					}
-				)
-			);
-		}
+				}
+			)
+		);
 	}
 
 	void AsyncSendToAll(void* _buffer, size_t _buffer_size) {
@@ -161,7 +155,7 @@ public:
 
 private:
 
-	void OnRecive(boost::system::error_code const& _error_code, size_t _bytes_transferred) {
+	void OnRecive(boost::system::error_code _error_code, size_t _bytes_transferred) {
 		if (_error_code != boost::system::errc::success) {
 			// TODO: 실패... 연결 끊기 시도
 			return;
@@ -177,7 +171,7 @@ private:
 				}
 				return false;
 			});
-
+			
 			if (peer_iter == peers.end()) {
 				peers.emplace_back(
 					remote_endpoint,
@@ -196,29 +190,29 @@ private:
 			bool is_a_user_message = true;
 			if (_bytes_transferred - sizeof(Header) == sizeof(packet_message::type))
 			{
-				packet_message::type message = *reinterpret_cast<packet_message::type*>(packet.GetBuffer().data());
-				if (message == packet_message::CONNECTION_TYPE || message == packet_message::KEEP_ALIVE_TYPE) {
-					is_a_user_message = false;
-				} else if (message == packet_message::DISCONNECTION_TYPE) {
-					is_a_user_message = false;
-					if (disconnection_handler) {
-						disconnection_handler(*peer_iter);
-					}
-
-					peers.erase(
-						std::remove_if(peers.begin(), peers.end(), [this, &peer_iter](FPeer const& _peer) -> bool {
-							return peer_iter->uuid == _peer.uuid;
-						}),
-						peers.end()
-					);
-				}
+				//packet_message::type message = *reinterpret_cast<packet_message::type*>(const_cast<std::vector<byte> const&>(packet.GetBuffer()).data());
+				//if (message == packet_message::CONNECTION_TYPE || message == packet_message::KEEP_ALIVE_TYPE) {
+				//	is_a_user_message = false;
+				//} else if (message == packet_message::DISCONNECTION_TYPE) {
+				//	is_a_user_message = false;
+				//	if (disconnection_handler) {
+				//		disconnection_handler(*peer_iter);
+				//	}
+				//
+				//	peers.erase(
+				//		std::remove_if(peers.begin(), peers.end(), [this, &peer_iter](FPeer const& _peer) -> bool {
+				//			return peer_iter->uuid == _peer.uuid;
+				//		}),
+				//		peers.end()
+				//	);
+				//}
 			}
 
 			if (is_a_user_message && receive_handler) {
 				receive_handler(packet, _bytes_transferred, *peer_iter);
 			}
 		}
-		catch (std::exception const& _e) {
+		catch (std::exception _e) {
 			 //TODO: bad packet
 		}
 
@@ -232,12 +226,12 @@ private:
 			return;	// TODO:
 		}
 
-		socket->async_receive_from(
+		socket.async_receive_from(
 			boost::asio::buffer(receive_buffer),
 			remote_endpoint.value(),
 			boost::asio::bind_executor(
-				strand.value(),
-				[this](boost::system::error_code const& _error_code, size_t _bytes_transferred) {
+				strand,
+				[this](boost::system::error_code _error_code, size_t _bytes_transferred) {
 					OnRecive(_error_code, _bytes_transferred);
 				}
 			)
@@ -263,7 +257,7 @@ private:
 
 		if (listening) {
 			PacketMessage<Header> message(Self().uuid, packet_message::KEEP_ALIVE_TYPE);
-			AsyncSendToAll(reinterpret_cast<void*>(*message), sizeof(message));
+			AsyncSendToAll(reinterpret_cast<void*>(&message), sizeof(message));
 			HeartBeat();
 		}
 	}
@@ -282,11 +276,11 @@ private:
 
 	size_t receive_packet_capacity;
 	size_t max_packet_size;
-	uint heartbeat_second;
+	decimal heartbeat_second;
 	bool listening;
 	
-	std::optional<UDP_Scoket> socket;
-	std::optional<boost::asio::io_service::strand> strand;
+	UDP_Scoket socket;
+	boost::asio::io_service::strand strand;
 	std::optional<EndPoint> remote_endpoint;
 	std::optional<boost::asio::deadline_timer> timer;
 

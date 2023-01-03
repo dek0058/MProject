@@ -7,7 +7,6 @@
  *********************************************************************/
 
 #pragma once
-#include "MProjectNetwork/NetworkDefine.h"
 #include "Socket.h"
 
 namespace mproject {
@@ -24,13 +23,15 @@ public:
 		boost::asio::io_service& _IO_service,
 		EndPoint _endpoint,
 		size_t _receive_packet_capacity,
-		size_t _max_packet_size
+		size_t _max_packet_size,
+		decimal _heartbeat_second
 	);
 	
 	Session(
 		boost::asio::io_service& _IO_service,
 		size_t _receive_packet_capacity,
-		size_t _max_packet_size
+		size_t _max_packet_size,
+		decimal _heartbeat_second
 	);
 
 private:
@@ -46,7 +47,7 @@ private:
 
 	SessionKey session_key;
 
-	//Socket<Header> socket;
+	Socket<Header> socket;
 
 };
 

@@ -8,22 +8,25 @@
 namespace mproject {
 namespace network {
 
+using ELogLevel = logger::ELogLevel;
 
 MEngine::MEngine(
 	FString _name,
 	int _fps,
-	std::shared_ptr<logger::ILogger> _logger,
+	std::shared_ptr<Logger> _logger,
 	ushort _acceptor_port,
 	size_t _session_count,
 	size_t _receive_packet_capacity,
-	size_t _max_packet_size
+	size_t _max_packet_size,
+	decimal _heartbeat_second
 )
 	: ChiefThread(_name, _fps, _logger)
 	, acceptor_port(_acceptor_port) 
 	, session_pool(_session_count)
 	, receive_packet_capacity(_receive_packet_capacity)
-	, max_packet_size(_max_packet_size) {
-
+	, max_packet_size(_max_packet_size)
+	, heartbeat_second(_heartbeat_second)
+{
 	IO_service = std::make_shared<IOService>();
 }
 
@@ -46,11 +49,11 @@ void MEngine::OnStart() {
 	try {
 		acceptor->Start(stop_source.get_token());
 	}
-	catch (BaseException const& _exception) {
-		logger->WriteLog(mproject::logger::ELogLevel::Critical, _exception.Message());
+	catch (BaseException _exception) {
+		GetLogger()->WriteLog(ELogLevel::Critical, _exception.Message());
 	}
 	catch (std::exception _exception) {
-		logger->WriteLog(mproject::logger::ELogLevel::Critical, FString(_exception.what()));
+		GetLogger()->WriteLog(ELogLevel::Critical, FString(_exception.what()));
 	}
 }
 
@@ -68,11 +71,13 @@ void MEngine::OnStop() {
 }
 
 Session* MEngine::GetSession() {
-	return (new (session_pool.Get()) (Session)(IO_service->Get(), receive_packet_capacity, max_packet_size));
+	return (new (session_pool.Get()) (Session)(IO_service->Get(), receive_packet_capacity, max_packet_size, heartbeat_second));
 }
 
 void MEngine::ReleaseSession(Session* _session) {
-	session_pool.Release(_session);
+	if (nullptr != _session) {
+		return session_pool.Release(_session);
+	}
 }
 
 }	// network

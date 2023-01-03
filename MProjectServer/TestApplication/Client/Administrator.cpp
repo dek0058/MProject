@@ -15,7 +15,7 @@ bool Administrator::Initialize() {
 	logger = std::make_shared<logger::SpdLogger>(FString(pTEXT("TestApplication")), FString(pTEXT("./Logs/Administrator.log")));
 
 	main_process = std::make_shared<MainProcess>();
-	engine = std::make_shared<TestEngine>(logger, server_port, 1024, 10000, 10000);
+	engine = std::make_shared<TestEngine>(logger, server_port, 1024, 10000, 10000, 5);
 
 
 	// UIManager 초기화 및 Main Form 생성

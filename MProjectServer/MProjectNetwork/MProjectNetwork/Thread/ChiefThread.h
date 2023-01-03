@@ -21,7 +21,9 @@ namespace network {
 class EliteThread;
 
 class ChiefThread : public MThread {
-
+private:
+	using Logger = logger::ILogger;
+	
 public:
 	
 	/**
@@ -35,13 +37,13 @@ public:
 	 * \param _fps Thread frames per second
 	 * \param _logger parent logger
 	 */
-	ChiefThread(FString _name, int _fps, std::shared_ptr<logger::ILogger> _logger);
+	ChiefThread(FString _name, int _fps, std::shared_ptr<Logger> _logger);
 
 	~ChiefThread();
 
 public:
 
-	std::shared_ptr<logger::ILogger> GetLogger() {
+	std::shared_ptr<Logger> GetLogger() {
 		return logger;
 	}
 
@@ -60,7 +62,7 @@ protected:
 	std::vector<std::shared_ptr<EliteThread>> sub_threads;
 	
 
-	std::shared_ptr<logger::ILogger> logger;
+	std::shared_ptr<Logger> logger;
 };
 
 }	// network

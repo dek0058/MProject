@@ -47,11 +47,11 @@ public:
 		buffer = std::vector<byte>(_buffer.begin() + sizeof(Header), _buffer.end());
 	}
 
-	Header& GetHeader() const {
+	Header const& GetHeader() const {
 		return header;
 	}
 	
-	std::vector<byte>& GetBuffer() const {
+	std::vector<byte> const& GetBuffer() const {
 		return buffer;
 	}
 };
