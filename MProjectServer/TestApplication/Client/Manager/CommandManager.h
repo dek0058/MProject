@@ -10,7 +10,6 @@
 
 #include "Client/ServerDefine.h"
 #include "Utility/TSingleton.h"
-#include "String/StringHash.h"
 
 namespace mproject {
 
@@ -28,26 +27,27 @@ public:
 	
 	template<typename T>
 		requires std::derived_from<T, CommandCaller>
-	void RegisterCommand(StringKey _key) {
-		if (command_caller_map.contains(_key)) {
+	void RegisterCommand(FString _command) {
+		if (command_caller_map.contains(_command)) {
 			throw std::exception("Already registered command.");
 		}
-		command_caller_map[_key] = std::make_shared<T>();
+		command_caller_map[_command] = std::make_shared<T>();
 	}
 
 	void Execute(std::optional<FCommand> _command);
 	
-	
-	std::shared_ptr<CommandCaller> GetCommandCaller(StringKey _key) {
-		if (command_caller_map.contains(_key)) {
-			return command_caller_map[_key];
+	std::shared_ptr<CommandCaller> GetCommandCaller(FString _command) {
+		if (command_caller_map.contains(_command)) {
+			return command_caller_map[_command];
 		}
 		return nullptr;
 	}
 
+	void ForEach(std::function<void(FString const&, std::shared_ptr<CommandCaller>)> _callback) const;
+
 private:
 
-	hashmap<StringKey, std::shared_ptr<CommandCaller>> command_caller_map;
+	hashmap<FString, std::shared_ptr<CommandCaller>> command_caller_map;
 
 };
 

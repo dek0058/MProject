@@ -8,6 +8,8 @@
 
 namespace mproject {
 
+using ELogLevel = logger::ELogLevel;
+
 bool Administrator::Initialize() {
 
 	server_port = 7778;
@@ -37,6 +39,36 @@ int Administrator::Finalize() {
 
 void Administrator::StartEngine() {
 	engine->Start(stop_source.get_token());
+}
+
+void Administrator::WriteLog(logger::ELogLevel _level, FString _msg) {
+	if (nullptr != logger) {
+		logger->WriteLog(_level, _msg);
+	}
+}
+
+void Administrator::WriteLog_Trace(FString _msg) {
+	WriteLog(ELogLevel::Trace, _msg);
+}
+
+void Administrator::WriteLog_Debug(FString _msg) {
+	WriteLog(ELogLevel::Debug, _msg);
+}
+
+void Administrator::WriteLog_Info(FString _msg) {
+	WriteLog(ELogLevel::Info, _msg);
+}
+
+void Administrator::WriteLog_Warnining(FString _msg) {
+	WriteLog(ELogLevel::Warning, _msg);
+}
+
+void Administrator::WriteLog_Error(FString _msg) {
+	WriteLog(ELogLevel::Error, _msg);
+}
+
+void Administrator::WriteLog_Criticial(FString _msg) {
+	WriteLog(ELogLevel::Critical, _msg);
 }
 
 }	// mproject

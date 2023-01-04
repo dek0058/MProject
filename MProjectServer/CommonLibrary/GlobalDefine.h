@@ -53,6 +53,7 @@ typedef unsigned long long	udecimal;
 typedef double				real;
 typedef std::wstring		str;
 
+
 //template<class T>
 //using vectory = std::vector<T>;
 //template<class T>

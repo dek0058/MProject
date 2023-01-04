@@ -25,7 +25,7 @@ void Acceptor::OnStart() {
 	__super::OnStart();
 	socket = std::make_unique<Socket<Header>>(server->GetIOService()->Get(), endpoint, 1024, 1024, 5);
 	
-	/*socket->SetReceiveHandler(
+	socket->SetReceiveHandler(
 		[this](Packet<Header> const& _packet, size_t _bytes_transferred, FPeer const& _peer) {
 			OnReceiveHandler(_packet, _bytes_transferred, _peer);
 		}
@@ -48,7 +48,7 @@ void Acceptor::OnStart() {
 			OnTimeoutHandler(_peer);
 		}
 	);
-	*/
+	
 	socket->Start();
 }
 
@@ -69,6 +69,8 @@ void Acceptor::OnUpdate() {
 
 void Acceptor::OnStop() {
 	__super::OnStop();
+	server.reset();
+	socket.reset();
 }
 
 void Acceptor::OnReceiveHandler(Packet<Header> const& _packet, size_t _bytes_transferred, FPeer const& _peer) {

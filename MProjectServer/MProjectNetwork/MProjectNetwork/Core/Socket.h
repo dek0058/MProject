@@ -157,7 +157,6 @@ private:
 
 	void OnRecive(boost::system::error_code _error_code, size_t _bytes_transferred) {
 		if (_error_code != boost::system::errc::success) {
-			// TODO: 실패... 연결 끊기 시도
 			return;
 		}
 
@@ -171,10 +170,11 @@ private:
 				}
 				return false;
 			});
-			
+
 			if (peer_iter == peers.end()) {
+
 				peers.emplace_back(
-					remote_endpoint,
+					remote_endpoint.value_or(EndPoint()),
 					packet.GetHeader().uuid,
 					std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch())
 				);
@@ -190,24 +190,25 @@ private:
 			bool is_a_user_message = true;
 			if (_bytes_transferred - sizeof(Header) == sizeof(packet_message::type))
 			{
-				//packet_message::type message = *reinterpret_cast<packet_message::type*>(const_cast<std::vector<byte> const&>(packet.GetBuffer()).data());
-				//if (message == packet_message::CONNECTION_TYPE || message == packet_message::KEEP_ALIVE_TYPE) {
-				//	is_a_user_message = false;
-				//} else if (message == packet_message::DISCONNECTION_TYPE) {
-				//	is_a_user_message = false;
-				//	if (disconnection_handler) {
-				//		disconnection_handler(*peer_iter);
-				//	}
-				//
-				//	peers.erase(
-				//		std::remove_if(peers.begin(), peers.end(), [this, &peer_iter](FPeer const& _peer) -> bool {
-				//			return peer_iter->uuid == _peer.uuid;
-				//		}),
-				//		peers.end()
-				//	);
-				//}
-			}
+				packet_message::type message = *reinterpret_cast<packet_message::type const*>(packet.GetBuffer().data());
 
+				if (message == packet_message::CONNECTION_TYPE || message == packet_message::KEEP_ALIVE_TYPE) {
+					is_a_user_message = false;
+				} else if(message == packet_message::DISCONNECTION_TYPE) {
+					is_a_user_message = false;
+					if (disconnection_handler) {
+						disconnection_handler(*peer_iter);
+					}
+
+					peers.erase(
+						std::remove_if(peers.begin(), peers.end(), [this, &peer_iter](FPeer const& _peer) -> bool {
+							return peer_iter->uuid == _peer.uuid;
+						}),
+						peers.end()
+					);
+				}
+			}
+			
 			if (is_a_user_message && receive_handler) {
 				receive_handler(packet, _bytes_transferred, *peer_iter);
 			}
@@ -297,3 +298,4 @@ private:
 
 }	// network
 }	// mproject
+

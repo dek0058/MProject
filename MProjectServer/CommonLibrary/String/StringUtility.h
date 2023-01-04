@@ -10,6 +10,5 @@
 #include "StringAlgorithm.h"
 #include "StringEnum.h"
 #include "StringFormat.h"
-#include "StringHash.h"
 #include "StringRange.h"
 

@@ -18,6 +18,7 @@ public:
 
 public:
 	virtual void Execute(std::optional<FCommand> _command) { }
+	virtual FString help() { return pTEXT("nothing"); }
 };
 
 };	// mproject

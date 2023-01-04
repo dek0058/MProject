@@ -68,6 +68,8 @@ void MEngine::OnUpdate() {
 
 void MEngine::OnStop() {
 	__super::OnStop();
+	acceptor->Stop();
+	acceptor.reset();
 }
 
 Session* MEngine::GetSession() {

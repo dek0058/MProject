@@ -1,6 +1,5 @@
 ﻿#pragma once
-#include "String/StringHash.h"
-#include "String/StringAlgorithm.h"
+#include "String/StringUtility.h"
 #include "CommandCaller.h"
 #include "Client/Manager/CommandManager.h"
 
@@ -12,7 +11,7 @@ namespace mproject {
 template<typename T>
 	requires std::derived_from<T, CommandCaller>
 void AddCommand(CommandManager* _manager, FString const& _str) {
-	_manager->RegisterCommand<T>(StringHash::Hash(StringAlgorithm::ToLowerCopy(_str)));
+	_manager->RegisterCommand<T>(StringAlgorithm::ToLowerCopy(_str));
 }
 }
 

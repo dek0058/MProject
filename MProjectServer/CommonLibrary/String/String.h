@@ -16,6 +16,8 @@ using DefaultStringView = std::wstring_view;
 template<typename T>
 concept DefaultStringType = std::is_same_v<T, DefaultChar> || std::is_same_v<T, DefaultString>;
 
+using StringKey = size_t;
+
 #define pTEXT(str) L##str
 
 struct FString {
@@ -73,9 +75,14 @@ struct FString {
 	FString operator+(FString&& _str) const noexcept {
 		return FString(data + std::move(_str.data));
 	}
-	
+
+	auto operator <=> (FString const& other) const {
+		return data <=> other.data;
+	}
 
 // Methods
+	StringKey GetKey() const;
+	
 	std::string ToString() const;
 	
 	bool Empty() const {
@@ -96,4 +103,18 @@ public:
 
 public:
 	const static constinit size_t max_size = 2'048Ui64;	// byte
+};
+
+template<>
+struct std::hash<FString> {
+	size_t operator()(FString const& _str) const noexcept {
+		return _str.GetKey();
+	}
+};
+
+template<>
+struct std::equal_to<FString> {
+	bool operator()(FString const& _str1, FString const& _str2) const noexcept {
+		return _str1.Equals(_str2);
+	}
 };

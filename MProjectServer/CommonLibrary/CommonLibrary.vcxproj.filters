@@ -126,9 +126,6 @@
     <ClInclude Include="String\StringUtility.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="String\StringHash.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="String\StringAlgorithm.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -142,6 +139,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Exception\NullException.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\HashUtility.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -168,6 +168,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Thread\TaskManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\HashUtility.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

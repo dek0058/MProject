@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "String.h"
+#include "Utility/HashUtility.h"
 #include <Windows.h>
 #include <WinNls.h>
 
@@ -22,6 +23,10 @@ FString::FString(std::string_view const& _str) {
 	MultiByteToWideChar(CP_UTF8, 0, &_str[0], (int)_str.size(), &data[0], size_needed);
 }
 
+StringKey FString::GetKey() const {
+    return HashUtility::Hash(data);
+}
+
 std::string FString::ToString() const {
     int slength = static_cast<int>(data.length()) + 1;
     int len = WideCharToMultiByte(CP_ACP, 0, data.c_str(), slength, 0, 0, 0, 0);
@@ -29,3 +34,4 @@ std::string FString::ToString() const {
     WideCharToMultiByte(CP_ACP, 0, data.c_str(), slength, &result[0], len, 0, 0);
     return result;
 }
+

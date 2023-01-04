@@ -200,7 +200,6 @@
     <ClInclude Include="String\StringAlgorithm.h" />
     <ClInclude Include="String\StringEnum.h" />
     <ClInclude Include="String\StringFormat.h" />
-    <ClInclude Include="String\StringHash.h" />
     <ClInclude Include="String\StringRange.h" />
     <ClInclude Include="String\StringUtility.h" />
     <ClInclude Include="Thread\MThread.h" />
@@ -208,6 +207,7 @@
     <ClInclude Include="Utility\FramesPerSecond.h" />
     <ClInclude Include="GlobalDefine.h" />
     <ClInclude Include="GuardDefine.h" />
+    <ClInclude Include="Utility\HashUtility.h" />
     <ClInclude Include="Utility\magic_enum.hpp" />
     <ClInclude Include="Utility\magic_enum_format.hpp" />
     <ClInclude Include="Utility\magic_enum_fuse.hpp" />
@@ -226,6 +226,7 @@
     <ClCompile Include="Thread\MThread.cpp" />
     <ClCompile Include="Thread\TaskManager.cpp" />
     <ClCompile Include="Utility\FramesPerSecond.cpp" />
+    <ClCompile Include="Utility\HashUtility.cpp" />
     <ClCompile Include="Utility\MSHA256.cpp" />
     <ClCompile Include="Utility\UniversalToolkit.cpp" />
   </ItemGroup>

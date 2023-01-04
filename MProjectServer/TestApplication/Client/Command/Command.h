@@ -42,6 +42,10 @@ struct FCommand {
 		return arguments[_index];
 	}
 
+	size_t Size() const {
+		return arguments.size();
+	}
+
 	FString ToString() const {
 		FString result = command;
 		for (auto& arg : arguments) {
@@ -52,7 +56,6 @@ struct FCommand {
 
 	FString command;
 	std::vector<FString> arguments;
-	StringKey key;
 };
 
 }	// mproject

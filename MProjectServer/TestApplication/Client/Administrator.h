@@ -16,6 +16,7 @@ namespace mproject {
 namespace logger
 {
 class ILogger;
+enum class ELogLevel : byte;
 }	// logger
 
 
@@ -37,11 +38,21 @@ public:
 	 */
 	int Finalize();
 
-
 	/**
 	 * \brief 엔진 시작
 	 */
 	void StartEngine();
+
+	/**
+	 * \brief 로그를 출력합니다.
+	 */
+	void WriteLog(logger::ELogLevel _level, FString _msg);
+	void WriteLog_Trace(FString _msg);
+	void WriteLog_Debug(FString _msg);
+	void WriteLog_Info(FString _msg);
+	void WriteLog_Warnining(FString _msg);
+	void WriteLog_Error(FString _msg);
+	void WriteLog_Criticial(FString _msg);
 
 	/**
 	 * \return Get server engine.
