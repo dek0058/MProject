@@ -39,9 +39,10 @@ public:
 		size_t _max_packet_size,
 		decimal _heartbeat_second
 	)
-		: socket(_IO_service)
-		, strand(_IO_service)
-		, timer(_IO_service)
+		: IO_service(_IO_service)
+		, socket(IO_service)
+		, strand(IO_service)
+		, timer(IO_service)
 		, self(_endpoint)
 		, receive_packet_capacity(_receive_packet_capacity)
 		, max_packet_size(_max_packet_size)
@@ -50,7 +51,7 @@ public:
 		, sync_buffer(receive_packet_capacity)
 		, heartbeat_second(_heartbeat_second)
 	{
-		receive_buffer.reserve(max_packet_size);
+		receive_buffer.reserve(receive_packet_capacity);
 	}
 
 	/** Construct connect socket*/
@@ -59,9 +60,10 @@ public:
 		size_t _receive_packet_capacity,
 		size_t _max_packet_size,
 		decimal _heartbeat_second)
-		: socket(_IO_service)
-		, strand(_IO_service)
-		, timer(_IO_service)
+		: IO_service(_IO_service)
+		, socket(IO_service)
+		, strand(IO_service)
+		, timer(IO_service)
 		, self(EndPoint(boost::asio::ip::address_v6::loopback(), 0))
 		, receive_packet_capacity(_receive_packet_capacity)
 		, max_packet_size(_max_packet_size)
@@ -69,12 +71,7 @@ public:
 		, sync_buffer(receive_packet_capacity)
 		, heartbeat_second(_heartbeat_second) 
 	{
-		receive_buffer.reserve(max_packet_size);
-		remote_endpoint.reset();
-	}
-
-	~Socket() {
-		;
+		receive_buffer.reserve(receive_packet_capacity);
 	}
 
 public:
@@ -85,8 +82,8 @@ public:
 		Receive();
 	}
 
-	void Open(UDP& _ip_protocol) {
-		socket.open(_ip_protocol);
+	void Open() {
+		socket.open(remote_endpoint.protocol());
 	}
 
 	void Close() noexcept {
@@ -98,7 +95,7 @@ public:
 
 	void Connect(EndPoint& _endpoint) {
 		remote_endpoint = _endpoint;
-		Open(remote_endpoint->protocol());
+		Open();
 
 		PacketMessage<Header> message(Self().uuid, packet_message::CONNECTION_TYPE);
 		AsyncSendTo(reinterpret_cast<void*>(&message), sizeof(message), remote_endpoint);
@@ -108,8 +105,8 @@ public:
 		Start();
 	}
 
-	void Bind(EndPoint& _end_point) noexcept {
-		socket.bind(_end_point);
+	void Bind() noexcept {
+		socket.bind(remote_endpoint);
 	}
 
 	void AsyncSendTo(void* _buffer, size_t _buffer_size, EndPoint& _end_point) {
@@ -155,8 +152,11 @@ public:
 
 private:
 
-	void OnRecive(boost::system::error_code _error_code, size_t _bytes_transferred) {
-		if (_error_code != boost::system::errc::success) {
+	void OnRecive(boost::system::error_code const& _error_code, size_t _bytes_transferred) {
+		if (_error_code) {
+#if _DEBUG
+			std::string error_message = _error_code.message();
+#endif
 			return;
 		}
 
@@ -174,7 +174,7 @@ private:
 			if (peer_iter == peers.end()) {
 
 				peers.emplace_back(
-					remote_endpoint.value_or(EndPoint()),
+					remote_endpoint,
 					packet.GetHeader().uuid,
 					std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch())
 				);
@@ -223,19 +223,15 @@ private:
 	}
 	
 	void Receive() {
-		if (!remote_endpoint) {
-			return;	// TODO:
-		}
-
 		socket.async_receive_from(
 			boost::asio::buffer(receive_buffer),
-			remote_endpoint.value(),
-			boost::asio::bind_executor(
-				strand,
-				[this](boost::system::error_code _error_code, size_t _bytes_transferred) {
+			remote_endpoint,
+			//boost::asio::bind_executor(
+			//	strand,
+				[this](auto _error_code, auto _bytes_transferred) {
 					OnRecive(_error_code, _bytes_transferred);
 				}
-			)
+			//)
 		);
 	}
 
@@ -280,9 +276,10 @@ private:
 	decimal heartbeat_second;
 	bool listening;
 	
+	boost::asio::io_service& IO_service;
 	UDP_Scoket socket;
 	boost::asio::io_service::strand strand;
-	std::optional<EndPoint> remote_endpoint;
+	EndPoint remote_endpoint;
 	std::optional<boost::asio::deadline_timer> timer;
 
 	FPeer self;

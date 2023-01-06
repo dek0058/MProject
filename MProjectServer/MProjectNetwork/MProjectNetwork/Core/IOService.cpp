@@ -5,35 +5,34 @@
 namespace mproject {
 namespace network {
 
-IOService::IOService() 
-	: work_guard(nullptr) {
+IOService::IOService() {
 }
 
 IOService::~IOService() {
-	work_guard = nullptr;
 }
 
 void IOService::Run() {
-	if (nullptr != work_guard.get()) {
-		work_guard.reset();
-		data.restart();
-	}
-	work_guard = std::make_unique<boost::asio::executor_work_guard<boost::asio::io_service::executor_type>>(data.get_executor());
-	data.run();
+	IO_thread_group.emplace_back(
+		[this](std::stop_token stop_token) {
+			data.run();
+		},
+		stop_source.get_token()
+	);
 }
 
 void IOService::Stop() {
-	if (!data.stopped()) {
-		data.stop();
+	data.stop();
+	stop_source.request_stop();
+	for (auto& thread : IO_thread_group) {
+		thread.join();
 	}
+	IO_thread_group.clear();
+
+	stop_source = std::stop_source();
 }
 
 void IOService::RequestStop() {
-	if (nullptr == work_guard.get()) {
-		Stop();
-		return;
-	}
-	work_guard->reset();
+	Stop();
 }
 
 }	// network

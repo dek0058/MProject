@@ -1,9 +1,9 @@
 ﻿#include "MEngine.h"
+#include "String/StringUtility.h"
 #include "Acceptor.h"
 #include "MProjectNetwork/Core/Session.h"
 #include "MProjectNetwork/Core/IOService.h"
 #include "MProjectLogger/Core/ILogger.h"
-#include "Exception/BaseException.h"
 
 namespace mproject {
 namespace network {
@@ -34,11 +34,10 @@ MEngine::~MEngine() {
 }
 
 void MEngine::OnStart() {
-	__super::OnStart();
 	size_t capacity = 0;
 
 	// TODO: Create sub thread
-	acceptor = std::make_shared<Acceptor>(fps, std::static_pointer_cast<MEngine>(shared_from_this()), acceptor_port);
+	acceptor = std::make_shared<Acceptor>(fps, std::static_pointer_cast<MEngine>(shared_from_this()), acceptor_port, IO_service->Get());
 	++capacity;
 
 	sub_threads.reserve(capacity);
@@ -46,15 +45,8 @@ void MEngine::OnStart() {
 	// TODO: Add sub thread
 	AddSubThread(acceptor);
 
-	try {
-		acceptor->Start(stop_source.get_token());
-	}
-	catch (BaseException _exception) {
-		GetLogger()->WriteLog(ELogLevel::Critical, _exception.Message());
-	}
-	catch (std::exception _exception) {
-		GetLogger()->WriteLog(ELogLevel::Critical, FString(_exception.what()));
-	}
+	// start elite_thread...
+	__super::OnStart();
 }
 
 void MEngine::OnUpdate() {
@@ -70,6 +62,14 @@ void MEngine::OnStop() {
 	__super::OnStop();
 	acceptor->Stop();
 	acceptor.reset();
+	IO_service->Stop();
+	for (auto& thread : sub_threads) {
+		thread->Join();
+	}
+	sub_threads.clear();
+	WriteLog_Info(
+		StringFormat::Format(FString(pTEXT("{} Stop complete.")), name.data)
+	);
 }
 
 Session* MEngine::GetSession() {

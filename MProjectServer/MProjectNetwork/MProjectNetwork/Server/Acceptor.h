@@ -31,12 +31,10 @@ public:
 	Acceptor(
 		int _fps,
 		std::shared_ptr<MEngine> _server,
-		ushort _port
+		ushort _port,
+		boost::asio::io_service& _IO_service
 	);
 	
-	
-	
-
 protected:
 	
 	virtual void OnStart() override;
@@ -54,7 +52,7 @@ private:
 
 	std::shared_ptr<MEngine> server;
 	
-	std::unique_ptr<Socket<Header>> socket;
+	Socket<Header> socket;
 	EndPoint endpoint;
 };
 

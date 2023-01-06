@@ -42,6 +42,15 @@ public:
 	void Stop();
 
 	/**
+	 * \brief synce wait thread.
+	 */
+	void Join() {
+		if (data) {
+			data->join();
+		}
+	}
+
+	/**
 	 * \brief Is thread runnable
 	 * \return true if runnable
 	 */

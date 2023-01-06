@@ -1,6 +1,6 @@
 ﻿#include "ChiefThread.h"
 #include "EliteThread.h"
-#include "String/StringFormat.h"
+#include "String/StringUtility.h"
 #include "MProjectLogger/Logger/SpdLogger.h"
 #include "MProjectNetwork/NetworkDefine.h"
 
@@ -29,9 +29,15 @@ void ChiefThread::OnStart() {
 		StringFormat::Format(FString(pTEXT("{} Start")), name.data)
 	);
 	
+	stop_source = std::stop_source();
 	for (auto& elite_thread : sub_threads) {
 		if (elite_thread.get() != nullptr) {
-			elite_thread->Start(stop_source.get_token());
+			try {
+				elite_thread->Start(stop_source.get_token());
+			}
+			catch (std::exception _exception) {
+				return GetLogger()->WriteLog(ELogLevel::Critical, FString(_exception.what()));
+			}
 		}
 	}
 }
@@ -44,14 +50,43 @@ void ChiefThread::OnUpdate() {
 void ChiefThread::OnStop() {
 	stop_source.request_stop();
 
-	GetLogger()->WriteLog(
-		ELogLevel::Info,
-		StringFormat::Format(FString(pTEXT("{} Stop")), name.data)
+	WriteLog_Info(
+		StringFormat::Format(FString(pTEXT("{} Stopping...")), name.data)
 	);
 }
 
 void ChiefThread::AddSubThread(std::shared_ptr<EliteThread> _sub_thread) {
 	sub_threads.emplace_back(_sub_thread);
+}
+
+void ChiefThread::WriteLog(logger::ELogLevel _level, FString _msg) {
+	if (nullptr != GetLogger()) {
+		GetLogger()->WriteLog(_level, _msg);
+	}
+}
+
+void ChiefThread::WriteLog_Trace(FString _msg) {
+	WriteLog(ELogLevel::Trace, _msg);
+}
+
+void ChiefThread::WriteLog_Debug(FString _msg) {
+	WriteLog(ELogLevel::Debug, _msg);
+}
+
+void ChiefThread::WriteLog_Info(FString _msg) {
+	WriteLog(ELogLevel::Info, _msg);
+}
+
+void ChiefThread::WriteLog_Warnining(FString _msg) {
+	WriteLog(ELogLevel::Warning, _msg);
+}
+
+void ChiefThread::WriteLog_Error(FString _msg) {
+	WriteLog(ELogLevel::Error, _msg);
+}
+
+void ChiefThread::WriteLog_Criticial(FString _msg) {
+	WriteLog(ELogLevel::Critical, _msg);
 }
 
 }	// network

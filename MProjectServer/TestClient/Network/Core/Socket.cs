@@ -34,9 +34,9 @@ namespace mproject {
             delegate void DisconnectionHandlerType ( in FPeer _peer );
             delegate void TimeoutHandlerType ( in FPeer _peer );
 
-            private ReceiveHandlerType receive_handler;
-            private ConnectionHandlerType connection_handler;
-            private DisconnectionHandlerType disconnection_handler;
+            private ReceiveHandlerType receive_handler = null;
+            private ConnectionHandlerType connection_handler = null;
+            private DisconnectionHandlerType disconnection_handler = null;
 
 
             public Socket (
@@ -47,6 +47,9 @@ namespace mproject {
                 receive_packet_capacity = _receive_packet_capacity;
                 max_packet_size = _max_packet_size;
                 heartbeat_timespan = _heartbeat_timespan;
+
+                receive_buffer = new byte[receive_packet_capacity];
+                peers = new ( );
 
                 self = new ( new IPEndPoint ( IPAddress.Loopback, 0 ) );
                 Open ( AddressFamily.InterNetworkV6 );
@@ -72,10 +75,11 @@ namespace mproject {
             }
 
             public void Connect ( EndPoint _endpoint ) {
-                socket.Connect ( _endpoint );
-
+                //socket.Connect ( _endpoint );
+                remote_endpoint = _endpoint;
+                
                 PacketMessage<THeader> message = new PacketMessage<THeader> ( Self.guid, PacketMessageType.CONNECTION_TYPE );
-                AsyncSendTo ( message.Bytes, _endpoint );
+                AsyncSendTo ( message.Bytes, remote_endpoint );
 
                 listening = true;
 
@@ -87,8 +91,14 @@ namespace mproject {
                 socket.Bind ( _endpoint );
             }
 
+            private void OnSend ( IAsyncResult _result ) {
+                Console.WriteLine ( _result.IsCompleted );
+                socket.EndSendTo ( _result );
+            }
+
             public void AsyncSendTo ( ReadOnlySpan<byte> _buffer_span, EndPoint _endpoint ) {
                 socket.SendTo ( _buffer_span, SocketFlags.None, _endpoint );
+                socket.BeginSendTo ( _buffer_span.ToArray(), 0, _buffer_span.Length, SocketFlags.None, _endpoint, new AsyncCallback ( OnSend ), null );
             }
 
             public void AsyncSendToAll ( ReadOnlySpan<byte> _buffer_span ) {

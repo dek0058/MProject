@@ -14,6 +14,7 @@ namespace mproject {
 namespace logger
 {
 class ILogger;
+enum class ELogLevel : byte;
 }	// logger
 
 namespace network {
@@ -43,6 +44,17 @@ public:
 
 public:
 
+	/**
+	 * \brief 로그를 출력합니다.
+	 */
+	void WriteLog(logger::ELogLevel _level, FString _msg);
+	void WriteLog_Trace(FString _msg);
+	void WriteLog_Debug(FString _msg);
+	void WriteLog_Info(FString _msg);
+	void WriteLog_Warnining(FString _msg);
+	void WriteLog_Error(FString _msg);
+	void WriteLog_Criticial(FString _msg);
+
 	std::shared_ptr<Logger> GetLogger() {
 		return logger;
 	}
@@ -61,7 +73,6 @@ protected:
 	std::stop_source stop_source;
 	std::vector<std::shared_ptr<EliteThread>> sub_threads;
 	
-
 	std::shared_ptr<Logger> logger;
 };
 

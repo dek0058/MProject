@@ -12,6 +12,7 @@
 
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/executor_work_guard.hpp>
+#include <boost/thread/thread.hpp>
 
 namespace mproject {
 namespace network {
@@ -48,7 +49,8 @@ public:
 
 private:
 	boost::asio::io_service data;
-	std::unique_ptr<boost::asio::executor_work_guard<boost::asio::io_service::executor_type>> work_guard;
+	std::stop_source stop_source;
+	std::vector<std::jthread> IO_thread_group;
 };
 
 }	// network

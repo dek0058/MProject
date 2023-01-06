@@ -8,48 +8,24 @@ using System.Data;
 
 namespace mproject {
 
-    
-    
+    using network;
+    using System.Net;
+    using System.Reflection.PortableExecutable;
+    using System.Threading;
+
     internal class Program {
 
         public static int Main ( string[] args ) {
 
-            Guid guid = Guid.NewGuid ( );
 
-            {
-                PacketMessage<FHeader> message = new ( guid, PacketMessageType.DISCONNECTION_TYPE );
+            Socket<FHeader> socket = new ( 1024, 1024, TimeSpan.FromSeconds ( 5 ) );
 
-                var datas = message.Bytes;
+            IPEndPoint IP_endpoint = new ( IPAddress.IPv6Loopback, 7778 );
+            socket.Connect ( IP_endpoint );
 
-                foreach ( var item in datas ) {
-                    Console.WriteLine ( item );
-                }
-                Console.WriteLine ( $"\nLenth:{datas.Length}" );
+            Thread.Sleep ( new TimeSpan ( 0, 0, 10 ) );
 
-                FHeader temp = ConvertUtility.ToObject<FHeader> ( datas.Slice ( 0, 20 ).ToArray ( ) );
-                Console.WriteLine ( $"{temp.Protocol_ID}_{temp.UUID}" );
-
-                uint message_type = BitConverter.ToUInt32 ( datas.ToArray(), 20 );
-                Console.WriteLine ( $"{message_type}" );
-
-            }
-
-            {
-                FHeader header = new ( guid );
-
-                byte[] datas = ConvertUtility.ToBytes ( header );
-                foreach ( var item in datas ) {
-                    Console.Write ( item );
-                }
-                Console.WriteLine ( $"\nLenth:{datas.Length}" );
-
-                FHeader temp = ConvertUtility.ToObject<FHeader> ( datas );
-
-                Console.WriteLine ( $"{temp.Protocol_ID}_{temp.UUID}" );
-            }
-           
-
-           
+            Console.WriteLine ( "연결끊김" );
 
             return 0;
         }

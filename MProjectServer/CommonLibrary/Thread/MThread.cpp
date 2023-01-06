@@ -12,7 +12,7 @@ MThread::~MThread() {
 	if (data)
 	{
 		if (data->joinable()) {
-			data->join();
+			Join();
 		}
 		data.reset();
 	}

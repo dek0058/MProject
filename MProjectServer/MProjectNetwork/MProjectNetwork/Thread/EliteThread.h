@@ -30,6 +30,11 @@ protected:
 	virtual void OnUpdate() override;
 	virtual void OnStop() override;
 
+protected:
+	std::shared_ptr<ChiefThread> GetChief() {
+		return chief_thread.expired() ? nullptr : chief_thread.lock();
+	}
+
 private:
 
 	std::weak_ptr<ChiefThread> chief_thread;
