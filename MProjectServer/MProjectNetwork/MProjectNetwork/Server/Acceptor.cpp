@@ -5,7 +5,6 @@
 #include "MProjectNetwork/Core/Session.h"
 
 #include "Exception/ExceptionUtility.h"
-#include <boost/system/detail/error_code.hpp>
 #include <boost/exception/diagnostic_information.hpp> 
 
 namespace mproject {
@@ -19,8 +18,7 @@ Acceptor::Acceptor(
 )
 	: EliteThread(_fps, std::static_pointer_cast<ChiefThread>(_server))
 	, server (_server)
-	, endpoint(EndPoint(UDP::v6(), _port))
-	, socket(_IO_service, endpoint, 1024, 1024, 5)
+	, socket(_IO_service, EndPoint(UDP::v6(), _port), 1024, 1024, 5, server->GetLogger())
 {
 	socket.SetReceiveHandler(
 		[this](Packet<Header> const& _packet, size_t _bytes_transferred, FPeer const& _peer) {
@@ -51,15 +49,13 @@ Acceptor::Acceptor(
 void Acceptor::OnStart() {
 	__super::OnStart();
 	try {
-		socket.Start();
 		socket.Open();
 		socket.Bind();
-	}
-	catch (boost::exception const& _boost_e) {
-		server->WriteLog_Error(FString(boost::current_exception_diagnostic_information(), 0));
-	}
-	catch (std::exception const& _e) {
-		server->WriteLog_Error(FString(_e.what(), 0));
+		socket.Start();
+	} catch (std::exception const& _e) {
+		server->WriteLog_Error(FString(_e.what()));
+	} catch (...) { //! boost
+		server->WriteLog_Error(FString(boost::current_exception_diagnostic_information()));
 	}
 	
 	server->GetIOService()->Run();

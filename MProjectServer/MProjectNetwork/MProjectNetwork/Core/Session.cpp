@@ -11,7 +11,7 @@ Session::Session(
 	size_t _max_packet_size,
 	decimal _heartbeat_second
 )
-	: socket(_IO_service, _endpoint, _receive_packet_capacity, _max_packet_size, _heartbeat_second)
+	: socket(_IO_service, _endpoint, _receive_packet_capacity, _max_packet_size, _heartbeat_second, nullptr)
 	, session_key(0)
 {
 	BindHandler();
@@ -23,7 +23,7 @@ Session::Session(
 	size_t _max_packet_size,
 	decimal _heartbeat_second
 )
-	: socket(_IO_service, _receive_packet_capacity, _max_packet_size, _heartbeat_second)
+	: socket(_IO_service, _receive_packet_capacity, _max_packet_size, _heartbeat_second, nullptr)
 	, session_key(0)
 {
 	BindHandler();

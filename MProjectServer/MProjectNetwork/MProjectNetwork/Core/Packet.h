@@ -16,8 +16,8 @@ struct FHeader {
 protected:
 	using UUID = boost::uuids::uuid;
 public:
-	uint protocol;
-	UUID uuid;
+	uint protocol;	// 4 bytes
+	UUID uuid;		// 16 bytes
 
 	static uint constexpr Protocol_ID = 1;
 

@@ -1,31 +1,31 @@
 ﻿
-
-
-using mproject.network;
-using mproject.utility;
 using System;
-using System.Data;
+using System.Net;
 
 namespace mproject {
 
     using network;
-    using System.Net;
-    using System.Reflection.PortableExecutable;
+    using logger;
     using System.Threading;
 
     internal class Program {
 
         public static int Main ( string[] args ) {
 
+            ConsoleLogger logger = new ();
 
-            Socket<FHeader> socket = new ( 1024, 1024, TimeSpan.FromSeconds ( 5 ) );
+            Socket<FHeader> socket = new (1024, 1024, new TimeSpan(0, 0, 5), logger) ;
 
-            IPEndPoint IP_endpoint = new ( IPAddress.IPv6Loopback, 7778 );
-            socket.Connect ( IP_endpoint );
+            Int32 port = 7778;
+            IPEndPoint ip_endpoint = new(IPAddress.IPv6Loopback, port);
+            socket.Connect(ip_endpoint);
 
-            Thread.Sleep ( new TimeSpan ( 0, 0, 10 ) );
+            Int32 Count = 0;
+            while ( Count++ < 100 ) {
+                Thread.Sleep(1000);
+            }
 
-            Console.WriteLine ( "연결끊김" );
+            socket.Close();
 
             return 0;
         }

@@ -15,12 +15,6 @@ using ELogLevel = logger::ELogLevel;
 
 using namespace network;
 
-std::vector<byte> test_buffer(1024);
-boost::asio::io_service test_io_serivce;
-std::vector<std::thread> test_thread_pool;
-
-UDP::socket sock(test_io_serivce);
-
 bool Administrator::Initialize() {
 
 	server_port = 7778;
@@ -36,31 +30,8 @@ bool Administrator::Initialize() {
 	
 	// 메인 스레드 시작
 	main_process->Start(stop_source.get_token());
-	
-	//EndPoint endpoint(UDP::v4(), server_port);
 
-	//sock.open(endpoint.protocol());
-	//sock.bind(endpoint);
-	//sock.async_receive_from(
-	//	boost::asio::buffer(test_buffer),
-	//	endpoint,
-	//	[this](boost::system::error_code const& _error_code, size_t _bytes_transferred) {
-	//		if (_error_code) {
-	//			FString msg = FString(_error_code.message(), 0);
-	//			WriteLog_Info(msg);
-	//		}
-	//		else {
-	//			WriteLog_Info( FString(pTEXT("Received bytes")));
-	//		}
-	//	}
-	//);
-
-	////Socket<FHeader> sock(engine->GetIOService()->Get(), endpoint, 1024, 1024, 5);
-	////sock.Start();
-
-	//test_thread_pool.emplace_back([]() {
-	//	test_io_serivce.run();
-	//});
+	StartEngine();
 
 	return true;
 }

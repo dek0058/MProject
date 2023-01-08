@@ -7,6 +7,7 @@
  *********************************************************************/
 #pragma once
 #include "MProjectNetwork/NetworkDefine.h"
+#include "MProjectLogger/Core/ILogger.h"
 #include "Peer.h"
 #include "Packet.h"
 #include "Utility/CircularBuffer.h"
@@ -37,21 +38,23 @@ public:
 		EndPoint _endpoint,
 		size_t _receive_packet_capacity,
 		size_t _max_packet_size,
-		decimal _heartbeat_second
+		decimal _heartbeat_second,
+		std::shared_ptr<logger::ILogger> _logger
 	)
 		: IO_service(_IO_service)
-		, socket(IO_service)
-		, strand(IO_service)
-		, timer(IO_service)
+		, socket(_IO_service)
+		, strand(_IO_service)
+		, timer(_IO_service)
 		, self(_endpoint)
 		, receive_packet_capacity(_receive_packet_capacity)
 		, max_packet_size(_max_packet_size)
 		, listening(false)
 		, remote_endpoint(_endpoint)
-		, sync_buffer(receive_packet_capacity)
+		, sync_buffer(_receive_packet_capacity)
 		, heartbeat_second(_heartbeat_second)
+		, logger(_logger)
 	{
-		receive_buffer.reserve(receive_packet_capacity);
+		receive_buffer.resize(receive_packet_capacity);
 	}
 
 	/** Construct connect socket*/
@@ -59,19 +62,22 @@ public:
 		boost::asio::io_service& _IO_service,
 		size_t _receive_packet_capacity,
 		size_t _max_packet_size,
-		decimal _heartbeat_second)
+		decimal _heartbeat_second,
+		std::shared_ptr<logger::ILogger> _logger
+	)
 		: IO_service(_IO_service)
-		, socket(IO_service)
-		, strand(IO_service)
-		, timer(IO_service)
+		, socket(_IO_service)
+		, strand(_IO_service)
+		, timer(_IO_service)
 		, self(EndPoint(boost::asio::ip::address_v6::loopback(), 0))
 		, receive_packet_capacity(_receive_packet_capacity)
 		, max_packet_size(_max_packet_size)
 		, listening(false)
-		, sync_buffer(receive_packet_capacity)
-		, heartbeat_second(_heartbeat_second) 
+		, sync_buffer(_receive_packet_capacity)
+		, heartbeat_second(_heartbeat_second)
+		, logger(_logger)
 	{
-		receive_buffer.reserve(receive_packet_capacity);
+		receive_buffer.resize(receive_packet_capacity);
 	}
 
 public:
@@ -117,7 +123,9 @@ public:
 				strand,
 				[this](boost::system::error_code const& _error, size_t _bytes_transferred) {
 					if (_error != boost::system::errc::success) {
-						// TODO: 에러
+						if (logger != nullptr) {
+							logger->WriteLog(logger::ELogLevel::Error, FString(_error.message()));
+						}
 					}
 				}
 			)
@@ -153,15 +161,16 @@ public:
 private:
 
 	void OnRecive(boost::system::error_code const& _error_code, size_t _bytes_transferred) {
-		if (_error_code) {
-#if _DEBUG
-			std::string error_message = _error_code.message();
-#endif
-			return;
-		}
-
 		try {
-			Packet<Header> packet(receive_buffer);
+			if (_error_code) {
+				throw boost::system::system_error(_error_code);
+			}
+
+			if (max_packet_size < _bytes_transferred) {
+				throw std::exception(std::format("Packet is too large... Packet:{} MaxPacket:{}", _bytes_transferred, max_packet_size).c_str());
+			}
+
+			Packet<Header> packet(std::vector<byte>(receive_buffer.begin(), receive_buffer.begin() + _bytes_transferred));
 
 			std::vector<FPeer>::iterator peer_iter = std::find_if(peers.begin(), peers.end(), [this, &packet](FPeer& _peer) -> bool {
 				if (_peer.uuid == packet.GetHeader().uuid) {
@@ -212,9 +221,11 @@ private:
 			if (is_a_user_message && receive_handler) {
 				receive_handler(packet, _bytes_transferred, *peer_iter);
 			}
-		}
-		catch (std::exception _e) {
-			 //TODO: bad packet
+		} catch (std::exception _e) {
+			if (logger != nullptr) {
+				logger->WriteLog(logger::ELogLevel::Error, FString(_e.what()));
+			}
+		} catch (...) {
 		}
 
 		if (listening) {
@@ -224,14 +235,14 @@ private:
 	
 	void Receive() {
 		socket.async_receive_from(
-			boost::asio::buffer(receive_buffer),
+			boost::asio::buffer(receive_buffer.data(), receive_packet_capacity),
 			remote_endpoint,
-			//boost::asio::bind_executor(
-			//	strand,
+			boost::asio::bind_executor(
+				strand,
 				[this](auto _error_code, auto _bytes_transferred) {
 					OnRecive(_error_code, _bytes_transferred);
 				}
-			//)
+			)
 		);
 	}
 
@@ -269,7 +280,7 @@ private:
 			OnHeartBeat();
 		});
 	}
-private:
+public:
 
 	size_t receive_packet_capacity;
 	size_t max_packet_size;
@@ -291,6 +302,8 @@ private:
 	ConnectionHandlerType connection_handler;
 	DisconnectionHandlerType disconnection_handler;
 	TimeoutHandlerType timeout_handler;
+
+	std::shared_ptr<logger::ILogger> logger;
 };
 
 }	// network

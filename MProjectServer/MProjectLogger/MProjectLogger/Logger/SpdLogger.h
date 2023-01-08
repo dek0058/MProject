@@ -36,9 +36,9 @@ protected:
 			case ELogLevel::Debug:		logger->log(spdlog::level::debug, _msg.data);		break;
 			case ELogLevel::Info:		logger->log(spdlog::level::info, _msg.data);		break;
 			case ELogLevel::Warning:	logger->log(spdlog::level::warn, _msg.data);		break;
-			case ELogLevel::Error:		logger->log(spdlog::level::err, _msg.data);		break;
+			case ELogLevel::Error:		logger->log(spdlog::level::err, _msg.data);			break;
 			case ELogLevel::Critical:	logger->log(spdlog::level::critical, _msg.data);	break;
-			default:					logger->log(spdlog::level::off, _msg.data);		break;
+			default:					logger->log(spdlog::level::off, _msg.data);			break;
 		}
 	}
 

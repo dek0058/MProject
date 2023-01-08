@@ -24,9 +24,9 @@ struct FString {
 
 // Constructors
 	FString() = default;
-	FString(char const* _str, unsigned int _encoding = 65001);
-	FString(std::string const& _str, unsigned int _encoding = 65001);
-	FString(std::string_view const& _str, unsigned int _encoding = 65001);
+	FString(char const* _str, unsigned int _encoding = 0);
+	FString(std::string const& _str, unsigned int _encoding = 0);
+	FString(std::string_view const& _str, unsigned int _encoding = 0);
 	FString(DefaultChar const* _str) : data(_str) {}
 	FString(DefaultString const& _str) : data(_str) {}
 	FString(FString const& _str) : data(_str.data) {}
@@ -83,7 +83,7 @@ struct FString {
 // Methods
 	StringKey GetKey() const;
 	
-	std::string ToString(unsigned int _encoding = 65001) const;
+	std::string ToString(unsigned int _encoding = 0) const;
 	
 	bool Empty() const {
 		return data.empty();

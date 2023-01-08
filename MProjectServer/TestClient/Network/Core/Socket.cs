@@ -8,200 +8,192 @@ using System.Threading.Tasks;
 
 namespace mproject {
     using System.Threading;
-    using utility;
+    using logger;
 
     namespace network {
 
 
         public class Socket<THeader> where THeader : struct, IHeader {
 
-            private ulong receive_packet_capacity;
-            private ulong max_packet_size;
-            private TimeSpan heartbeat_timespan;
+            private readonly Int32 receive_packet_capacity;
+            private readonly Int32 max_packet_size;
+            private readonly TimeSpan heartbeat_timespan;
             private bool listening;
 
             private Socket socket;
             private EndPoint remote_endpoint;
             private Task deadline_timer;
-            private CancellationTokenSource deadline_timer_token;
+            private CancellationTokenSource cancel_token = new ();
 
             private FPeer self;
             private byte[] receive_buffer;
-            private List<FPeer> peers;
+            private List<FPeer> peers = new(1);
 
-            delegate void ReceiveHandlerType ( in Packet<THeader> _packet, int _bytes, in FPeer _peer );
-            delegate void ConnectionHandlerType ( in FPeer _peer );
-            delegate void DisconnectionHandlerType ( in FPeer _peer );
-            delegate void TimeoutHandlerType ( in FPeer _peer );
+            delegate void ReceiveHandlerType(in Packet<THeader> _packet, int _bytes, in FPeer _peer);
+            delegate void ConnectionHandlerType(in FPeer _peer);
+            delegate void DisconnectionHandlerType(in FPeer _peer);
+            delegate void TimeoutHandlerType(in FPeer _peer);
 
             private ReceiveHandlerType receive_handler = null;
             private ConnectionHandlerType connection_handler = null;
             private DisconnectionHandlerType disconnection_handler = null;
 
+            private ILogger logger = null;
 
-            public Socket (
-                ulong _receive_packet_capacity,
-                ulong _max_packet_size,
-                TimeSpan _heartbeat_timespan
+            public Socket(
+                Int32 _receive_packet_capacity,
+                Int32 _max_packet_size,
+                TimeSpan _heartbeat_timespan,
+                ILogger _logger
             ) {
+                logger = _logger;
+
                 receive_packet_capacity = _receive_packet_capacity;
                 max_packet_size = _max_packet_size;
                 heartbeat_timespan = _heartbeat_timespan;
 
                 receive_buffer = new byte[receive_packet_capacity];
-                peers = new ( );
-
-                self = new ( new IPEndPoint ( IPAddress.Loopback, 0 ) );
-                Open ( AddressFamily.InterNetworkV6 );
+                self = new(new IPEndPoint(IPAddress.IPv6Loopback, 0));
+                socket = new Socket(AddressFamily.InterNetworkV6, SocketType.Dgram, ProtocolType.Udp);
             }
 
-            public void Dispose ( ) {
-                if ( deadline_timer_token != null ) {
-                    deadline_timer_token.Cancel ( );
-                    deadline_timer.Wait ( );
-                    deadline_timer_token.Dispose ( );
+            public void Dispose() {
+                if ( cancel_token != null ) {
+                    cancel_token.Cancel();
+                    deadline_timer.Wait();
+                    cancel_token.Dispose();
                 }
             }
 
-            public void Open ( AddressFamily _address_family ) {
-                socket = new Socket ( _address_family, SocketType.Dgram, ProtocolType.Udp );
-            }
-
-            public void Close ( ) {
-                PacketMessage<THeader> message = new PacketMessage<THeader> ( Self.guid, PacketMessageType.DISCONNECTION_TYPE );
-                AsyncSendToAll ( message.Bytes );
-
+            public void Close() {
+                PacketMessage<THeader> message = new PacketMessage<THeader>(Self.guid, PacketMessageType.DISCONNECTION_TYPE);
+                AsyncSendToAll(message.Bytes);
                 listening = false;
             }
 
-            public void Connect ( EndPoint _endpoint ) {
-                //socket.Connect ( _endpoint );
+            public void Connect(EndPoint _endpoint) {
                 remote_endpoint = _endpoint;
-                
-                PacketMessage<THeader> message = new PacketMessage<THeader> ( Self.guid, PacketMessageType.CONNECTION_TYPE );
-                AsyncSendTo ( message.Bytes, remote_endpoint );
+
+                PacketMessage<THeader> message = new PacketMessage<THeader>(Self.guid, PacketMessageType.CONNECTION_TYPE);
+                AsyncSendTo(message.Bytes, remote_endpoint);
 
                 listening = true;
 
-                HeartBeat ( );
-                Receive ( );
+                HeartBeat();
+                Receive();
             }
 
-            public void Bind ( EndPoint _endpoint ) {
-                socket.Bind ( _endpoint );
+            public void AsyncSendTo(ReadOnlySpan<byte> _buffer_span, EndPoint _endpoint) {
+                try {
+                    socket.SendTo(_buffer_span, SocketFlags.None, _endpoint);
+                } catch ( Exception _e ) {
+                    logger?.WriteLog(ELogLevel.Error, _e.Message);
+                }
             }
 
-            private void OnSend ( IAsyncResult _result ) {
-                Console.WriteLine ( _result.IsCompleted );
-                socket.EndSendTo ( _result );
-            }
-
-            public void AsyncSendTo ( ReadOnlySpan<byte> _buffer_span, EndPoint _endpoint ) {
-                socket.SendTo ( _buffer_span, SocketFlags.None, _endpoint );
-                socket.BeginSendTo ( _buffer_span.ToArray(), 0, _buffer_span.Length, SocketFlags.None, _endpoint, new AsyncCallback ( OnSend ), null );
-            }
-
-            public void AsyncSendToAll ( ReadOnlySpan<byte> _buffer_span ) {
+            public void AsyncSendToAll(ReadOnlySpan<byte> _buffer_span) {
                 for ( int i = 0; i < peers.Count; ++i ) {
-                    AsyncSendTo ( _buffer_span, peers[i].endpoint );
+                    AsyncSendTo(_buffer_span, peers[i].endpoint);
                 }
             }
 
             ref readonly FPeer Self { get => ref self; }
 
-            private void OnReceive ( IAsyncResult _result ) {
-                if ( !_result.IsCompleted ) {
-
-                    return;
-                }
-
+            private void OnReceive(IAsyncResult _result) {
                 try {
-                    int recv = socket.EndReceive ( _result );
-                    ReadOnlySpan<byte> datas = new ( receive_buffer );
-                    Packet<THeader> packet = new ( datas[..recv].ToArray ( ) );
+                    if ( !_result.IsCompleted ) {
+                        throw new Exception("Receive is failure!");
+                    }
 
-                    FPeer? peer = peers.Find ( ( FPeer _peer ) => {
+                    Socket client_socket = _result.AsyncState as Socket;
+                    int recv = client_socket.EndReceive(_result);
+                    if ( recv > max_packet_size ) {
+                        throw new Exception($"bytes transferred size is over! Packet:{recv} MaxPacket:{max_packet_size}");
+                    }
+
+                    ReadOnlySpan<byte> datas = new(receive_buffer);
+                    Packet<THeader> packet = new(datas[..recv].ToArray());
+
+                    FPeer? peer = peers.Find((FPeer _peer) => {
                         if ( _peer.guid == packet.Header.UUID ) {
                             _peer.last_packet_timestamp = DateTime.Now;
                             return true;
                         }
                         return false;
-                    } );
+                    });
 
                     if ( peer == null ) {
-                        peers.Add ( new ( remote_endpoint, packet.Header.UUID, DateTime.Now ) );
-                        peer = peers.Last ( );
+                        peers.Add(new(remote_endpoint, packet.Header.UUID, DateTime.Now));
+                        peer = peers.Last();
 
                         if ( connection_handler != null ) {
-                            connection_handler ( peer.Value );
-                            PacketMessage<THeader> message = new ( Self.guid, PacketMessageType.CONNECTION_TYPE );
-                            AsyncSendTo ( message.Bytes, peer?.endpoint );
+                            connection_handler(peer.Value);
+                            PacketMessage<THeader> message = new(Self.guid, PacketMessageType.CONNECTION_TYPE);
+                            AsyncSendTo(message.Bytes, peer?.endpoint);
                         }
                     }
 
                     bool is_a_user_message = true;
-                    if ( recv - Marshal.SizeOf<THeader> ( ) == sizeof ( uint ) ) {
-                        uint message = BitConverter.ToUInt32 ( packet.Buffer );
+                    if ( recv - Marshal.SizeOf<THeader>() == sizeof(uint) ) {
+                        uint message = BitConverter.ToUInt32(packet.Buffer);
                         if ( message == PacketMessageType.CONNECTION_TYPE || message == PacketMessageType.KEEP_ALIVE_TYPE ) {
                             is_a_user_message = false;
                         } else if ( message == PacketMessageType.DISCONNECTION_TYPE ) {
                             is_a_user_message = false;
-                            disconnection_handler?.Invoke ( peer.Value );
+                            disconnection_handler?.Invoke(peer.Value);
 
-                            peers.RemoveAll ( ( FPeer _peer ) => {
+                            peers.RemoveAll((FPeer _peer) => {
                                 return _peer.guid == peer?.guid;
-                            } );
+                            });
                         }
                     }
 
                     if ( is_a_user_message && receive_buffer != null ) {
-                        receive_handler ( packet, recv, peer.Value );
+                        receive_handler(packet, recv, peer.Value);
                     }
-                } catch ( Exception _exception ) {
-
+                } catch ( Exception _e ) {
+                    logger?.WriteLog(ELogLevel.Error, _e.Message);
                 }
 
                 if ( listening ) {
-                    Receive ( );
+                    Receive();
                 }
-
             }
 
-            private void Receive ( ) {
+            private void Receive() {
                 try {
-                    var result = socket.BeginReceiveFrom ( receive_buffer, 0, receive_buffer.Length, SocketFlags.None, ref remote_endpoint, new AsyncCallback ( OnReceive ), null );
-                } catch ( Exception _exception ) {
+                    AsyncCallback callback = new (OnReceive);
+                    object? state = socket;
+                    var result = socket.BeginReceiveFrom(receive_buffer, 0, receive_buffer.Length, SocketFlags.None, ref remote_endpoint, callback, state);
 
+                    //Task.Factory.StartNew(socket.ReceiveFromAsync(receive_buffer, SocketFlags.None, remote_endpoint, ));
+
+                } catch ( Exception _e ) {
+                    logger?.WriteLog(ELogLevel.Error, _e.Message);
                 }
             }
 
-            private void HeartBeat ( ) {
-                if( deadline_timer_token != null) {
-                    deadline_timer_token.Cancel ( );
-                    deadline_timer.Wait ( );
-                    deadline_timer_token.Dispose ( );
-                }
-                deadline_timer_token = new CancellationTokenSource ( );
-                deadline_timer = Task.Factory.StartNew ( async ( ) => {
+            private void HeartBeat() {
+                deadline_timer = Task.Factory.StartNew(async () => {
                     while ( listening ) {
-                        if ( deadline_timer_token.Token.IsCancellationRequested ) {
+                        if ( cancel_token.Token.IsCancellationRequested ) {
                             return;
                         }
 
-                        peers.RemoveAll ( ( FPeer _peer ) => {
+                        peers.RemoveAll((FPeer _peer) => {
                             if ( _peer.last_packet_timestamp + heartbeat_timespan < DateTime.Now ) {
-                                disconnection_handler?.Invoke ( _peer );
+                                disconnection_handler?.Invoke(_peer);
                                 return true;
                             }
                             return false;
-                        } );
+                        });
 
-                        PacketMessage<THeader> message = new ( Self.guid, PacketMessageType.KEEP_ALIVE_TYPE );
-                        AsyncSendToAll ( message.Bytes );
+                        PacketMessage<THeader> message = new(Self.guid, PacketMessageType.KEEP_ALIVE_TYPE);
+                        AsyncSendToAll(message.Bytes);
 
-                        await Task.Delay ( heartbeat_timespan );
+                        await Task.Delay(heartbeat_timespan);
                     }
-                }, deadline_timer_token.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default );
+                }, cancel_token.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
             }
         }
     }   // network

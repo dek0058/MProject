@@ -53,7 +53,6 @@ private:
 	std::shared_ptr<MEngine> server;
 	
 	Socket<Header> socket;
-	EndPoint endpoint;
 };
 
 }	// network
