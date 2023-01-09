@@ -26,7 +26,6 @@ namespace mproject {
             private CancellationTokenSource cancel_token = new ();
 
             private FPeer self;
-            private byte[] receive_buffer;
             private List<FPeer> peers = new(1);
 
             delegate void ReceiveHandlerType(in Packet<THeader> _packet, int _bytes, in FPeer _peer);
@@ -52,7 +51,6 @@ namespace mproject {
                 max_packet_size = _max_packet_size;
                 heartbeat_timespan = _heartbeat_timespan;
 
-                receive_buffer = new byte[receive_packet_capacity];
                 self = new(new IPEndPoint(IPAddress.IPv6Loopback, 0));
                 socket = new Socket(AddressFamily.InterNetworkV6, SocketType.Dgram, ProtocolType.Udp);
             }
@@ -105,13 +103,12 @@ namespace mproject {
                         throw new Exception("Receive is failure!");
                     }
 
-                    Socket client_socket = _result.AsyncState as Socket;
-                    int recv = client_socket.EndReceive(_result);
+                    int recv = socket.EndReceiveFrom(_result, ref remote_endpoint);
                     if ( recv > max_packet_size ) {
                         throw new Exception($"bytes transferred size is over! Packet:{recv} MaxPacket:{max_packet_size}");
                     }
 
-                    ReadOnlySpan<byte> datas = new(receive_buffer);
+                    ReadOnlySpan<byte> datas = new(_result.AsyncState as byte[]);
                     Packet<THeader> packet = new(datas[..recv].ToArray());
 
                     FPeer? peer = peers.Find((FPeer _peer) => {
@@ -122,7 +119,8 @@ namespace mproject {
                         return false;
                     });
 
-                    if ( peer == null ) {
+                    FPeer? null_peer = null;
+                    if (Nullable.Compare(null_peer, peer) == -1) {
                         peers.Add(new(remote_endpoint, packet.Header.UUID, DateTime.Now));
                         peer = peers.Last();
 
@@ -148,7 +146,7 @@ namespace mproject {
                         }
                     }
 
-                    if ( is_a_user_message && receive_buffer != null ) {
+                    if ( is_a_user_message ) {
                         receive_handler(packet, recv, peer.Value);
                     }
                 } catch ( Exception _e ) {
@@ -163,11 +161,8 @@ namespace mproject {
             private void Receive() {
                 try {
                     AsyncCallback callback = new (OnReceive);
-                    object? state = socket;
-                    var result = socket.BeginReceiveFrom(receive_buffer, 0, receive_buffer.Length, SocketFlags.None, ref remote_endpoint, callback, state);
-
-                    //Task.Factory.StartNew(socket.ReceiveFromAsync(receive_buffer, SocketFlags.None, remote_endpoint, ));
-
+                    Byte[] buffer = new Byte[receive_packet_capacity];
+                    var result = socket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None, ref remote_endpoint, callback, buffer);
                 } catch ( Exception _e ) {
                     logger?.WriteLog(ELogLevel.Error, _e.Message);
                 }

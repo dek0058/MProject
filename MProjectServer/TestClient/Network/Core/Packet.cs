@@ -20,17 +20,17 @@ namespace mproject {
             public Guid UUID { get; set; }
         }
 
-        [StructLayout ( LayoutKind.Explicit, Pack = 4, Size = 20 )]
+        [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 20)]
         public struct FHeader : IHeader {
-            [FieldOffset ( 0 )]
+            [FieldOffset(0)]
             public uint protocol;
-            [FieldOffset ( 4 )]
+            [FieldOffset(4)]
             public Guid guid;
 
-            public FHeader ( ) =>
+            public FHeader() =>
                 (protocol, guid) = (Protocol_ID, Guid.Empty);
 
-            public FHeader ( Guid _guid ) =>
+            public FHeader(Guid _guid) =>
                 (protocol, guid) = (Protocol_ID, _guid);
 
             public uint Protocol_ID { get => 1; }
@@ -44,19 +44,19 @@ namespace mproject {
             private readonly THeader header;
             private readonly byte[] buffer;
 
-            public Packet ( byte[] _buffer ) {
-                int header_length = Marshal.SizeOf<THeader> ( );
+            public Packet(byte[] _buffer) {
+                int header_length = Marshal.SizeOf<THeader>();
                 if ( _buffer.Length < header_length ) {
-                    throw new InvalidDataException ( new string("Packet buffer is too small.") );
+                    throw new InvalidDataException(new string("Packet buffer is too small."));
                 }
 
-                header = ConvertUtility.ToObject<THeader> ( _buffer );
-                if(header.Protocol != header.Protocol_ID) {
-                    throw new InvalidDataException ( new string ( "Packet protocol is not correct." ) );
+                header = ConvertUtility.ToObject<THeader>(_buffer);
+                if ( header.Protocol != header.Protocol_ID ) {
+                    throw new InvalidDataException(new string("Packet protocol is not correct."));
                 }
 
-                var buffer_span = new Span<byte> ( _buffer );
-                buffer = buffer_span.Slice ( header_length, _buffer.Length ).ToArray ( );
+                var buffer_span = new Span<byte>(_buffer);
+                buffer = buffer_span[header_length.._buffer.Length].ToArray();
             }
 
             public ref readonly THeader Header { get => ref header; }
@@ -68,8 +68,8 @@ namespace mproject {
             public THeader header;
             public uint message;
 
-            public PacketMessage ( Guid _guid, uint _message ) {
-                header = new ( ) {
+            public PacketMessage(Guid _guid, uint _message) {
+                header = new() {
                     UUID = _guid
                 };
                 message = _message;
@@ -77,11 +77,11 @@ namespace mproject {
 
             public ReadOnlySpan<byte> Bytes {
                 get {
-                    var header_bytes = ConvertUtility.ToBytes ( header );
-                    var message_bytes = BitConverter.GetBytes ( message );
+                    var header_bytes = ConvertUtility.ToBytes(header);
+                    var message_bytes = BitConverter.GetBytes(message);
                     var result = new byte[header_bytes.Length + message_bytes.Length];
-                    header_bytes.CopyTo ( result, 0 );
-                    message_bytes.CopyTo ( result, header_bytes.Length );
+                    header_bytes.CopyTo(result, 0);
+                    message_bytes.CopyTo(result, header_bytes.Length);
                     return result;
                 }
             }
