@@ -18,9 +18,9 @@ MMORPG 서버를 지향하는 프로젝트입니다.
 
 **[Download it now](https://www.boost.org/users/history/version_1_80_0.html)**
 
-<summary>1.80.0</summary>
+<summary>1.81.0</summary>
 
-**[Document](https://www.boost.org/doc/libs/1_80_0/)**
+**[Document](https://www.boost.org/doc/libs/1_81_0/)**
 
 
 ## wxWidgets
@@ -28,7 +28,7 @@ MMORPG 서버를 지향하는 프로젝트입니다.
 
 **[Download it now](https://www.wxwidgets.org/downloads/)**
 
-<summary>3.2.0</summary>
+<summary>3.2.1</summary>
 
 #### wxFormBuilder **[Open source link](https://github.com/wxFormBuilder)**
 
