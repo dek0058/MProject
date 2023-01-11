@@ -58,8 +58,12 @@ public:
 
 namespace packet_message {
 using type = uint;
+
+/** 연결 유지 요청 */
 type constexpr KEEP_ALIVE_TYPE = 424967295;
+/** 연결 요청 */
 type constexpr CONNECTION_TYPE = 424967296;
+/** 연결 해제 요청 */
 type constexpr DISCONNECTION_TYPE = 424967297;
 }
 

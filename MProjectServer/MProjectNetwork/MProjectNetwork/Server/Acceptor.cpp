@@ -14,36 +14,27 @@ Acceptor::Acceptor(
 	int _fps,
 	std::shared_ptr<MEngine> _server,
 	ushort _port,
-	boost::asio::io_service& _IO_service
+	boost::asio::io_service& _IO_service,
+	size_t _receive_packet_capacity,
+	size_t _max_packet_size,
+	decimal _heartbeat_second
 )
 	: EliteThread(_fps, std::static_pointer_cast<ChiefThread>(_server))
 	, server (_server)
-	, socket(_IO_service, EndPoint(UDP::v6(), _port), 1024, 1024, 5, server->GetLogger())
+	, socket(
+		_IO_service, 
+		EndPoint(UDP::v6(), _port), 
+		_receive_packet_capacity, 
+		_max_packet_size, 
+		_heartbeat_second, 
+		server->GetLogger()
+	)
 {
-	socket.SetReceiveHandler(
-		[this](Packet<Header> const& _packet, size_t _bytes_transferred, FPeer const& _peer) {
-			OnReceiveHandler(_packet, _bytes_transferred, _peer);
-		}
-	);
-
 	socket.SetConnectionHandler(
 		[this](FPeer const& _peer) {
 			OnConnectionHandler(_peer);
 		}
 	);
-
-	socket.SetDisconnectionHandler(
-		[this](FPeer const& _peer) {
-			OnDisconnectionHandler(_peer);
-		}
-	);
-
-	socket.SetTimeoutHandler(
-		[this](FPeer const& _peer) {
-			OnTimeoutHandler(_peer);
-		}
-	);
-
 }
 
 void Acceptor::OnStart() {
@@ -52,6 +43,8 @@ void Acceptor::OnStart() {
 		socket.Open();
 		socket.Bind();
 		socket.Start();
+	} catch (BaseException const _me) {
+		server->WriteLog_Error(FString(_me.What()));
 	} catch (std::exception const& _e) {
 		server->WriteLog_Error(FString(_e.what()));
 	} catch (...) { //! boost
@@ -63,10 +56,10 @@ void Acceptor::OnStart() {
 
 void Acceptor::OnUpdate() {
 	__super::OnUpdate();
-	Session* session = server->GetSession();
-	if (nullptr == session) {
-		throw MEXCEPTION(NullException, session);
-	}
+	//Session* session = server->GetSession();
+	//if (nullptr == session) {
+	//	throw MEXCEPTION(NullException, session);
+	//}
 
 	//acceptor->async_accept()
 
@@ -81,20 +74,14 @@ void Acceptor::OnStop() {
 	socket.Close();
 }
 
-void Acceptor::OnReceiveHandler(Packet<Header> const& _packet, size_t _bytes_transferred, FPeer const& _peer) {
-	GetChief()->WriteLog_Trace(pTEXT("Receive Handler"));
-}
-
 void Acceptor::OnConnectionHandler(FPeer const& _peer) {
 	GetChief()->WriteLog_Trace(pTEXT("Connect Handler"));
-}
-
-void Acceptor::OnDisconnectionHandler(FPeer const& _peer) {
-	GetChief()->WriteLog_Trace(pTEXT("Disconnect Handler"));
-}
-
-void Acceptor::OnTimeoutHandler(FPeer const& _peer) {
-	GetChief()->WriteLog_Trace(pTEXT("Timeout Handler"));
+	Session* session = server->GetSession();
+	if (nullptr == session) {
+		throw MEXCEPTION(NullException, session);
+	}
+	//server->ConnectSession(session);
+	//// TODO:
 }
 
 }	// network

@@ -253,8 +253,8 @@ private:
 		peers.erase(
 			std::remove_if(peers.begin(), peers.end(), [this, &now, &timeout](FPeer const& _peer) -> bool {
 				if (_peer.last_packet_timestamp + timeout < now) {
-					if (disconnection_handler) {
-						disconnection_handler(_peer);
+					if (timeout_handler) {
+						timeout_handler(_peer);
 					}
 					return true;
 				}

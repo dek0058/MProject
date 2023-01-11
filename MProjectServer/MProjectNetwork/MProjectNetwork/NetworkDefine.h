@@ -4,7 +4,7 @@
 #include "GuardDefine.h"
 
 #include <boost/asio.hpp>
-
+#include <concurrent_queue.h>
 
 namespace mproject {
 namespace network {
@@ -17,7 +17,7 @@ using UDP = boost::asio::ip::udp;
 using EndPoint = UDP::endpoint;
 
 
-using SessionKey = int;
+using SessionKey = uint;
 
 enum class ESessionType : byte {
 	Test = 0,
@@ -38,6 +38,10 @@ enum class ESequenceType : byte {
 
 /** 연결 스레드 개수 */
 constexpr uint Connect_Thread_Count = 4;
+
+/* 미정의 기본 고정 상수 정의 ~ */
+constexpr ushort Default_Acceptor_Port = 7778;
+
 
 }	// network
 }	// mproject

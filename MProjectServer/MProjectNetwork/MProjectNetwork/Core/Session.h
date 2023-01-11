@@ -20,6 +20,7 @@ protected:
 
 public:
 	Session(
+		SessionKey _key,
 		boost::asio::io_service& _IO_service,
 		EndPoint _endpoint,
 		size_t _receive_packet_capacity,
@@ -28,11 +29,16 @@ public:
 	);
 	
 	Session(
+		SessionKey _key,
 		boost::asio::io_service& _IO_service,
 		size_t _receive_packet_capacity,
 		size_t _max_packet_size,
 		decimal _heartbeat_second
 	);
+
+	SessionKey GetSessionKey() const {
+		return session_key;
+	}
 
 private:
 

@@ -144,6 +144,12 @@
     <ClInclude Include="Utility\HashUtility.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Exception\DuplicateException.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception\NotFoundException.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\FramesPerSecond.cpp">

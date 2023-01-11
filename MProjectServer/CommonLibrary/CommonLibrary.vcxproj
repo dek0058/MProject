@@ -177,8 +177,10 @@
   <ItemGroup>
     <ClInclude Include="Core\MObject.h" />
     <ClInclude Include="Exception\BaseException.h" />
+    <ClInclude Include="Exception\DuplicateException.h" />
     <ClInclude Include="Exception\ExceptionUtility.h" />
     <ClInclude Include="Exception\ExpiredException.h" />
+    <ClInclude Include="Exception\NotFoundException.h" />
     <ClInclude Include="Exception\NullException.h" />
     <ClInclude Include="flatbuffers\include\flatbuffers\base.h" />
     <ClInclude Include="flatbuffers\include\flatbuffers\code_generators.h" />

@@ -52,6 +52,14 @@ public:
 		return file_name;
 	}
 
+	_NODISCARD virtual FString What() const {
+		return L"[" + Message().data + L"]" + L"(" + GetFileNmae().data + L":" + std::to_wstring(GetLineNumber()) + L")";
+	}
+
+	_NODISCARD virtual char const* what() const override {
+		return "BaseException";
+	}
+
 private:
 	FString message;
 	long line_num;

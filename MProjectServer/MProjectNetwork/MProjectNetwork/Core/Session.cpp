@@ -5,26 +5,28 @@ namespace network {
 
 
 Session::Session(
+	SessionKey _key,
 	boost::asio::io_service& _IO_service,
 	EndPoint _endpoint,
 	size_t _receive_packet_capacity,
 	size_t _max_packet_size,
 	decimal _heartbeat_second
 )
-	: socket(_IO_service, _endpoint, _receive_packet_capacity, _max_packet_size, _heartbeat_second, nullptr)
-	, session_key(0)
+	: session_key(_key)
+	, socket(_IO_service, _endpoint, _receive_packet_capacity, _max_packet_size, _heartbeat_second, nullptr)
 {
 	BindHandler();
 }
 
 Session::Session(
+	SessionKey _key,
 	boost::asio::io_service& _IO_service,
 	size_t _receive_packet_capacity,
 	size_t _max_packet_size,
 	decimal _heartbeat_second
 )
-	: socket(_IO_service, _receive_packet_capacity, _max_packet_size, _heartbeat_second, nullptr)
-	, session_key(0)
+	: session_key(_key)
+	, socket(_IO_service, _receive_packet_capacity, _max_packet_size, _heartbeat_second, nullptr)
 {
 	BindHandler();
 }

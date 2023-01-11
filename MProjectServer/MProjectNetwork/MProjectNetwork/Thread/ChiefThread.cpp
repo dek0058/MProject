@@ -3,6 +3,7 @@
 #include "String/StringUtility.h"
 #include "MProjectLogger/Logger/SpdLogger.h"
 #include "MProjectNetwork/NetworkDefine.h"
+#include "Exception/ExceptionUtility.h"
 
 namespace mproject {
 namespace network {
@@ -20,7 +21,11 @@ ChiefThread::ChiefThread(FString _name, int _fps, std::shared_ptr<Logger> _logge
 
 ChiefThread::~ChiefThread() {
 	OnStop();
-	// join.......
+	for (auto& elite_thread : sub_threads) {
+		if (elite_thread) {
+			elite_thread->Join();
+		}
+	}
 }
 
 void ChiefThread::OnStart() {
@@ -34,9 +39,10 @@ void ChiefThread::OnStart() {
 		if (elite_thread.get() != nullptr) {
 			try {
 				elite_thread->Start(stop_source.get_token());
-			}
-			catch (std::exception _exception) {
-				return GetLogger()->WriteLog(ELogLevel::Critical, FString(_exception.what()));
+			} catch (BaseException const& _me) {
+				return GetLogger()->WriteLog(ELogLevel::Error, _me.What());
+			} catch (std::exception _e) {
+				return GetLogger()->WriteLog(ELogLevel::Error, FString(_e.what()));
 			}
 		}
 	}

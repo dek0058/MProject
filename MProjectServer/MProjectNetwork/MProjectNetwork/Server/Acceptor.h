@@ -32,7 +32,10 @@ public:
 		int _fps,
 		std::shared_ptr<MEngine> _server,
 		ushort _port,
-		boost::asio::io_service& _IO_service
+		boost::asio::io_service& _IO_service,
+		size_t _receive_packet_capacity,
+		size_t _max_packet_size,
+		decimal _heartbeat_second
 	);
 	
 protected:
@@ -42,11 +45,7 @@ protected:
 	virtual void OnStop() override;
 	
 private:
-
-	void OnReceiveHandler(Packet<Header> const& _packet, size_t _bytes_transferred, FPeer const& _peer);
 	void OnConnectionHandler(FPeer const& _peer);
-	void OnDisconnectionHandler(FPeer const& _peer);
-	void OnTimeoutHandler(FPeer const& _peer);
 	
 private:
 
