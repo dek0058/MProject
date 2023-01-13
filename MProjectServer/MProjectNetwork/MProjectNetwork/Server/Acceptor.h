@@ -10,6 +10,7 @@
 #pragma once
 #include "MProjectNetwork/Thread/EliteThread.h"
 #include "MProjectNetwork/Core/Socket.h"
+#include "Utility/SPSCQueue.h"
 
 namespace mproject {
 namespace network {
@@ -52,6 +53,7 @@ private:
 	std::shared_ptr<MEngine> server;
 	
 	Socket<Header> socket;
+	
 };
 
 }	// network

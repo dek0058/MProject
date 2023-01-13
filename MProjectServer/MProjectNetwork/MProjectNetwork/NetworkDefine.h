@@ -37,10 +37,10 @@ enum class ESequenceType : byte {
 */
 
 /** 연결 스레드 개수 */
-constexpr uint Connect_Thread_Count = 4;
+constexpr uint Connect_Thread_Count = 4U;
 
 /* 미정의 기본 고정 상수 정의 ~ */
-constexpr ushort Default_Acceptor_Port = 7778;
+constexpr ushort Default_Acceptor_Port = 7778U;
 
 
 }	// network
