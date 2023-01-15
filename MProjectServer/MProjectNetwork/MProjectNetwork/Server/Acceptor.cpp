@@ -80,6 +80,7 @@ void Acceptor::OnConnectionHandler(FPeer const& _peer) {
 	if (nullptr == session) {
 		throw MEXCEPTION(NullException, session);
 	}
+	// 커밋 테스트 용
 	//server->ConnectSession(session);
 	//// TODO:
 }
