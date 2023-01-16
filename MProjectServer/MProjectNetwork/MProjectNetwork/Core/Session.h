@@ -36,9 +36,18 @@ public:
 		decimal _heartbeat_second
 	);
 
+
+public:
+
+	/** set address */
+	void SetAddress(Address _address) {
+		address = _address;
+	}
+
 	SessionKey GetSessionKey() const {
 		return session_key;
 	}
+
 
 private:
 
@@ -52,6 +61,7 @@ private:
 private:
 
 	SessionKey session_key;
+	Address address;
 
 	Socket<Header> socket;
 

@@ -23,5 +23,9 @@ TestEngine::TestEngine(
 	
 }
 
+void TestEngine::OnConnectSession(Session* _session) {
+	
+}
+
 }	// mproject
 

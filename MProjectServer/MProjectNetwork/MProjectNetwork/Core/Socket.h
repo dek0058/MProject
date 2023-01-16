@@ -82,16 +82,19 @@ public:
 
 public:
 
+	/** 소켓을 시작 합니다. */
 	void Start() {
 		listening = true;
 		HeartBeat();
 		Receive();
 	}
 
+	/** 등록된 Remote EndPoint 주소로 소켓을 오픈합니다. */
 	void Open() {
 		socket.open(remote_endpoint.protocol());
 	}
 
+	/** 소켓을 닫습니다. */
 	void Close() noexcept {
 		PacketMessage<Header> message(Self().uuid, packet_message::DISCONNECTION_TYPE);
 		AsyncSendToAll(reinterpret_cast<void*>(&message), sizeof(message));
@@ -99,6 +102,7 @@ public:
 		listening = false;
 	}
 
+	/** 소켓을 열고 EndPoint주소로 연결 요청을 합니다. */
 	void Connect(EndPoint& _endpoint) {
 		remote_endpoint = _endpoint;
 		Open();
@@ -111,11 +115,12 @@ public:
 		Start();
 	}
 
+	/** 소켓과 Remote EndPoint 주소를 결합합니다. */
 	void Bind() noexcept {
 		socket.bind(remote_endpoint);
 	}
 
-	void AsyncSendTo(void* _buffer, size_t _buffer_size, EndPoint& _end_point) {
+	void AsyncSendTo(void* _buffer, size_t _buffer_size, EndPoint const& _end_point) {
 		socket.async_send_to(
 			boost::asio::buffer(_buffer, _buffer_size),
 			_end_point,
@@ -142,6 +147,10 @@ public:
 		return self;
 	}
 
+	bool IsListening() const {
+		return listening;
+	}
+	
 	void SetReceiveHandler(ReceiveHandlerType const& _handler) {
 		receive_handler = _handler;
 	}
@@ -228,7 +237,7 @@ private:
 		} catch (...) {
 		}
 
-		if (listening) {
+		if (IsListening()) {
 			Receive();
 		}
 	}
@@ -263,7 +272,7 @@ private:
 			peers.end()
 		);
 
-		if (listening) {
+		if (IsListening()) {
 			PacketMessage<Header> message(Self().uuid, packet_message::KEEP_ALIVE_TYPE);
 			AsyncSendToAll(reinterpret_cast<void*>(&message), sizeof(message));
 			HeartBeat();
@@ -280,7 +289,7 @@ private:
 			OnHeartBeat();
 		});
 	}
-public:
+private:
 
 	size_t receive_packet_capacity;
 	size_t max_packet_size;

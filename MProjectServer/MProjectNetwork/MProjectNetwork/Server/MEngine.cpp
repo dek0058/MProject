@@ -26,6 +26,7 @@ MEngine::MEngine(
 	, heartbeat_second(_heartbeat_second)
 	
 	//! Session
+	, session_count(_session_count)
 	, origine_session_key(0)
 	, session_pool(_session_count)
 
@@ -52,6 +53,7 @@ void MEngine::OnStart() {
 		std::static_pointer_cast<MEngine>(shared_from_this()),
 		acceptor_port,
 		IO_service->Get(),
+		session_count,
 		acceptor_receive_packet_capacity,
 		acceptor_max_packet_size,
 		acceptor_heartbeat_second
@@ -118,6 +120,9 @@ void MEngine::ConnectSession(Session* _session) {
 	}
 	
 	connect_session_map.emplace(_session->GetSessionKey(), _session);
+
+	// Run Session...
+	OnConnectSession(_session);
 }
 
 void MEngine::DisconnectSession(Session* _session) {

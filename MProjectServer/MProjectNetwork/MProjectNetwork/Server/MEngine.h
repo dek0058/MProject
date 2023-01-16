@@ -67,6 +67,10 @@ public:
 	/** 세션이 연결이 종결 됬음을 알립니다. */
 	void DisconnectSession(Session* _session);
 
+protected:
+	
+	virtual void OnConnectSession(Session* _session) {}
+
 private:
 	SessionKey GetSessionKey() {
 		SessionKey Result = 0;
@@ -109,6 +113,7 @@ private:
 	decimal heartbeat_second;
 	
 	//! Session
+	size_t session_count;
 	std::atomic<SessionKey> origine_session_key;
 	MemoryPool<Session> session_pool;
 	hashmap<SessionKey, Session*> connect_session_map;

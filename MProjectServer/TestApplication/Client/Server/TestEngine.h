@@ -13,13 +13,17 @@
 
 namespace mproject {
 
-namespace logger
-{
+namespace logger {
 class ILogger;
 }	// logger
 
+namespace network {
+class Session;
+}
+
 class TestEngine : public network::MEngine {
 	using Logger = logger::ILogger;
+	using Session = network::Session;
 
 public:
 	TestEngine(
@@ -30,6 +34,9 @@ public:
 		decimal _heartbeat_second
 	);
 
+protected:
+
+	virtual void OnConnectSession(Session* _session) override;
 
 private:
 

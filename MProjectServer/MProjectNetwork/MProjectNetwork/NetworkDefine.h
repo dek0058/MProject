@@ -15,9 +15,11 @@ namespace network {
 
 using UDP = boost::asio::ip::udp;
 using EndPoint = UDP::endpoint;
+using Address = boost::asio::ip::address;
 
 
 using SessionKey = uint;
+
 
 enum class ESessionType : byte {
 	Test = 0,
