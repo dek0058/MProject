@@ -20,7 +20,6 @@ class IOService;
 class Session;
 
 class Acceptor : public EliteThread {
-protected:
 	using Header = FHeader;
 
 public:

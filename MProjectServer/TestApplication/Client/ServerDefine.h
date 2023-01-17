@@ -8,6 +8,19 @@
 
 #pragma once
 #include "GlobalDefine.h"
+#include "MProjectNetwork/NetworkDefine.h"
+#include "MProjectLogger/LogDefine.h"
 
+
+namespace {
+
+
+/* 미정의 기본 고정 상수 정의 ~ */
+
+constexpr ushort Default_Login_Port = 7780U;
+constexpr ushort Default_Game_Port = 7790U;
+
+
+}	// mproject
 
 

@@ -60,7 +60,9 @@ public:
 	}
 
 protected:
+	virtual void OnPreStart() override;
 	virtual void OnStart() override;
+	virtual void OnPostStart() override;
 	virtual void OnUpdate() override;
 	virtual void OnStop() override;
 
@@ -71,6 +73,7 @@ protected:
 	int fps;
 	
 	std::stop_source stop_source;
+	size_t thread_count;
 	std::vector<std::shared_ptr<EliteThread>> sub_threads;
 	
 	std::shared_ptr<Logger> logger;

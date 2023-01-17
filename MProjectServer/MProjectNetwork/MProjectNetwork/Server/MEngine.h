@@ -21,7 +21,7 @@ namespace network {
 
 class IOService;
 class Session;
-class Acceptor;
+//class Acceptor;
 
 class MEngine : public ChiefThread {
 	using Logger = logger::ILogger;
@@ -44,6 +44,8 @@ public:
 	~MEngine();
 
 protected:
+	
+	virtual void OnPreStart() override;
 	virtual void OnStart() override;
 	virtual void OnUpdate() override;
 	virtual void OnStop() override;
@@ -85,24 +87,24 @@ private:
 	}
 
 /* Acceptor ~ */
-public:
-
-	/** Acceptor 초당 프레임을 설정합니다. */
-	void SetAcceptorFps(int _fps) {
-		acceptor_fps = _fps;
-	}
-
-	/** Acceptor 포트를 설정합니다. */
-	void SetAcceptorPort(ushort _port) {
-		acceptor_port = _port;
-	}
-	
-	/** Acceptor의 기본 정보를 세팅합니다. */
-	void SetAcceptorInfo(size_t _receive_packet_capacity, size_t _max_packet_size, decimal _heartbeat_second) {
-		acceptor_receive_packet_capacity = _receive_packet_capacity;
-		acceptor_max_packet_size = _max_packet_size;
-		acceptor_heartbeat_second = _heartbeat_second;
-	}
+//public:
+//
+//	/** Acceptor 초당 프레임을 설정합니다. */
+//	void SetAcceptorFps(int _fps) {
+//		acceptor_fps = _fps;
+//	}
+//
+//	/** Acceptor 포트를 설정합니다. */
+//	void SetAcceptorPort(ushort _port) {
+//		acceptor_port = _port;
+//	}
+//	
+//	/** Acceptor의 기본 정보를 세팅합니다. */
+//	void SetAcceptorInfo(size_t _receive_packet_capacity, size_t _max_packet_size, decimal _heartbeat_second) {
+//		acceptor_receive_packet_capacity = _receive_packet_capacity;
+//		acceptor_max_packet_size = _max_packet_size;
+//		acceptor_heartbeat_second = _heartbeat_second;
+//	}
 
 private:
 
@@ -122,12 +124,12 @@ private:
 	// TODO:Thread
 
 	//! Acceptor
-	int acceptor_fps;
-	ushort acceptor_port;
-	size_t acceptor_receive_packet_capacity;
-	size_t acceptor_max_packet_size;
-	decimal acceptor_heartbeat_second;
-	std::shared_ptr<Acceptor> acceptor;
+	//int acceptor_fps;
+	//ushort acceptor_port;
+	//size_t acceptor_receive_packet_capacity;
+	//size_t acceptor_max_packet_size;
+	//decimal acceptor_heartbeat_second;
+	//std::shared_ptr<Acceptor> acceptor;
 };
 
 }	// network

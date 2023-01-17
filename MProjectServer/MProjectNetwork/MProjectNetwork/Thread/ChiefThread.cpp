@@ -11,12 +11,16 @@ namespace network {
 using ELogLevel = logger::ELogLevel;
 
 ChiefThread::ChiefThread(FString _name, int _fps) 
-	: MThread(_fps), name(_name), fps(_fps) {
+	: MThread(_fps), name(_name), fps(_fps)
+	, thread_count(0)
+{
 	logger = std::make_unique<logger::SpdLogger>(name, StringFormat::Format(pTEXT("./Logs/{}.log"), name.data));
 }
 
 ChiefThread::ChiefThread(FString _name, int _fps, std::shared_ptr<Logger> _logger)
-	: MThread(_fps), name(_name), fps(_fps), logger(_logger) {
+	: MThread(_fps), name(_name), fps(_fps), logger(_logger)
+	, thread_count(0)
+{
 }
 
 ChiefThread::~ChiefThread() {
@@ -28,20 +32,28 @@ ChiefThread::~ChiefThread() {
 	}
 }
 
-void ChiefThread::OnStart() {
+void ChiefThread::OnPreStart() {
 	GetLogger()->WriteLog(
 		ELogLevel::Info, 
 		StringFormat::Format(FString(pTEXT("{} Start")), name.data)
 	);
-	
+}
+
+void ChiefThread::OnStart() {
+	sub_threads.reserve(thread_count);
+}
+
+void ChiefThread::OnPostStart() {
 	stop_source = std::stop_source();
 	for (auto& elite_thread : sub_threads) {
 		if (elite_thread.get() != nullptr) {
 			try {
 				elite_thread->Start(stop_source.get_token());
-			} catch (BaseException const& _me) {
+			}
+			catch (BaseException const& _me) {
 				return GetLogger()->WriteLog(ELogLevel::Error, _me.What());
-			} catch (std::exception _e) {
+			}
+			catch (std::exception _e) {
 				return GetLogger()->WriteLog(ELogLevel::Error, FString(_e.what()));
 			}
 		}

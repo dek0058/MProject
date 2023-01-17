@@ -154,6 +154,7 @@
     <ClCompile Include="Client\UI\Frame\MainFrame.cpp" />
     <ClCompile Include="Client\UI\Frame\TestFrame.cpp" />
     <ClCompile Include="Client\UI\Parent\MWidget.cpp" />
+    <ClCompile Include="Client\Server\LoginLevel.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +183,7 @@
     <ClInclude Include="Client\UI\Frame\MainFrame.h" />
     <ClInclude Include="Client\UI\Frame\TestFrame.h" />
     <ClInclude Include="Client\UI\Parent\MWidget.h" />
+    <ClInclude Include="Client\Server\LoginLevel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

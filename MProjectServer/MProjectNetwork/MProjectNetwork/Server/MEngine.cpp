@@ -31,11 +31,11 @@ MEngine::MEngine(
 	, session_pool(_session_count)
 
 	//! Accpetor
-	, acceptor_fps(_fps)
+	/*, acceptor_fps(_fps)
 	, acceptor_port(Default_Acceptor_Port)
 	, acceptor_receive_packet_capacity(_receive_packet_capacity)
 	, acceptor_max_packet_size(_max_packet_size)
-	, acceptor_heartbeat_second(_heartbeat_second)
+	, acceptor_heartbeat_second(_heartbeat_second)*/
 	
 {
 	IO_service = std::make_shared<IOService>();
@@ -44,11 +44,11 @@ MEngine::MEngine(
 MEngine::~MEngine() {
 }
 
-void MEngine::OnStart() {
-	size_t capacity = 0;
+void MEngine::OnPreStart() {
+	__super::OnPreStart();
 
 	// TODO: Create sub thread
-	acceptor = std::make_shared<Acceptor>(
+	/*acceptor = std::make_shared<Acceptor>(
 		acceptor_fps,
 		std::static_pointer_cast<MEngine>(shared_from_this()),
 		acceptor_port,
@@ -58,15 +58,15 @@ void MEngine::OnStart() {
 		acceptor_max_packet_size,
 		acceptor_heartbeat_second
 	);
-	++capacity;
+	++thread_count;*/
+}
 
-	sub_threads.reserve(capacity);
+void MEngine::OnStart() {
+	__super::OnStart();
 	
 	// TODO: Add sub thread
-	AddSubThread(acceptor);
-
-	// start elite_thread...
-	__super::OnStart();
+	//AddSubThread(acceptor);
+	
 }
 
 void MEngine::OnUpdate() {
@@ -80,8 +80,8 @@ void MEngine::OnUpdate() {
 
 void MEngine::OnStop() {
 	__super::OnStop();
-	acceptor->Stop();
-	acceptor.reset();
+	//acceptor->Stop();
+	//acceptor.reset();
 	IO_service->Stop();
 	for (auto& thread : sub_threads) {
 		thread->Join();

@@ -37,7 +37,9 @@ void MThread::Thread_Run(std::stop_token _stop_token) {
 	});
 
 	state = EState::Running;
+	OnPreStart();
 	OnStart();
+	OnPostStart();
 	
 	while (state == EState::Running) {
 		if (_stop_token.stop_requested()) {

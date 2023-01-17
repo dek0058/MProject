@@ -51,6 +51,9 @@
     <ClCompile Include="Client\Command\CommonCaller.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Client\Server\LoginLevel.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client\Command\Command.h">
@@ -93,6 +96,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Client\Command\CommonCaller.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Client\Server\LoginLevel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

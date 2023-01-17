@@ -59,7 +59,9 @@ public:
 	}
 	
 protected:
+	virtual void OnPreStart() {}
 	virtual void OnStart() {}
+	virtual void OnPostStart() {}
 	virtual void OnUpdate() {}
 	virtual void OnStop() {}
 
