@@ -32,6 +32,7 @@
 #include <map>
 #include <unordered_map>
 #include <set>
+#include <unordered_set>
 #include <queue>
 #include <forward_list>
 #include <span>
@@ -50,8 +51,7 @@ typedef unsigned long		ulong;
 typedef long long			decimal;
 typedef unsigned long long	udecimal;
 //typedef float				float;
-typedef double				real;
-typedef std::wstring		str;
+//typedef double			real;
 
 
 //template<class T>

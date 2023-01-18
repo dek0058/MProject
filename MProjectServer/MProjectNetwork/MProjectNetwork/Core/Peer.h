@@ -8,19 +8,12 @@
 #pragma once
 
 #include "MProjectNetwork/NetworkDefine.h"
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/nil_generator.hpp>
-#include <boost/uuid/random_generator.hpp>
 #include <boost/asio/ip/udp.hpp>
 
 namespace mproject {
 namespace network {
 
 struct FPeer {
-private:
-	using UUID = boost::uuids::uuid;
-public:
-
 	UUID uuid;
 	EndPoint endpoint;
 	std::chrono::seconds last_packet_timestamp;

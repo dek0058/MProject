@@ -42,7 +42,8 @@ protected:
 	virtual void OnUpdate() override;
 	virtual void OnStop() override;
 
-	virtual void OnConnectSession(Session* _session) override;
+	
+	
 
 private:
 

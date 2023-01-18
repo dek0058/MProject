@@ -69,14 +69,13 @@ public:
 	/** 세션이 연결이 종결 됬음을 알립니다. */
 	void DisconnectSession(Session* _session);
 
-protected:
-	
-	virtual void OnConnectSession(Session* _session) {}
-
 private:
 	SessionKey GetSessionKey() {
 		SessionKey Result = 0;
-		if (!recycle_session_key_queue.try_pop(Result)) {
+		if (recycle_session_key_queue.size() > 0) {
+			Result = recycle_session_key_queue.front();
+			recycle_session_key_queue.pop();
+		} else {
 			Result = ++origine_session_key;
 		}
 		return Result;
@@ -106,7 +105,7 @@ private:
 //		acceptor_heartbeat_second = _heartbeat_second;
 //	}
 
-private:
+protected:
 
 	std::shared_ptr<IOService> IO_service;
 
@@ -119,7 +118,7 @@ private:
 	std::atomic<SessionKey> origine_session_key;
 	MemoryPool<Session> session_pool;
 	hashmap<SessionKey, Session*> connect_session_map;
-	concurrency::concurrent_queue<SessionKey> recycle_session_key_queue;
+	std::queue<SessionKey> recycle_session_key_queue;
 
 	// TODO:Thread
 

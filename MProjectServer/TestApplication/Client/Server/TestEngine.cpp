@@ -39,17 +39,18 @@ TestEngine::TestEngine(
 void TestEngine::OnPreStart() {
 	__super::OnPreStart();
 
+	thread_count++;
 	login_level = std::make_shared<LoginLevel>(
 		fps,
 		std::static_pointer_cast<TestEngine>(shared_from_this()),
 		login_port,
 		GetIOService()->Get(),
+		session_count,
 		login_receive_packet_capacity,
 		login_max_packet_size,
 		login_heartbeat_second
 	);
-	thread_count++;
-		
+	
 	
 }
 
@@ -69,12 +70,6 @@ void TestEngine::OnStop() {
 
 }
 
-void TestEngine::OnConnectSession(Session* _session) {
-	WriteLog_Info(pTEXT("Test Engine connect!"));
-
-
-
-}
 
 }	// mproject
 

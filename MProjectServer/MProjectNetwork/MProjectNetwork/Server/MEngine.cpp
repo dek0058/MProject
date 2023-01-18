@@ -120,9 +120,6 @@ void MEngine::ConnectSession(Session* _session) {
 	}
 	
 	connect_session_map.emplace(_session->GetSessionKey(), _session);
-
-	// Run Session...
-	OnConnectSession(_session);
 }
 
 void MEngine::DisconnectSession(Session* _session) {

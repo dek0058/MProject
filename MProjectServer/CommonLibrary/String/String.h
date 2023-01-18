@@ -76,8 +76,8 @@ struct FString {
 		return FString(data + std::move(_str.data));
 	}
 
-	auto operator <=> (FString const& other) const {
-		return data <=> other.data;
+	auto operator <=> (FString const& _other) const {
+		return data <=> _other.data;
 	}
 
 // Methods

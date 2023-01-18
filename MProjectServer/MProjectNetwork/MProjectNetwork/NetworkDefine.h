@@ -4,7 +4,9 @@
 #include "GuardDefine.h"
 
 #include <boost/asio.hpp>
-#include <concurrent_queue.h>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/nil_generator.hpp>
+#include <boost/uuid/random_generator.hpp>
 
 namespace mproject {
 namespace network {
@@ -17,6 +19,7 @@ using UDP = boost::asio::ip::udp;
 using EndPoint = UDP::endpoint;
 using Address = boost::asio::ip::address;
 
+using UUID = boost::uuids::uuid;
 
 using SessionKey = uint;
 

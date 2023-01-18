@@ -13,8 +13,6 @@ namespace mproject {
 namespace network {
 
 struct FHeader {
-protected:
-	using UUID = boost::uuids::uuid;
 public:
 	uint protocol;	// 4 bytes
 	UUID uuid;		// 16 bytes
@@ -70,8 +68,6 @@ type constexpr DISCONNECTION_TYPE = 424967297;
 template<typename Header = FHeader>
 	requires std::derived_from<Header, FHeader>
 struct PacketMessage {
-protected:
-	using UUID = boost::uuids::uuid;
 public:
 	Header header;
 	packet_message::type message;
