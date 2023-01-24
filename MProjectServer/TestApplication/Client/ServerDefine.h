@@ -11,6 +11,7 @@
 #include "MProjectNetwork/NetworkDefine.h"
 #include "MProjectLogger/LogDefine.h"
 
+#include <boost/lexical_cast.hpp>
 
 namespace {
 

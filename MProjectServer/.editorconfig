@@ -1,4 +1,4 @@
-root = true
+ï»¿root = true
  
 [*]
 charset = utf-8-bom
@@ -37,9 +37,9 @@ dotnet_style_predefined_type_for_member_access = true:silent
 dotnet_style_readonly_field = true:suggestion
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
 [*.cs]
-#### ¸í¸í ½ºÅ¸ÀÏ ####
+#### ëª…ëª… ìŠ¤íƒ€ì¼ ####
 
-# ¸í¸í ±ÔÄ¢
+# ëª…ëª… ê·œì¹™
 
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
@@ -53,7 +53,7 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
-# ±âÈ£ »ç¾ç
+# ê¸°í˜¸ ì‚¬ì–‘
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
@@ -67,7 +67,7 @@ dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, meth
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.non_field_members.required_modifiers = 
 
-# ¸í¸í ½ºÅ¸ÀÏ
+# ëª…ëª… ìŠ¤íƒ€ì¼
 
 dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.required_suffix = 
@@ -129,49 +129,116 @@ csharp_prefer_static_local_function = true:suggestion
 csharp_style_prefer_readonly_struct = true:suggestion
 
 [*.vb]
-#### ¸í¸í ½ºÅ¸ÀÏ ####
+#### ëª…ëª… ìŠ¤íƒ€ì¼ ####
 
-# ¸í¸í ±ÔÄ¢
+# ëª…ëª… ê·œì¹™
 
-dotnet_naming_rule.interface_should_be_i·Î_½ÃÀÛ.severity = suggestion
-dotnet_naming_rule.interface_should_be_i·Î_½ÃÀÛ.symbols = interface
-dotnet_naming_rule.interface_should_be_i·Î_½ÃÀÛ.style = i·Î_½ÃÀÛ
+dotnet_naming_rule.interface_should_be_ië¡œ_ì‹œì‘.severity = suggestion
+dotnet_naming_rule.interface_should_be_ië¡œ_ì‹œì‘.symbols = interface
+dotnet_naming_rule.interface_should_be_ië¡œ_ì‹œì‘.style = ië¡œ_ì‹œì‘
 
-dotnet_naming_rule.Çü½Ä_should_be_ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.severity = suggestion
-dotnet_naming_rule.Çü½Ä_should_be_ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.symbols = Çü½Ä
-dotnet_naming_rule.Çü½Ä_should_be_ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.style = ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ
+dotnet_naming_rule.í˜•ì‹_should_be_íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.severity = suggestion
+dotnet_naming_rule.í˜•ì‹_should_be_íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.symbols = í˜•ì‹
+dotnet_naming_rule.í˜•ì‹_should_be_íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.style = íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì
 
-dotnet_naming_rule.ÇÊµå°¡_¾Æ´Ñ_¸â¹ö_should_be_ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.severity = suggestion
-dotnet_naming_rule.ÇÊµå°¡_¾Æ´Ñ_¸â¹ö_should_be_ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.symbols = ÇÊµå°¡_¾Æ´Ñ_¸â¹ö
-dotnet_naming_rule.ÇÊµå°¡_¾Æ´Ñ_¸â¹ö_should_be_ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.style = ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ
+dotnet_naming_rule.í•„ë“œê°€_ì•„ë‹Œ_ë©¤ë²„_should_be_íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.severity = suggestion
+dotnet_naming_rule.í•„ë“œê°€_ì•„ë‹Œ_ë©¤ë²„_should_be_íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.symbols = í•„ë“œê°€_ì•„ë‹Œ_ë©¤ë²„
+dotnet_naming_rule.í•„ë“œê°€_ì•„ë‹Œ_ë©¤ë²„_should_be_íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.style = íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì
 
-# ±âÈ£ »ç¾ç
+# ê¸°í˜¸ ì‚¬ì–‘
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, friend, private, protected, protected_friend, private_protected
 dotnet_naming_symbols.interface.required_modifiers = 
 
-dotnet_naming_symbols.Çü½Ä.applicable_kinds = class, struct, interface, enum
-dotnet_naming_symbols.Çü½Ä.applicable_accessibilities = public, friend, private, protected, protected_friend, private_protected
-dotnet_naming_symbols.Çü½Ä.required_modifiers = 
+dotnet_naming_symbols.í˜•ì‹.applicable_kinds = class, struct, interface, enum
+dotnet_naming_symbols.í˜•ì‹.applicable_accessibilities = public, friend, private, protected, protected_friend, private_protected
+dotnet_naming_symbols.í˜•ì‹.required_modifiers = 
 
-dotnet_naming_symbols.ÇÊµå°¡_¾Æ´Ñ_¸â¹ö.applicable_kinds = property, event, method
-dotnet_naming_symbols.ÇÊµå°¡_¾Æ´Ñ_¸â¹ö.applicable_accessibilities = public, friend, private, protected, protected_friend, private_protected
-dotnet_naming_symbols.ÇÊµå°¡_¾Æ´Ñ_¸â¹ö.required_modifiers = 
+dotnet_naming_symbols.í•„ë“œê°€_ì•„ë‹Œ_ë©¤ë²„.applicable_kinds = property, event, method
+dotnet_naming_symbols.í•„ë“œê°€_ì•„ë‹Œ_ë©¤ë²„.applicable_accessibilities = public, friend, private, protected, protected_friend, private_protected
+dotnet_naming_symbols.í•„ë“œê°€_ì•„ë‹Œ_ë©¤ë²„.required_modifiers = 
 
-# ¸í¸í ½ºÅ¸ÀÏ
+# ëª…ëª… ìŠ¤íƒ€ì¼
 
-dotnet_naming_style.i·Î_½ÃÀÛ.required_prefix = I
-dotnet_naming_style.i·Î_½ÃÀÛ.required_suffix = 
-dotnet_naming_style.i·Î_½ÃÀÛ.word_separator = 
-dotnet_naming_style.i·Î_½ÃÀÛ.capitalization = pascal_case
+dotnet_naming_style.ië¡œ_ì‹œì‘.required_prefix = I
+dotnet_naming_style.ië¡œ_ì‹œì‘.required_suffix = 
+dotnet_naming_style.ië¡œ_ì‹œì‘.word_separator = 
+dotnet_naming_style.ië¡œ_ì‹œì‘.capitalization = pascal_case
 
-dotnet_naming_style.ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.required_prefix = 
-dotnet_naming_style.ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.required_suffix = 
-dotnet_naming_style.ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.word_separator = 
-dotnet_naming_style.ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.capitalization = pascal_case
+dotnet_naming_style.íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.required_prefix = 
+dotnet_naming_style.íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.required_suffix = 
+dotnet_naming_style.íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.word_separator = 
+dotnet_naming_style.íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.capitalization = pascal_case
 
-dotnet_naming_style.ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.required_prefix = 
-dotnet_naming_style.ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.required_suffix = 
-dotnet_naming_style.ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.word_separator = 
-dotnet_naming_style.ÆÄ½ºÄ®½Ä_´ë_¼Ò¹®ÀÚ.capitalization = pascal_case
+dotnet_naming_style.íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.required_prefix = 
+dotnet_naming_style.íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.required_suffix = 
+dotnet_naming_style.íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.word_separator = 
+dotnet_naming_style.íŒŒìŠ¤ì¹¼ì‹_ëŒ€_ì†Œë¬¸ì.capitalization = pascal_case
+
+[*.{c++,cc,cpp,cppm,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli}]
+
+# Visual C++ è‚„ë¶¾ë±¶ ?ã…½????ã…¼ì ™
+
+cpp_generate_documentation_comments = xml
+
+# Visual C++ ?ì’–ë–‡ ?ã…¼ì ™
+
+cpp_indent_braces = false
+cpp_indent_multi_line_relative_to = innermost_parenthesis
+cpp_indent_within_parentheses = indent
+cpp_indent_preserve_within_parentheses = true
+cpp_indent_case_contents = false
+cpp_indent_case_labels = false
+cpp_indent_case_contents_when_block = false
+cpp_indent_lambda_braces_when_parameter = false
+cpp_indent_goto_labels = one_left
+cpp_indent_preprocessor = leftmost_column
+cpp_indent_access_specifiers = false
+cpp_indent_namespace_contents = false
+cpp_indent_preserve_comments = false
+cpp_new_line_before_open_brace_namespace = ignore
+cpp_new_line_before_open_brace_type = ignore
+cpp_new_line_before_open_brace_function = ignore
+cpp_new_line_before_open_brace_block = ignore
+cpp_new_line_before_open_brace_lambda = ignore
+cpp_new_line_scope_braces_on_separate_lines = false
+cpp_new_line_close_brace_same_line_empty_type = false
+cpp_new_line_close_brace_same_line_empty_function = false
+cpp_new_line_before_catch = true
+cpp_new_line_before_else = true
+cpp_new_line_before_while_in_do_while = false
+cpp_space_before_function_open_parenthesis = remove
+cpp_space_within_parameter_list_parentheses = false
+cpp_space_between_empty_parameter_list_parentheses = false
+cpp_space_after_keywords_in_control_flow_statements = true
+cpp_space_within_control_flow_statement_parentheses = false
+cpp_space_before_lambda_open_parenthesis = false
+cpp_space_within_cast_parentheses = false
+cpp_space_after_cast_close_parenthesis = false
+cpp_space_within_expression_parentheses = false
+cpp_space_before_block_open_brace = true
+cpp_space_between_empty_braces = false
+cpp_space_before_initializer_list_open_brace = false
+cpp_space_within_initializer_list_braces = true
+cpp_space_preserve_in_initializer_list = true
+cpp_space_before_open_square_bracket = false
+cpp_space_within_square_brackets = false
+cpp_space_before_empty_square_brackets = false
+cpp_space_between_empty_square_brackets = false
+cpp_space_group_square_brackets = true
+cpp_space_within_lambda_brackets = false
+cpp_space_between_empty_lambda_brackets = false
+cpp_space_before_comma = false
+cpp_space_after_comma = true
+cpp_space_remove_around_member_operators = true
+cpp_space_before_inheritance_colon = true
+cpp_space_before_constructor_colon = true
+cpp_space_remove_before_semicolon = true
+cpp_space_after_semicolon = true
+cpp_space_remove_around_unary_operator = true
+cpp_space_around_binary_operator = insert
+cpp_space_around_assignment_operator = insert
+cpp_space_pointer_reference_alignment = left
+cpp_space_around_ternary_operator = insert
+cpp_wrap_preserve_blocks = one_liners

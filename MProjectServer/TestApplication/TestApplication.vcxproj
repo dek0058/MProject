@@ -185,6 +185,9 @@
     <ClInclude Include="Client\UI\Parent\MWidget.h" />
     <ClInclude Include="Client\Server\LoginLevel.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -32,7 +32,6 @@ TestEngine::TestEngine(
 	/** 게임 레벨 */
 	, game_port(Default_Game_Port)
 {
-	
 
 }
 

@@ -72,7 +72,7 @@ void LoginLevel::OnStart() {
 void LoginLevel::OnUpdate() {
 	__super::OnUpdate();
 
-	
+
 }
 
 void LoginLevel::OnStop() {

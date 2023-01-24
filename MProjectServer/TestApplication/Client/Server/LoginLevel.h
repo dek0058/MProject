@@ -43,7 +43,8 @@ private:
 	network::Socket<Header> socket;
 
 	size_t session_count;
-	std::unordered_set<network::UUID> peer_key_set;
+	std::vector<network::Session*> sessions;
+	//std::unordered_set<network::UUID> peer_key_set;
 
 	//SPSCQueue<network::Session*> session_queue;
 };
