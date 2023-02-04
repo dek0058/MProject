@@ -12,6 +12,10 @@ wxIMPLEMENT_APP(App);
 
 
 bool App::OnInit() {
+
+
+	
+
 	return mproject::Administrator::GetMutableInstance().Initialize();
 }
 

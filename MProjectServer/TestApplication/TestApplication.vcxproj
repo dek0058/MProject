@@ -150,11 +150,11 @@
     <ClCompile Include="Client\Core\MainProcess.cpp" />
     <ClCompile Include="Client\Manager\CommandManager.cpp" />
     <ClCompile Include="Client\Manager\UIManager.cpp" />
+    <ClCompile Include="Client\Server\LoginLevel.cpp" />
     <ClCompile Include="Client\Server\TestEngine.cpp" />
     <ClCompile Include="Client\UI\Frame\MainFrame.cpp" />
     <ClCompile Include="Client\UI\Frame\TestFrame.cpp" />
     <ClCompile Include="Client\UI\Parent\MWidget.cpp" />
-    <ClCompile Include="Client\Server\LoginLevel.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -179,11 +179,11 @@
     <ClInclude Include="Client\Manager\CommandManager.h" />
     <ClInclude Include="Client\Manager\UIManager.h" />
     <ClInclude Include="Client\ServerDefine.h" />
+    <ClInclude Include="Client\Server\LoginLevel.h" />
     <ClInclude Include="Client\Server\TestEngine.h" />
     <ClInclude Include="Client\UI\Frame\MainFrame.h" />
     <ClInclude Include="Client\UI\Frame\TestFrame.h" />
     <ClInclude Include="Client\UI\Parent\MWidget.h" />
-    <ClInclude Include="Client\Server\LoginLevel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />

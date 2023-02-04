@@ -44,9 +44,7 @@ private:
 
 	size_t session_count;
 	std::vector<network::Session*> sessions;
-	//std::unordered_set<network::UUID> peer_key_set;
-
-	//SPSCQueue<network::Session*> session_queue;
+	std::vector<network::FPeer> wait_peers;
 };
 
 
