@@ -44,7 +44,6 @@ private:
 
 	size_t session_count;
 	std::vector<network::Session*> sessions;
-	std::vector<network::FPeer> wait_peers;
 };
 
 

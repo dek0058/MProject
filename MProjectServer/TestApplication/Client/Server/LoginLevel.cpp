@@ -31,8 +31,6 @@ LoginLevel::LoginLevel(
 	, session_count(_session_count)
 {
 	
-	wait_peers.reserve(_session_count);
-	
 	socket.SetReceiveHandler([this](auto _packet, auto _bytes_transferred, auto _peer) {
 		OnReceive(_packet, _bytes_transferred, _peer);
 	});
@@ -73,45 +71,33 @@ void LoginLevel::OnStart() {
 void LoginLevel::OnUpdate() {
 	__super::OnUpdate();
 
-	if (wait_peers.empty()) {
-		return;
-	}
 
-	for (network::FPeer const& _peer : wait_peers) {
-		// TODO: 연결됬으니 로그인 해달라고 클라이언트에게 보내자	
-	}
+
+	//socket.AsyncSendToAll()
+
+	//for (network::FPeer const& _peer : wait_peers) {
+	//	// TODO: 연결됬으니 로그인 해달라고 클라이언트에게 보내자	
+	//	
+	//
+	//
+	//}
 }
 
 void LoginLevel::OnStop() {
 	__super::OnStop();
 	socket.Close();
-
-	wait_peers.clear();
 }
 
 void LoginLevel::OnReceive(network::Packet<Header> const& _packet, size_t _bytes_transferred, network::FPeer const& _peer) {
-	
+		
 }
 
 void LoginLevel::OnConnection(network::FPeer const& _peer) {
-	std::vector<network::FPeer>::const_iterator iter = std::find_if(wait_peers.begin(), wait_peers.end(), [](network::FPeer const& _peer) -> bool {
-		return _peer.uuid == _peer.uuid;
-	});
-	if (iter != wait_peers.end()) {
-		return;
-	}
-	wait_peers.emplace_back(_peer);
+	
 }
 
 void LoginLevel::OnDisconnection(network::FPeer const& _peer) {
-	std::vector<network::FPeer>::const_iterator iter = std::find_if(wait_peers.begin(), wait_peers.end(), [](network::FPeer const& _peer) -> bool {
-		return _peer.uuid == _peer.uuid;
-	});
 	
-	if (iter == wait_peers.end()) {
-		return;
-	}
-	wait_peers.erase(iter);
 }
 
 }	// mproject
